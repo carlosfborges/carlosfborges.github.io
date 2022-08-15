@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Moodboard</title>
+	<link rel="stylesheet" type="text/css" href="main2.css">
+</head>
+<body>
+
+<div class="mb">
+  <div class="view" naturalW="600" naturalH="500"></div>
+  <div data-modal="open" class="btn-open">Add ++</div>
+	<div class="control control-all">
+		<div class="item" data-action="rotate-all-p">RotateAll (+)</div>
+		<div class="item" data-action="rotate-all-m">RotateAll (-)</div>
+		<div class="item" data-action="scale-all-p">ScaleAll (+)</div>
+		<div class="item" data-action="scale-all-m">ScaleAll (-)</div>
+	</div>
+	<div class="control control-material">
+		<div class="item" data-status="false" data-action="switch">Switch Image</div>
+		<div class="item" data-action="rotate-p">Rotate (+)</div>
+		<div class="item" data-action="rotate-m">Rotate (-)</div>
+		<div class="item" data-action="scale-p">Scale (+)</div>
+		<div class="item" data-action="scale-m">Scale (-)</div>
+		<div class="item" data-action="scaleX-p">ScaleX (+)</div>
+		<div class="item" data-action="scaleX-m">ScaleX (-)</div>
+		<div class="item" data-action="scaleY-p">ScaleY (+)</div>
+		<div class="item" data-action="scaleY-m">ScaleY (-)</div>
+	</div>
+	<div class="control control-z">
+		<div class="item" data-action="z-up">z (+)</div>
+		<div class="item" data-action="z-down">z (-)</div>
+	</div>
+	<div class="control control-remove">
+		<div class="item" data-action="remove">Remove</div>
+	</div>
+</div>
+
+<!-- Reference to materials -->
+
+<div class="materials opt" style="display: none;">
+	<h4>Clique para adicionar uma forma</h4>
+	<div class="list">
+		<div class="item" data-material="background" data-img="src/stone.png">Background</div>
+		<div class="item" data-img="src/rope.png">Corda</div>
+		<div class="item" data-img="src/wood.png">Madeira</div>
+		<div class="item" data-img="src/stone.png">Pedra</div>
+		<div class="item" data-img="src/pvc.png">PVC</div>
+		<div class="item" data-img="src/fabric.png">Tecido</div>
+		<div class="item" data-img="src/suculenta.png">Vegetação1</div>
+		<div class="item" data-img="src/folha.png">Vegetação2</div>
+	</div>
+</div>
+
+<div class="alert"></div>
+<div class="modal">
+	<div class="content">
+		<div class="close"><span>X</span><p>Close</p></div>
+		<div class="section"></div>
+	</div>
+</div>
+
+<script src="main2.js" type="module"></script>
+</body>
+</html>
