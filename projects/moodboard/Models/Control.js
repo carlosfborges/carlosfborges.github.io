@@ -359,6 +359,8 @@ export class Control {
 
 			selectedMaterial.remove()
 
+			alert.display('Material removed')
+			
 			this.view.materials = newMaterials
 
 			this.refactorZs()
@@ -366,8 +368,6 @@ export class Control {
 			view.setSelectedMaterial()
 
 			view.updateStorage()
-
-			alert.display('Material removed')
 
 		} else {
 

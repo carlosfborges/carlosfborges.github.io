@@ -399,8 +399,12 @@ export class View {
 		material.draggable = true
 
 		material.addEventListener('dragstart', e => this.handlerMaterial(e))
+
+		material.addEventListener('touchmove', e => this.handlerMaterial(e))
 		
 		material.addEventListener('dragend', e => this.handlerMaterial(e))
+
+		material.addEventListener('touchend', e => this.handlerMaterial(e))
 
 		material.addEventListener('click', e => this.handlerMaterial(e, material))
 	}	
@@ -428,6 +432,20 @@ export class View {
 
 				break
 
+			case 'touchmove':
+
+				e.stopPropagation()
+
+				const touchLocation = e.targetTouches[0]
+				
+				target.pageX = touchLocation.pageX
+				
+				target.pageY = touchLocation.pageY
+
+				setTimeout(() => target.style.display = 'none', 0)
+
+				break
+
 			case 'dragend':
 
 				e.stopPropagation()
@@ -436,6 +454,14 @@ export class View {
 
 				if (this.activeEvent === 'drop') this.moveMaterial(target)
 		
+				break
+
+			case 'touchend':
+
+				e.stopPropagation()
+
+				target.style.display = 'block'
+
 				break
 
 			case 'click':
