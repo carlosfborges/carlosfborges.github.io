@@ -69,8 +69,8 @@ import {Control} from './Models/Control.js'
 	// Body events for mobile
 	document.querySelector('body').addEventListener('touchstart', (e) => {
 		
-		e.preventDefault(); e.bubbles = false; v.setSelectedMaterial();
-	}, false)
+		e.preventDefault(); v.setSelectedMaterial();
+	})
 
 	document.querySelector('body').addEventListener('touchmove', e => e.preventDefault())
 	document.querySelector('body').addEventListener('touchend', e => e.preventDefault())

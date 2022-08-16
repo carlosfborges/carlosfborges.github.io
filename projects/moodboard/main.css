@@ -1,5 +1,8 @@
 * {	
 	user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
