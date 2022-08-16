@@ -90,6 +90,6 @@ import {Control} from './Models/Control.js'
 	window.addEventListener('click', () => v.setSelectedMaterial())
 	window.addEventListener('resize', () => v.resize())
 
-	// v.clear()
+	v.clear()
 
 })()
