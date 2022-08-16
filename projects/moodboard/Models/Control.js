@@ -43,7 +43,7 @@ export class Control {
 				break
 
 			case 'rotate-p':
-			  button.addEventListener('click', () => this.rotateHandler('p'))
+			  button.addEventListener('click', () => { clearInterval(id); this.rotateHandler('p'); })
 			  
 			  // Events for desktop
 			  button.addEventListener('mousedown', (e) => {
@@ -53,7 +53,7 @@ export class Control {
 			  
 			  // Events for mobile
 			  button.addEventListener('touchstart', (e) => {
-			  	e.stopPropagation(); id = setInterval(() => this.rotateHandler('p'), 200);
+			  	e.stopPropagation(); this.rotateHandler('p'); id = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  button.addEventListener('touchend', () => clearInterval(id))
 			  break
