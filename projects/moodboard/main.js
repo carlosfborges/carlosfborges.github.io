@@ -72,8 +72,10 @@ import {Control} from './Models/Control.js'
 		e.preventDefault(); v.setSelectedMaterial();
 	})
 
+	document.querySelector('body').addEventListener('touchmove', e => e.preventDefault())
 	document.querySelector('body').addEventListener('touchend', e => e.preventDefault())
 
+	/*
 	// Html events
 	document.querySelector('html').addEventListener('click', () => v.setSelectedMaterial())
 
@@ -83,7 +85,7 @@ import {Control} from './Models/Control.js'
 		e.preventDefault(); v.setSelectedMaterial();
 	})
 
-	document.querySelector('html').addEventListener('touchend', e => e.preventDefault())
+	document.querySelector('html').addEventListener('touchend', e => e.preventDefault())*/
 	
 	v.clear()
 
