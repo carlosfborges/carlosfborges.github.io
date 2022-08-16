@@ -10,6 +10,8 @@ export class Control {
 
 		this.alert = null
 
+		this.interval = null
+
 		try {
 
 			if (el === undefined || el === null) throw 'Attribute el must be set'
@@ -34,8 +36,6 @@ export class Control {
 	{
 		const action = button.getAttribute('data-action')
 
-		let id1, id2
-
 		switch (action) {
 
 			case 'switch':
@@ -52,23 +52,23 @@ export class Control {
 			case 'rotate-p':
 				// Events for desktop
 			  button.addEventListener('click', () => { 
-			  	clearInterval(id1); clearInterval(id2); this.rotateHandler('p'); 
+			  	clearInterval(this.interval); this.rotateHandler('p'); 
 			  })
 			  
 			  button.addEventListener('mousedown', (e) => {
-			  	e.stopPropagation(); clearInterval(id1); clearInterval(id2);
-			  	id1 = setInterval(() => this.rotateHandler('p'), 200);
+			  	e.stopPropagation(); clearInterval(this.interval);
+			  	this.interval = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  
-			  button.addEventListener('mouseup', () => { clearInterval(id1); clearInterval(id2); })
+			  button.addEventListener('mouseup', () => { clearInterval(this.interval); })
 			  
 			  // Events for mobile
 			  button.addEventListener('touchstart', (e) => {
-			  	e.stopPropagation(); clearInterval(id1); clearInterval(id2);
-			  	this.rotateHandler('p'); id2 = setInterval(() => this.rotateHandler('p'), 200);
+			  	e.stopPropagation(); clearInterval(this.interval);
+			  	this.rotateHandler('p'); this.interval = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  
-			  button.addEventListener('touchend', () => { clearInterval(id1); clearInterval(id2); })
+			  button.addEventListener('touchend', () => { clearInterval(this.interval); })
 			  
 			  break
 
