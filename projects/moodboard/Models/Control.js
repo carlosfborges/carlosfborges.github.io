@@ -51,10 +51,12 @@ export class Control {
 
 			case 'rotate-p':
 				// Events for desktop
-			  // button.addEventListener('click', () => { this.rotateHandler('p'); })
+			  button.addEventListener('click', () => { 
+			  	clearInterval(id1); clearInterval(id2); this.rotateHandler('p'); 
+			  })
 			  
 			  button.addEventListener('mousedown', (e) => {
-			  	e.stopPropagation(); clearInterval(id2);
+			  	e.stopPropagation(); 
 			  	id1 = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  
@@ -62,7 +64,7 @@ export class Control {
 			  
 			  // Events for mobile
 			  button.addEventListener('touchstart', (e) => {
-			  	e.stopPropagation(); clearInterval(id1);
+			  	e.stopPropagation();
 			  	this.rotateHandler('p'); id2 = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  
