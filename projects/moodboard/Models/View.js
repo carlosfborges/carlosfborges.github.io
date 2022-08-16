@@ -464,9 +464,9 @@ export class View {
 		material.draggable = true
 
 		// Drag and drop events for desktop
-		material.addEventListener('dragstart', e => this.handlerMaterial(e))
+		material.addEventListener('dragstart', e => this.handlerMaterial(e, material))
 		
-		material.addEventListener('dragend', e => this.handlerMaterial(e))
+		material.addEventListener('dragend', e => this.handlerMaterial(e, material))
 
 		// Touch events for mobile
 		material.addEventListener('touchstart', e => this.handlerMaterial(e, material))
@@ -494,6 +494,9 @@ export class View {
 			case 'dragstart':
 
 				e.stopPropagation()
+
+				if (this.selectedMaterial === null || !Object.is(target, this.selectedMaterial)) 
+					return false
 				
 				target.pageX = e.pageX
 				
@@ -506,6 +509,9 @@ export class View {
 			case 'dragend':
 
 				e.stopPropagation()
+
+				if (this.selectedMaterial === null || !Object.is(target, this.selectedMaterial)) 
+					return false
 		
 				setTimeout(() => target.style.display = 'block', 0)
 
