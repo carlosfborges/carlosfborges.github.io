@@ -4,6 +4,10 @@
 	padding: 0;
 }
 
+html, body {
+	overflow: hidden;
+}
+
 h4 {
 	padding: 20px 10px;
 	text-align: center;
