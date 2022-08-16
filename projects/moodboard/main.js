@@ -87,18 +87,18 @@ import {Control} from './Models/Control.js'
 		})
 	})
 
-	window.addEventListener('click', () => v.setSelectedMaterial())
+	// window.addEventListener('click', () => v.setSelectedMaterial())
 	window.addEventListener('resize', () => v.resize())
 	// window.addEventListener('dblclick', (e) => { e.preventDefault() })
 
 	
 	document.querySelector('body').addEventListener('click', () => v.setSelectedMaterial())
-	document.querySelector('body').addEventListener('mousedown', (e) => e.preventDefault())
+	document.querySelector('body').addEventListener('touchstart', e => e.preventDefault())
 	document.querySelector('body').addEventListener('touchmove', e => setScroll(e))
 	// document.querySelector('body').addEventListener('dblclick', e => e.preventDefault(e))
 
 
-	document.querySelector('html').addEventListener('mousedown', (e) => e.preventDefault())
+	document.querySelector('html').addEventListener('touchstart', e => e.preventDefault())
 	document.querySelector('html').addEventListener('touchmove', e => setScroll(e))
 	// document.querySelector('html').addEventListener('dblclick', e => e.preventDefault())
 
