@@ -204,6 +204,8 @@ export class View {
 
 				setTimeout(() => target.display = 'none', 0)
 
+				document.body.style.overflowY = 'hidden'
+
 				break
 
 			case 'touchmove':
@@ -232,6 +234,8 @@ export class View {
 				this.activeEvent = e.type		
 
 				setTimeout(() => target.display = 'block', 0)
+
+				document.body.style.overflowY = 'auto'
 
 				break
 
@@ -543,6 +547,8 @@ export class View {
 
 				setTimeout(() => target.style.display = 'none', 0)
 
+				document.body.style.overflowY = 'hidden'
+
 				break
 
 			case 'touchmove':
@@ -577,6 +583,8 @@ export class View {
 				}
 
 				setTimeout(() => target.style.display = 'block', 0)
+
+				document.body.style.overflowY = 'auto'
 
 				this.updateStorage()
 
