@@ -402,7 +402,7 @@ export class View {
 		
 		material.addEventListener('dragend', e => this.handlerMaterial(e))
 
-		material.addEventListener('touchmove', e => this.handlerMaterial(e))
+		material.addEventListener('touchmove', e => this.handlerMaterial(e, material))
 
 		material.addEventListener('touchend', e => this.handlerMaterial(e, material))
 
@@ -416,7 +416,8 @@ export class View {
 		target = (arguments.length === 2) ? arguments[1] : e.target,
 		alert = this.alert
 
-		let distX = 0, distY = 0, touchLocation
+		let distX = 0, distY = 0, 
+		touchLocation, shadow = document.querySelector('.shadow')
 
 		switch (e.type) {
 
@@ -436,15 +437,18 @@ export class View {
 
 				e.stopPropagation()
 
-				if (this.selectedMaterial === null) return false
-
-				console.log('touch start')
+				if (this.selectedMaterial === null || !Object.is(target, this.selectedMaterial)) 
+					return false
 
 				touchLocation = e.targetTouches[0]
 				
 				target.pageX = touchLocation.pageX
 				
 				target.pageY = touchLocation.pageY
+
+				target.shadowLeft = target.style.left !== null ? 1 * parseInt(target.style.left) : 0
+
+				target.shadowTop = target.style.top !== null ? 1 * parseInt(target.style.top) : 0
 
 				this.activeEvent = e.type
 
@@ -454,8 +458,7 @@ export class View {
 
 			case 'dragend':
 
-				e.stopPropagation()
-				
+				e.stopPropagation()				
 		
 				setTimeout(() => target.style.display = 'block', 0)
 
@@ -467,11 +470,10 @@ export class View {
 
 			case 'touchmove':
 
-				e.stopPropagation()
+				e.stopPropagation()				
 
-				if (this.selectedMaterial === null) return false
-
-				console.log('touch move')
+				if (this.selectedMaterial === null || !Object.is(target, this.selectedMaterial)) 
+					return false
 
 				touchLocation = e.targetTouches[0]
 
@@ -479,19 +481,35 @@ export class View {
 
 				this.activeEvent = e.type
 
+				if (shadow === undefined || shadow === null) {
+
+					shadow = target.cloneNode(true)
+
+					shadow.classList.add('shadow')
+
+					shadow.style.display = 'block';	shadow.style.opacity = 0.5;
+
+					parent.append(shadow)					
+				}
+
+				shadow.style.left = target.shadowLeft + touchLocation.pageX - target.pageX + 'px'
+
+				shadow.style.top = target.shadowTop + touchLocation.pageY - target.pageY + 'px'
+				
 				break
 
 			case 'touchend':
 
 				e.stopPropagation()
 
-				if (this.selectedMaterial === null) return false
+				if (this.selectedMaterial === null || !Object.is(target, this.selectedMaterial)) 
+					return false
 
-				console.log('touch end')
-
-				setTimeout(() => target.style.display = 'block', 0)
+				if (shadow !== undefined || shadow !== null) shadow.remove()
 
 				if (this.activeEvent === 'touchmove') this.moveMaterial(target)
+
+				setTimeout(() => target.style.display = 'block', 0)
 
 				this.updateStorage()
 
@@ -500,8 +518,10 @@ export class View {
 			case 'click':
 
 				e.stopPropagation()
+
+				if (Object.is(target, this.selectedMaterial)) this.setSelectedMaterial()
 		
-				this.setSelectedMaterial(target)
+				else this.setSelectedMaterial(target)
 		
 				break
 
