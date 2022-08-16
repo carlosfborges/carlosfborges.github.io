@@ -385,13 +385,31 @@ export class View {
 
 	moveMaterial(material) 
 	{
-		const parent = this.el
+		const 
+		parent = this.el,
+		dropCoords = this.dropCoords,
+		bounding = parent.getBoundingClientRect(),
+		range = [
+			bounding.x, bounding.x + bounding.width, // x-min, x-max
+			bounding.y, bounding.y + bounding.height // y-min, y-max
+		]
 
 		let 
 		left = 1 * material.style.left.replace('px', ''),
 		top = 1 * material.style.top.replace('px', ''),
-		x = Math.round(left + this.dropCoords[0] - material.pageX),
-		y = Math.round(top + this.dropCoords[1] - material.pageY)
+		x = Math.round(left + dropCoords[0] - material.pageX),
+		y = Math.round(top + dropCoords[1] - material.pageY)
+
+		console.log(dropCoords)
+		console.log(range)
+
+		if (
+			dropCoords[0] <= range[0] ||
+			dropCoords[0] >= range[1] ||
+			dropCoords[1] <= range[2] ||
+			dropCoords[1] >= range[3]
+		) return false
+
 
 		// Move
 		material.style.left = x + 'px'
@@ -487,7 +505,7 @@ export class View {
 
 			case 'dragend':
 
-				e.stopPropagation()				
+				e.stopPropagation()
 		
 				setTimeout(() => target.style.display = 'block', 0)
 
@@ -640,6 +658,8 @@ export class View {
 		materials = this.materials = newMaterials
 
 		this.resizeAllMaterials()	
+
+		this.setSelectedMaterial()
 
 		this.updateStorage()	
 	}
