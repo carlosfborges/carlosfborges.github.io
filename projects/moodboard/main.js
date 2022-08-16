@@ -93,22 +93,23 @@ import {Control} from './Models/Control.js'
 
 	
 	document.querySelector('body').addEventListener('click', () => v.setSelectedMaterial())
+	/*
 	document.querySelector('body').addEventListener('touchstart', e => e.preventDefault())
 	document.querySelector('body').addEventListener('touchmove', e => e.preventDefault())
 	document.querySelector('body').addEventListener('touchend', e => e.preventDefault())
 	document.querySelector('body').addEventListener('touchenter', e => e.preventDefault())
 	document.querySelector('body').addEventListener('touchleave', e => e.preventDefault())
-	document.querySelector('body').addEventListener('touchcancel', e => e.preventDefault())
+	document.querySelector('body').addEventListener('touchcancel', e => e.preventDefault())*/
 	// document.querySelector('body').addEventListener('touchmove', e => setScroll(e))
 
-
+	/*
 	document.querySelector('html').addEventListener('click', () => v.setSelectedMaterial())
 	document.querySelector('html').addEventListener('touchstart', e => e.preventDefault())
 	document.querySelector('html').addEventListener('touchmove', e => e.preventDefault())
 	document.querySelector('html').addEventListener('touchend', e => e.preventDefault())
 	document.querySelector('html').addEventListener('touchenter', e => e.preventDefault())
 	document.querySelector('html').addEventListener('touchleave', e => e.preventDefault())
-	document.querySelector('html').addEventListener('touchcancel', e => e.preventDefault())
+	document.querySelector('html').addEventListener('touchcancel', e => e.preventDefault())*/
 	// document.querySelector('html').addEventListener('touchmove', e => setScroll(e))
 
 	function setScroll(e) {
