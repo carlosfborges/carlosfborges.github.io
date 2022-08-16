@@ -5,8 +5,9 @@
 }
 
 html, body {
+	touch-action: manipulation;
 	position: relative;
-	overflow: hidden;
+	overflow: hidden;	
 }
 
 h4 {
