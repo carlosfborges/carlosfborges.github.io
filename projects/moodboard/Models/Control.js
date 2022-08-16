@@ -56,7 +56,7 @@ export class Control {
 			  })
 			  
 			  button.addEventListener('mousedown', (e) => {
-			  	e.stopPropagation();
+			  	e.stopPropagation(); clearInterval(id1); clearInterval(id2);
 			  	id1 = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  
@@ -64,7 +64,7 @@ export class Control {
 			  
 			  // Events for mobile
 			  button.addEventListener('touchstart', (e) => {
-			  	e.stopPropagation();
+			  	e.stopPropagation(); clearInterval(id1); clearInterval(id2);
 			  	this.rotateHandler('p'); id2 = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  
