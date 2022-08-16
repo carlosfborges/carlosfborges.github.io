@@ -47,13 +47,15 @@ export class Control {
 			  
 			  // Events for desktop
 			  button.addEventListener('mousedown', (e) => {
-			  	e.stopPropagation(); id = setInterval(() => this.rotateHandler('p'), 200);
+			  	e.stopPropagation(); clearInterval(id); 
+			  	id = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  button.addEventListener('mouseup', () => clearInterval(id))
 			  
 			  // Events for mobile
 			  button.addEventListener('touchstart', (e) => {
-			  	e.stopPropagation(); this.rotateHandler('p'); id = setInterval(() => this.rotateHandler('p'), 200);
+			  	e.stopPropagation(); clearInterval(id);
+			  	this.rotateHandler('p'); id = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  button.addEventListener('touchend', () => clearInterval(id))
 			  break
