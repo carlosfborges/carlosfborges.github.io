@@ -66,7 +66,7 @@ export class View {
 
 		let
 		bodyW = bounding.width, 
-		screenH = bounding.height 
+		screenH = bounding.height * 95 / 100
 
 		let
 		refW = bodyW - 100,
