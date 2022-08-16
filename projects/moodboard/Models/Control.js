@@ -44,11 +44,13 @@ export class Control {
 
 			case 'rotate-p':
 			  button.addEventListener('click', () => this.rotateHandler('p'))
+			  
 			  // Events for desktop
 			  button.addEventListener('mousedown', (e) => {
 			  	e.stopPropagation(); id = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  button.addEventListener('mouseup', () => clearInterval(id))
+			  
 			  // Events for mobile
 			  button.addEventListener('touchstart', (e) => {
 			  	e.stopPropagation(); id = setInterval(() => this.rotateHandler('p'), 200);

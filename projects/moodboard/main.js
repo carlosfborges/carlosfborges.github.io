@@ -50,19 +50,61 @@ import {Control} from './Models/Control.js'
 
 		clone.style.display = 'block'
 
-		btn.addEventListener('click', () => {
-
-			if (action === 'switch' && v.selectedMaterial === null) {
-
-				a.display('No material selected', 'red');	return false;
-			}
-
-			m.display(clone)
-		})
+		btn.addEventListener('click', e => btnHandler(e, action, clone))
+		btn.addEventListener('touchstart', e => btnHandler(e, action, clone))
 
 		clone.querySelectorAll('.opt .list .item').forEach(item => {
-					
-			item.addEventListener('click', (e) => {
+				
+			item.addEventListener('click', e => itemHandler(e, action, item, ref))
+			item.addEventListener('touchstart', e => itemHandler(e, action, item, ref))
+		})
+	})
+
+
+	window.addEventListener('resize', () => v.resize())
+	
+	document.querySelector('body').addEventListener('click', () => v.setSelectedMaterial())
+
+	
+	document.querySelector('body').addEventListener('touchstart', (e) => {
+		
+		e.preventDefault(); v.setSelectedMaterial();
+	})
+	document.querySelector('body').addEventListener('touchend', e => e.preventDefault())
+
+	
+	v.clear()
+
+
+	// Handler functions
+	function btnHandler(e, action, clone) {
+
+		switch (e.type) {
+
+			case 'click':
+			case 'touchstart':
+
+				if (action === 'switch' && v.selectedMaterial === null) {
+
+					a.display('No material selected', 'red');	return false;
+				}
+
+				m.display(clone)
+
+				break
+
+			default:
+				
+				a.display('Flag must be click');
+		}
+	}
+
+	function itemHandler(e, action, item, ref) {
+		
+		switch (e.type) {
+
+			case 'click':
+			case 'touchstart':
 
 				e.stopPropagation()
 
@@ -71,54 +113,32 @@ import {Control} from './Models/Control.js'
 				switch(ref) {
 					
 					case '#materials':
+
 						if (action !== 'switch') v.createMaterial(src)
+					
 						else { cr.setImg(src); m.display(); }
+					
 						break
 
 					case '#mood-bg':
+					
 						v.setBg(src)
+					
 						m.display()
+					
 						break
 
 					default:
+					
 						console.log('Atribute data-ref values: #materials, #mood-bg')
-				}		
-			})
-		})
-	})
+				}
 
-	// window.addEventListener('click', () => v.setSelectedMaterial())
-	window.addEventListener('resize', () => v.resize())
-	// window.addEventListener('dblclick', (e) => { e.preventDefault() })
+				break
 
-	
-	document.querySelector('body').addEventListener('click', () => v.setSelectedMaterial())
-	/*
-	document.querySelector('body').addEventListener('touchstart', e => e.preventDefault())
-	document.querySelector('body').addEventListener('touchmove', e => e.preventDefault())
-	document.querySelector('body').addEventListener('touchend', e => e.preventDefault())
-	document.querySelector('body').addEventListener('touchenter', e => e.preventDefault())
-	document.querySelector('body').addEventListener('touchleave', e => e.preventDefault())
-	document.querySelector('body').addEventListener('touchcancel', e => e.preventDefault())*/
-	// document.querySelector('body').addEventListener('touchmove', e => setScroll(e))
-
-	/*
-	document.querySelector('html').addEventListener('click', () => v.setSelectedMaterial())
-	document.querySelector('html').addEventListener('touchstart', e => e.preventDefault())
-	document.querySelector('html').addEventListener('touchmove', e => e.preventDefault())
-	document.querySelector('html').addEventListener('touchend', e => e.preventDefault())
-	document.querySelector('html').addEventListener('touchenter', e => e.preventDefault())
-	document.querySelector('html').addEventListener('touchleave', e => e.preventDefault())
-	document.querySelector('html').addEventListener('touchcancel', e => e.preventDefault())*/
-	// document.querySelector('html').addEventListener('touchmove', e => setScroll(e))
-
-	function setScroll(e) {
-
-		const view = e.view
-
-		view.scroll = null; view.scrollBy = null; view.scrollTo = null; 
+			default:
+				
+				a.display('Flag must be click');
+		}	
 	}
-
-	v.clear()
 
 })()

@@ -220,11 +220,19 @@ export class Modal {
 		close = modal.querySelector('.close'),
 		content = modal.querySelector('.content')
 
+		// Events for desktop
 		modal.addEventListener('click', e => this.display())
 
 		content.addEventListener('click', e => e.stopPropagation())
 
 		close.addEventListener('click', e => this.display())
+
+		// Events for mobile
+		modal.addEventListener('touchstart', e => this.display())
+
+		content.addEventListener('touchstart', e => e.stopPropagation())
+
+		close.addEventListener('touchstart', e => this.display())		
 	}
 }	
 			
