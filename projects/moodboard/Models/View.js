@@ -179,9 +179,7 @@ export class View {
 
 				if (this.activeEvent === 'dragstart')	this.moveAllMaterials()
 
-				this.activeEvent = e.type	
-
-				this.updateStorage()				
+				this.activeEvent = e.type									
 		
 				break
 
@@ -400,11 +398,13 @@ export class View {
 
 		material.addEventListener('dragstart', e => this.handlerMaterial(e))
 
-		material.addEventListener('touchmove', e => this.handlerMaterial(e))
+		material.addEventListener('touchstart', e => this.handlerMaterial(e, material))
 		
 		material.addEventListener('dragend', e => this.handlerMaterial(e))
 
-		material.addEventListener('touchend', e => this.handlerMaterial(e))
+		material.addEventListener('touchmove', e => this.handlerMaterial(e))
+
+		material.addEventListener('touchend', e => this.handlerMaterial(e, material))
 
 		material.addEventListener('click', e => this.handlerMaterial(e, material))
 	}	
@@ -416,7 +416,7 @@ export class View {
 		target = (arguments.length === 2) ? arguments[1] : e.target,
 		alert = this.alert
 
-		let distX = 0, distY = 0
+		let distX = 0, distY = 0, touchLocation
 
 		switch (e.type) {
 
@@ -432,11 +432,11 @@ export class View {
 
 				break
 
-			case 'touchmove':
+			case 'touchstart':
 
 				e.stopPropagation()
 
-				const touchLocation = e.targetTouches[0]
+				touchLocation = e.targetTouches[0]
 				
 				target.pageX = touchLocation.pageX
 				
@@ -453,14 +453,30 @@ export class View {
 				target.style.display = 'block'
 
 				if (this.activeEvent === 'drop') this.moveMaterial(target)
+
+				this.updateStorage()
 		
+				break
+
+			case 'touchmove':
+
+				e.stopPropagation()
+
+				touchLocation = e.targetTouches[0]
+
+				this.dropCoords = [touchLocation.pageX, touchLocation.pageY]
+
 				break
 
 			case 'touchend':
 
 				e.stopPropagation()
 
+				this.moveMaterial(target)
+
 				target.style.display = 'block'
+
+				this.updateStorage()
 
 				break
 
