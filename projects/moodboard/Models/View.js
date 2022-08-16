@@ -89,7 +89,7 @@ export class View {
 
 		// Styling in case height is less then 430
 		if (height < 430) view.style.borderBottomColor = 'grey'
-			
+
 		else view.style.borderBottomColor = 'transparent'
 
 		if (materials.length > 0) this.resizeAllMaterials()
@@ -116,6 +116,7 @@ export class View {
 
 		el.draggable = true
 
+		// Drag and drop events for desktop
 		el.addEventListener('dragstart', e => this.handler(e))
 		
 		el.addEventListener('dragend', e => this.handler(e))
@@ -127,11 +128,23 @@ export class View {
 		el.addEventListener('dragleave', e => this.handler(e))
 		
 		el.addEventListener('drop', e => this.handler(e))
+
+		// Touch events for mobile
+		el.addEventListener('touchstart', e => this.handler(e))
+
+		el.addEventListener('touchmove', e => this.handler(e))
+
+		el.addEventListener('touchend', e => this.handler(e))
 	}
 
 	handler(e) 
 	{
-		const target = this.el, alert = this.alert
+		const 
+		target = this.el, // View
+		alert = this.alert
+
+		let 
+		touchLocation, shadow = document.querySelector('.shadow')
 
 		switch (e.type) {
 
@@ -146,37 +159,19 @@ export class View {
 
 				break
 
-			case 'dragend':
-
-			  // this.activeEvent = e.type
-		
-				target.display = 'block'
-		
-				break
-
 			case 'dragenter':
-
-				e.preventDefault()
-
-			  // this.activeEvent = e.type
-		
-				break
-
 			case 'dragover':
-
-				e.preventDefault()
-
-			  // this.activeEvent = e.type
-		
-				break
-
 			case 'dragleave':
 
 				e.preventDefault()
-
-			  // this.activeEvent = e.type
 		
 				break
+
+			case 'dragend':
+		
+				setTimeout(() => target.display = 'none', 0)
+		
+				break				
 
 			case 'drop':
 
@@ -186,6 +181,55 @@ export class View {
 
 				this.activeEvent = e.type									
 		
+				break
+
+			case 'touchstart':
+
+				e.stopPropagation()
+
+				this.activeEvent = e.type
+
+				touchLocation = e.targetTouches[0]
+
+				target.pageX = touchLocation.pageX
+
+				target.pageY = touchLocation.pageY
+
+				target.shadowLeft = 0
+
+				target.shadowTop = 0
+
+				setTimeout(() => target.display = 'none', 0)
+
+				break
+
+			case 'touchmove':
+
+				e.stopPropagation()
+
+				this.activeEvent = e.type
+
+				touchLocation = e.targetTouches[0]
+
+				this.dropCoords = [touchLocation.pageX, touchLocation.pageY]
+
+				this.setShadow(target, touchLocation)
+
+				break
+
+			case 'touchend':
+
+				if (this.activeEvent === 'touchmove')	{
+
+					shadow.remove()
+
+					this.moveAllMaterials()
+				}
+
+				this.activeEvent = e.type		
+
+				setTimeout(() => target.display = 'block', 0)
+
 				break
 
 			default:
@@ -202,8 +246,6 @@ export class View {
 		materials = this.materials,
 		material = document.createElement('div'),
 		alert = this.alert
-
-		// this.setSelectedMaterial()
 
 		try {
 
@@ -401,16 +443,19 @@ export class View {
 	{		
 		material.draggable = true
 
+		// Drag and drop events for desktop
 		material.addEventListener('dragstart', e => this.handlerMaterial(e))
-
-		material.addEventListener('touchstart', e => this.handlerMaterial(e, material))
 		
 		material.addEventListener('dragend', e => this.handlerMaterial(e))
+
+		// Touch events for mobile
+		material.addEventListener('touchstart', e => this.handlerMaterial(e, material))
 
 		material.addEventListener('touchmove', e => this.handlerMaterial(e, material))
 
 		material.addEventListener('touchend', e => this.handlerMaterial(e, material))
 
+		// Click events
 		material.addEventListener('click', e => this.handlerMaterial(e, material))
 	}	
 
@@ -436,6 +481,18 @@ export class View {
 
 				setTimeout(() => target.style.display = 'none', 0)
 
+				break			
+
+			case 'dragend':
+
+				e.stopPropagation()				
+		
+				setTimeout(() => target.style.display = 'block', 0)
+
+				if (this.activeEvent === 'drop') this.moveMaterial(target)
+
+				this.updateStorage()
+		
 				break
 
 			case 'touchstart':
@@ -461,18 +518,6 @@ export class View {
 
 				break
 
-			case 'dragend':
-
-				e.stopPropagation()				
-		
-				setTimeout(() => target.style.display = 'block', 0)
-
-				if (this.activeEvent === 'drop') this.moveMaterial(target)
-
-				this.updateStorage()
-		
-				break
-
 			case 'touchmove':
 
 				e.stopPropagation()				
@@ -486,20 +531,7 @@ export class View {
 
 				this.activeEvent = e.type
 
-				if (shadow === undefined || shadow === null) {
-
-					shadow = target.cloneNode(true)
-
-					shadow.classList.add('shadow')
-
-					shadow.style.display = 'block';	shadow.style.opacity = 0.5;
-
-					parent.append(shadow)					
-				}
-
-				shadow.style.left = target.shadowLeft + touchLocation.pageX - target.pageX + 'px'
-
-				shadow.style.top = target.shadowTop + touchLocation.pageY - target.pageY + 'px'
+				this.setShadow(target, touchLocation)
 				
 				break
 
@@ -631,5 +663,30 @@ export class View {
 		this.removeStorage()
 
 		this.load()
+	}
+
+	setShadow(target, touchLocation)
+	{
+		const 
+		parent = Object.is(target, this.el) ? this.el.parentElement : this.el
+
+		let shadow = document.querySelector('.shadow')
+
+		if (shadow === undefined || shadow === null) {
+
+			shadow = target.cloneNode(true)
+
+			shadow.classList.add('shadow')
+
+			var s = shadow.style
+
+			s.position = 'absolute'; s.borderBottomColor = 'transparent'; s.display = 'block';	s.opacity = 0.5;
+
+			parent.append(shadow)	
+		}
+
+		shadow.style.left = target.shadowLeft + touchLocation.pageX - target.pageX + 'px'
+
+		shadow.style.top = target.shadowTop + touchLocation.pageY - target.pageY + 'px'
 	}
 }
