@@ -34,7 +34,7 @@ export class Control {
 	{
 		const action = button.getAttribute('data-action')
 
-		let id
+		let id1, id2
 
 		switch (action) {
 
@@ -43,21 +43,19 @@ export class Control {
 				break
 
 			case 'rotate-p':
-			  button.addEventListener('click', () => { clearInterval(id); this.rotateHandler('p'); })
+			  button.addEventListener('click', () => { this.rotateHandler('p'); })
 			  
 			  // Events for desktop
 			  button.addEventListener('mousedown', (e) => {
-			  	e.stopPropagation(); clearInterval(id); 
-			  	id = setInterval(() => this.rotateHandler('p'), 200);
+			  	e.stopPropagation(); id1 = setInterval(() => this.rotateHandler('p'), 200);
 			  })
-			  button.addEventListener('mouseup', () => clearInterval(id))
+			  button.addEventListener('mouseup', () => clearInterval(id1))
 			  
 			  // Events for mobile
 			  button.addEventListener('touchstart', (e) => {
-			  	e.stopPropagation(); clearInterval(id);
-			  	this.rotateHandler('p'); id = setInterval(() => this.rotateHandler('p'), 200);
+			  	e.stopPropagation(); this.rotateHandler('p'); id2 = setInterval(() => this.rotateHandler('p'), 200);
 			  })
-			  button.addEventListener('touchend', () => clearInterval(id))
+			  button.addEventListener('touchend', () => clearInterval(id2))
 			  break
 
 			case 'rotate-m':
