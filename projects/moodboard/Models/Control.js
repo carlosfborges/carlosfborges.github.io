@@ -39,7 +39,14 @@ export class Control {
 		switch (action) {
 
 			case 'switch':
+				// Events for desktop
 				button.addEventListener('click', () => this.switchHandler(button))
+
+				// Events for mobile
+				button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.switchHandler(button);
+			  })
+
 				break
 
 			case 'rotate-p':
@@ -54,7 +61,8 @@ export class Control {
 			  
 			  // Events for mobile
 			  button.addEventListener('touchstart', (e) => {
-			  	e.stopPropagation(); this.rotateHandler('p'); id2 = setInterval(() => this.rotateHandler('p'), 200);
+			  	e.stopPropagation(); clearInterval(id1);
+			  	this.rotateHandler('p'); id2 = setInterval(() => this.rotateHandler('p'), 200);
 			  })
 			  
 			  button.addEventListener('touchend', () => clearInterval(id2))
