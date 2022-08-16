@@ -436,11 +436,15 @@ export class View {
 
 				e.stopPropagation()
 
+				console.log('touch start')
+
 				touchLocation = e.targetTouches[0]
 				
 				target.pageX = touchLocation.pageX
 				
 				target.pageY = touchLocation.pageY
+
+				this.activeEvent = e.type
 
 				setTimeout(() => target.style.display = 'none', 0)
 
@@ -450,7 +454,7 @@ export class View {
 
 				e.stopPropagation()
 		
-				target.style.display = 'block'
+				setTimeout(() => target.style.display = 'block', 0)
 
 				if (this.activeEvent === 'drop') this.moveMaterial(target)
 
@@ -462,9 +466,13 @@ export class View {
 
 				e.stopPropagation()
 
+				console.log('touch move')
+
 				touchLocation = e.targetTouches[0]
 
 				this.dropCoords = [touchLocation.pageX, touchLocation.pageY]
+
+				this.activeEvent = e.type
 
 				break
 
@@ -472,9 +480,11 @@ export class View {
 
 				e.stopPropagation()
 
-				this.moveMaterial(target)
+				console.log('touch end')
 
-				target.style.display = 'block'
+				setTimeout(() => target.style.display = 'block', 0)
+
+				if (this.activeEvent === 'touchmove') this.moveMaterial(target)
 
 				this.updateStorage()
 
