@@ -60,18 +60,30 @@ import {Control} from './Models/Control.js'
 		})
 	})
 
-
+	// Window events
 	window.addEventListener('resize', () => v.resize())
 	
+	// Body events
 	document.querySelector('body').addEventListener('click', () => v.setSelectedMaterial())
 
-	
+	// Body events for mobile
 	document.querySelector('body').addEventListener('touchstart', (e) => {
 		
 		e.preventDefault(); v.setSelectedMaterial();
 	})
+
 	document.querySelector('body').addEventListener('touchend', e => e.preventDefault())
 
+	// Html events
+	document.querySelector('html').addEventListener('click', () => v.setSelectedMaterial())
+
+	// Html events for mobile
+	document.querySelector('html').addEventListener('touchstart', (e) => {
+		
+		e.preventDefault(); v.setSelectedMaterial();
+	})
+
+	document.querySelector('html').addEventListener('touchend', e => e.preventDefault())
 	
 	v.clear()
 
