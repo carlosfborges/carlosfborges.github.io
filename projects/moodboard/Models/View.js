@@ -505,9 +505,12 @@ export class View {
 				if (this.selectedMaterial === null || !Object.is(target, this.selectedMaterial)) 
 					return false
 
-				if (shadow !== undefined || shadow !== null) shadow.remove()
+				if (this.activeEvent === 'touchmove') {
 
-				if (this.activeEvent === 'touchmove') this.moveMaterial(target)
+					shadow.remove()
+					
+					this.moveMaterial(target)
+				}
 
 				setTimeout(() => target.style.display = 'block', 0)
 
