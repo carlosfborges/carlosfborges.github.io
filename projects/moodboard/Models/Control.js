@@ -34,6 +34,8 @@ export class Control {
 	{
 		const action = button.getAttribute('data-action')
 
+		let id
+
 		switch (action) {
 
 			case 'switch':
@@ -42,50 +44,74 @@ export class Control {
 
 			case 'rotate-p':
 			  button.addEventListener('click', () => this.rotateHandler('p'))
+			  button.addEventListener('mousedown', () => id = setInterval(() => this.rotateHandler('p'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 			  break
 
 			case 'rotate-m':
 			  button.addEventListener('click', () => this.rotateHandler('m'))
+			  button.addEventListener('mousedown', () => id = setInterval(() => this.rotateHandler('m'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 			  break
 
 			case 'rotate-all-p':
 			  button.addEventListener('click', () => this.rotateAllHandler('p'))
+			  button.addEventListener('mousedown', () => id = setInterval(() => this.rotateAllHandler('p'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 			  break
 
 			case 'rotate-all-m':
 			  button.addEventListener('click', () => this.rotateAllHandler('m'))
+			  button.addEventListener('mousedown', () => id = setInterval(() => this.rotateAllHandler('m'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 			  break
 
 			case 'scale-p':
 				button.addEventListener('click', () => this.scaleHandler('xy-p'))
+				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('xy-p'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 				break
 
 			case 'scale-m':
 				button.addEventListener('click', () => this.scaleHandler('xy-m'))
+				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('xy-m'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 				break
 
 			case 'scale-all-p':
 				button.addEventListener('click', () => this.scaleAllHandler('xy-p'))
+				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleAllHandler('xy-p'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 				break
 
 			case 'scale-all-m':
 				button.addEventListener('click', () => this.scaleAllHandler('xy-m'))
+				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleAllHandler('xy-m'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 				break
 
 			case 'scaleX-p':
 				button.addEventListener('click', () => this.scaleHandler('x-p'))
+				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('x-p'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 				break
 
 			case 'scaleX-m':
 				button.addEventListener('click', () => this.scaleHandler('x-m'))
+				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('x-m'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 				break
 
 			case 'scaleY-p':
 				button.addEventListener('click', () => this.scaleHandler('y-p'))
+				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('y-p'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 				break
 
 			case 'scaleY-m':
 				button.addEventListener('click', () => this.scaleHandler('y-m'))
+				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('y-m'), 200))
+			  button.addEventListener('mouseup', () => clearInterval(id))
 				break
 
 			case 'z-up':
