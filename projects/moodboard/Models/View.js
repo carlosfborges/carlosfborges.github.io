@@ -204,7 +204,8 @@ export class View {
 
 				setTimeout(() => target.display = 'none', 0)
 
-				document.body.style.overflowY = 'hidden'
+				document.querySelector('body').style.overflowY = 'hidden'
+				document.querySelector('html').style.overflowY = 'hidden'
 
 				break
 
@@ -235,7 +236,8 @@ export class View {
 
 				setTimeout(() => target.display = 'block', 0)
 
-				document.body.style.overflowY = 'auto'
+				document.querySelector('body').style.overflowY = 'auto'
+				document.querySelector('html').style.overflowY = 'auto'
 
 				break
 
@@ -547,7 +549,8 @@ export class View {
 
 				setTimeout(() => target.style.display = 'none', 0)
 
-				document.body.style.overflowY = 'hidden'
+				document.querySelector('body').style.overflowY = 'hidden'
+				document.querySelector('html').style.overflowY = 'hidden'
 
 				break
 
@@ -584,7 +587,8 @@ export class View {
 
 				setTimeout(() => target.style.display = 'block', 0)
 
-				document.body.style.overflowY = 'auto'
+				document.querySelector('body').style.overflowY = 'auto'
+				document.querySelector('html').style.overflowY = 'auto'
 
 				this.updateStorage()
 
