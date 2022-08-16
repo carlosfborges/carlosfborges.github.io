@@ -221,6 +221,9 @@ export class View {
 
 				this.setShadow(target, touchLocation)
 
+				document.querySelector('body').style.overflowY = 'hidden'
+				document.querySelector('html').style.overflowY = 'hidden'
+
 				break
 
 			case 'touchend':
@@ -568,6 +571,9 @@ export class View {
 				this.activeEvent = e.type
 
 				this.setShadow(target, touchLocation)
+
+				document.querySelector('body').style.overflowY = 'hidden'
+				document.querySelector('html').style.overflowY = 'hidden'
 				
 				break
 
