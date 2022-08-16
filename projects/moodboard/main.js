@@ -88,6 +88,7 @@ import {Control} from './Models/Control.js'
 	})
 
 	window.addEventListener('click', () => v.setSelectedMaterial())
+	window.addEventListener('dblclick', e => e.preventDefault())
 	window.addEventListener('resize', () => v.resize())
 
 	document.querySelector('body').addEventListener('touchmove', e => setScroll(e))

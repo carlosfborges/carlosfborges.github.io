@@ -21,13 +21,16 @@ h4 {
 	width: fit-content;
 	max-width: 1000px;
 	min-height: 430px;
-	padding: 10px;
+	padding: 10px;	
 }
 .mb .view {
 	background: linear-gradient(to right, whitesmoke, white, whitesmoke);
 	cursor: move;
 	overflow: hidden;
 	position: relative;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: transparent;
 }
 .mb .view .item {
 	cursor: grab;

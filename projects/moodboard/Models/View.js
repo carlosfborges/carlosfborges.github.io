@@ -87,6 +87,11 @@ export class View {
 
 		view.style.height = height + 'px'
 
+		// Styling in case height is less then 430
+		if (height < 430) view.style.borderBottomColor = 'grey'
+			
+		else view.style.borderBottomColor = 'transparent'
+
 		if (materials.length > 0) this.resizeAllMaterials()
 
 		if (alert !== undefined && alert !== null) alert.display('Resized')
