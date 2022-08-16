@@ -61,11 +61,12 @@ export class View {
 		view = this.el, 
 		materials = this.materials,
 		widthFactor = this.widthFactor, 
-		alert = this.alert
+		alert = this.alert,
+		bounding = document.body.getBoundingClientRect()
 
 		let
-		bodyW = document.body.clientWidth,
-		screenH = window.screen.availHeight
+		bodyW = bounding.width, 
+		screenH = bounding.height 
 
 		let
 		refW = bodyW - 100,
