@@ -44,7 +44,9 @@ export class Control {
 
 			case 'rotate-p':
 			  button.addEventListener('click', () => this.rotateHandler('p'))
-			  button.addEventListener('mousedown', () => id = setInterval(() => this.rotateHandler('p'), 200))
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id = setInterval(() => this.rotateHandler('p'), 200);
+			  })
 			  button.addEventListener('mouseup', () => clearInterval(id))
 			  break
 
