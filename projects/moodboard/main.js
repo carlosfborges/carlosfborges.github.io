@@ -70,7 +70,7 @@ import {Control} from './Models/Control.js'
 	document.querySelector('body').addEventListener('touchstart', (e) => {
 		
 		e.preventDefault(); e.bubbles = false; v.setSelectedMaterial();
-	})
+	}, false)
 
 	document.querySelector('body').addEventListener('touchmove', e => e.preventDefault())
 	document.querySelector('body').addEventListener('touchend', e => e.preventDefault())
