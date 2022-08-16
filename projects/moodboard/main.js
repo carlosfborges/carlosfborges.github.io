@@ -90,12 +90,15 @@ import {Control} from './Models/Control.js'
 	window.addEventListener('click', () => v.setSelectedMaterial())
 	window.addEventListener('resize', () => v.resize())
 
-	document.body.addEventListener('touchmove', (e) => {
-		
+	document.querySelector('body').addEventListener('touchmove', e => setScroll(e))
+	document.querySelector('html').addEventListener('touchmove', e => setScroll(e))
+
+	function setScroll(e) {
+
 		const view = e.view
 
 		view.scroll = null; view.scrollBy = null; view.scrollTo = null; 
-	})	
+	}
 
 	v.clear()
 
