@@ -436,6 +436,8 @@ export class View {
 
 				e.stopPropagation()
 
+				if (this.selectedMaterial === null) return false
+
 				console.log('touch start')
 
 				touchLocation = e.targetTouches[0]
@@ -453,6 +455,7 @@ export class View {
 			case 'dragend':
 
 				e.stopPropagation()
+				
 		
 				setTimeout(() => target.style.display = 'block', 0)
 
@@ -465,6 +468,8 @@ export class View {
 			case 'touchmove':
 
 				e.stopPropagation()
+
+				if (this.selectedMaterial === null) return false
 
 				console.log('touch move')
 
@@ -479,6 +484,8 @@ export class View {
 			case 'touchend':
 
 				e.stopPropagation()
+
+				if (this.selectedMaterial === null) return false
 
 				console.log('touch end')
 
