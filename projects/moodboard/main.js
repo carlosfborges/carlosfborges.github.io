@@ -92,6 +92,8 @@ import {Control} from './Models/Control.js'
 	// window.addEventListener('dblclick', (e) => { e.preventDefault() })
 
 	
+	document.querySelector('body').addEventListener('click', () => v.setSelectedMaterial())
+	document.querySelector('body').addEventListener('mousedown', (e) => e.preventDefault())
 	document.querySelector('body').addEventListener('touchmove', e => setScroll(e))
 	// document.querySelector('body').addEventListener('dblclick', e => e.preventDefault(e))
 
