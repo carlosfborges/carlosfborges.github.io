@@ -43,109 +43,297 @@ export class Control {
 				break
 
 			case 'rotate-p':
+				// Events for desktop
 			  button.addEventListener('click', () => { this.rotateHandler('p'); })
 			  
-			  // Events for desktop
 			  button.addEventListener('mousedown', (e) => {
 			  	e.stopPropagation(); id1 = setInterval(() => this.rotateHandler('p'), 200);
 			  })
+			  
 			  button.addEventListener('mouseup', () => clearInterval(id1))
 			  
 			  // Events for mobile
 			  button.addEventListener('touchstart', (e) => {
 			  	e.stopPropagation(); this.rotateHandler('p'); id2 = setInterval(() => this.rotateHandler('p'), 200);
 			  })
+			  
 			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
 			  break
 
 			case 'rotate-m':
+				// Events for desktop
 			  button.addEventListener('click', () => this.rotateHandler('m'))
-			  button.addEventListener('mousedown', () => id = setInterval(() => this.rotateHandler('m'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
+			  
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.rotateHandler('m'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.rotateHandler('m'); id2 = setInterval(() => this.rotateHandler('m'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
 			  break
 
 			case 'rotate-all-p':
+				// Events for desktop
 			  button.addEventListener('click', () => this.rotateAllHandler('p'))
-			  button.addEventListener('mousedown', () => id = setInterval(() => this.rotateAllHandler('p'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
+			  
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.rotateAllHandler('p'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.rotateAllHandler('p'); id2 = setInterval(() => this.rotateAllHandler('p'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
 			  break
 
 			case 'rotate-all-m':
+				// Events for desktop
 			  button.addEventListener('click', () => this.rotateAllHandler('m'))
-			  button.addEventListener('mousedown', () => id = setInterval(() => this.rotateAllHandler('m'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
+			  
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.rotateAllHandler('m'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.rotateAllHandler('m'); id2 = setInterval(() => this.rotateAllHandler('m'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
 			  break
 
 			case 'scale-p':
+				// Events for desktop
 				button.addEventListener('click', () => this.scaleHandler('xy-p'))
-				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('xy-p'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
-				break
+				
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.scaleHandler('xy-p'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.scaleHandler('xy-p'); id2 = setInterval(() => this.scaleHandler('xy-p'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
+			  break
 
 			case 'scale-m':
+				// Events for desktop
 				button.addEventListener('click', () => this.scaleHandler('xy-m'))
-				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('xy-m'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
-				break
+				
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.scaleHandler('xy-m'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.scaleHandler('xy-m'); id2 = setInterval(() => this.scaleHandler('xy-m'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
+			  break
 
 			case 'scale-all-p':
+				// Events for desktop
 				button.addEventListener('click', () => this.scaleAllHandler('xy-p'))
-				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleAllHandler('xy-p'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
-				break
+				
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.scaleAllHandler('xy-p'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.scaleAllHandler('xy-p'); id2 = setInterval(() => this.scaleAllHandler('xy-p'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
+			  break
 
 			case 'scale-all-m':
+				// Events for desktop
 				button.addEventListener('click', () => this.scaleAllHandler('xy-m'))
-				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleAllHandler('xy-m'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
-				break
+				
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.scaleAllHandler('xy-m'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.scaleAllHandler('xy-m'); id2 = setInterval(() => this.scaleAllHandler('xy-m'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
+			  break
 
 			case 'scaleX-p':
+				// Events for desktop
 				button.addEventListener('click', () => this.scaleHandler('x-p'))
-				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('x-p'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
-				break
+				
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.scaleHandler('x-p'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.scaleHandler('x-p'); id2 = setInterval(() => this.scaleHandler('x-p'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
+			  break
 
 			case 'scaleX-m':
+				// Events for desktop
 				button.addEventListener('click', () => this.scaleHandler('x-m'))
-				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('x-m'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
-				break
+				
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.scaleHandler('x-m'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.scaleHandler('x-m'); id2 = setInterval(() => this.scaleHandler('x-m'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
+			  break
 
 			case 'scaleY-p':
+				// Events for desktop
 				button.addEventListener('click', () => this.scaleHandler('y-p'))
-				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('y-p'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
-				break
+				
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.scaleHandler('y-p'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.scaleHandler('y-p'); id2 = setInterval(() => this.scaleHandler('y-p'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
+			  break
 
 			case 'scaleY-m':
+				// Events for desktop
 				button.addEventListener('click', () => this.scaleHandler('y-m'))
-				button.addEventListener('mousedown', () => id = setInterval(() => this.scaleHandler('y-m'), 200))
-			  button.addEventListener('mouseup', () => clearInterval(id))
-				break
+				
+			  button.addEventListener('mousedown', (e) => {
+			  	e.stopPropagation(); id1 = setInterval(() => this.scaleHandler('y-m'), 200);
+			  })
+			  
+			  button.addEventListener('mouseup', () => clearInterval(id1))
+			  
+			  // Events for mobile
+			  button.addEventListener('touchstart', (e) => {
+			  	e.stopPropagation(); this.scaleHandler('y-m'); id2 = setInterval(() => this.scaleHandler('y-m'), 200);
+			  })
+			  
+			  button.addEventListener('touchend', () => clearInterval(id2))
+			  
+			  break
 
 			case 'z-up':
+				// Events for desktop
 				button.addEventListener('click', () => this.zHandler('up'))
+
+				// Events for mobile
+				button.addEventListener('touchstart', (e) => {
+					e.stopPropagation(); this.zHandler('up')
+				})	
+
 				break
 
 			case 'z-down':
+				// Events for desktop
 				button.addEventListener('click', () => this.zHandler('down'))
+
+				// Events for mobile
+				button.addEventListener('touchstart', (e) => {
+					e.stopPropagation(); this.zHandler('down')
+				})	
+
 				break
 
 			case 'remove':
+				// Events for desktop
 				button.addEventListener('click', () => this.removeHandler())
+
+				// Events for mobile
+				button.addEventListener('touchstart', (e) => {
+					e.stopPropagation(); this.removeHandler()
+				})	
+
 				break
 
 			case 'clone':
+				// Events for desktop
 				button.addEventListener('click', () => this.cloneHandler())
+
+				// Events for mobile
+				button.addEventListener('touchstart', (e) => {
+					e.stopPropagation(); this.cloneHandler()
+				})	
+
 				break
 
 			case 'mirror-h':
+				// Events for desktop
 				button.addEventListener('click', () => this.mirrorHandler('h'))
+
+				// Events for mobile
+				button.addEventListener('touchstart', (e) => {
+					e.stopPropagation(); this.mirrorHandler('h')
+				})	
+
 				break
 
 			case 'mirror-v':
+				// Events for desktop
 				button.addEventListener('click', () => this.mirrorHandler('v'))
+
+				// Events for mobile
+				button.addEventListener('touchstart', (e) => {
+					e.stopPropagation(); this.mirrorHandler('v')
+				})	
+
 				break
 
 			default:

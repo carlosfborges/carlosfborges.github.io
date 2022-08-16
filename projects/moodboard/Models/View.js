@@ -130,7 +130,9 @@ export class View {
 		el.addEventListener('drop', e => this.handler(e))
 
 		// Touch events for mobile
-		el.addEventListener('touchstart', e => this.handler(e))
+		el.addEventListener('touchstart', (e) => {
+			this.setSelectedMaterial(); this.handler(e)
+		})
 
 		el.addEventListener('touchmove', e => this.handler(e))
 
