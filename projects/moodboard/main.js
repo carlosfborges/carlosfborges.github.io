@@ -10,6 +10,10 @@ import {Control} from './Models/Control.js'
 (() => {
 
 	const
+	body = document.querySelector('body'),
+	html = document.querySelector('html')
+
+	const
 	alert = document.querySelector('.alert')
 	
 	const
@@ -66,30 +70,30 @@ import {Control} from './Models/Control.js'
 	
 	
 	// Body events
-	document.querySelector('body').addEventListener('click', () => v.setSelectedMaterial())
+	body.addEventListener('click', () => v.setSelectedMaterial())
 
 	// Body events for mobile
-	document.querySelector('body').addEventListener('touchstart', (e) => {
+	body.addEventListener('touchstart', (e) => {
 		
 		e.preventDefault(); //v.setSelectedMaterial();
 	})
 
 
-	document.querySelector('body').addEventListener('touchmove', e => e.preventDefault())
-	document.querySelector('body').addEventListener('touchend', e => e.preventDefault())
+	body.addEventListener('touchmove', e => e.preventDefault())
+	body.addEventListener('touchend', e => e.preventDefault())
 	
 
 	// Html events
-	document.querySelector('html').addEventListener('click', () => v.setSelectedMaterial())
+	html.addEventListener('click', () => v.setSelectedMaterial())
 
 	// Html events for mobile
-	document.querySelector('html').addEventListener('touchstart', (e) => {
+	html.addEventListener('touchstart', (e) => {
 		
 		e.preventDefault(); //v.setSelectedMaterial();
 	})
 
-	document.querySelector('html').addEventListener('touchmove', e => e.preventDefault())
-	document.querySelector('html').addEventListener('touchend', e => e.preventDefault())
+	html.addEventListener('touchmove', e => e.preventDefault())
+	html.addEventListener('touchend', e => e.preventDefault())
 	
 	
 	v.clear()

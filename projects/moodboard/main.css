@@ -37,9 +37,7 @@ h4 {
 	cursor: move;
 	overflow: hidden;
 	position: relative;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: transparent;
+	border: 1px solid grey;
 }
 .mb .view .item {
 	cursor: grab;

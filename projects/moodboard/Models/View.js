@@ -88,11 +88,6 @@ export class View {
 
 		view.style.height = height + 'px'
 
-		// Styling in case height is less then 430
-		if (height < 430) view.style.borderBottomColor = 'grey'
-
-		else view.style.borderBottomColor = 'transparent'
-
 		if (materials.length > 0) this.resizeAllMaterials()
 
 		if (alert !== undefined && alert !== null) alert.display('Resized')
@@ -131,9 +126,7 @@ export class View {
 		el.addEventListener('drop', e => this.handler(e))
 
 		// Touch events for mobile
-		el.addEventListener('touchstart', (e) => {
-			this.setSelectedMaterial(); this.handler(e)
-		})
+		el.addEventListener('touchstart', e => this.handler(e))
 
 		el.addEventListener('touchmove', e => this.handler(e))
 
@@ -144,6 +137,7 @@ export class View {
 	{
 		const 
 		target = this.el, // View
+		selectedMaterial = this.selectedMaterial,
 		alert = this.alert
 
 		let 
@@ -154,6 +148,8 @@ export class View {
 			case 'dragstart':
 
 				this.activeEvent = e.type
+
+				this.setBorder()
 
 				target.pageX = e.pageX
 				target.pageY = e.pageY
@@ -171,6 +167,8 @@ export class View {
 				break
 
 			case 'dragend':
+
+				this.setBorder()
 		
 				setTimeout(() => target.display = 'none', 0)
 		
@@ -180,7 +178,17 @@ export class View {
 
 				this.dropCoords = [e.pageX, e.pageY]
 
-				if (this.activeEvent === 'dragstart')	this.moveAllMaterials()
+				if (this.activeEvent === 'dragstart')	{
+				
+					if (selectedMaterial !== null) {
+
+						selectedMaterial.pageX = target.pageX
+						selectedMaterial.pageY = target.pageY
+
+						this.moveMaterial(selectedMaterial)
+
+					}	else this.moveAllMaterials()
+				}
 
 				this.activeEvent = e.type									
 		
@@ -191,6 +199,8 @@ export class View {
 				e.stopPropagation()
 
 				this.activeEvent = e.type
+
+				this.setBorder()
 
 				touchLocation = e.targetTouches[0]
 
@@ -232,10 +242,19 @@ export class View {
 
 					shadow.remove()
 
-					this.moveAllMaterials()
+					if (selectedMaterial !== null) {
+
+						selectedMaterial.pageX = target.pageX
+						selectedMaterial.pageY = target.pageY
+
+						this.moveMaterial(selectedMaterial)
+
+					}	else this.moveAllMaterials()					
 				}
 
-				this.activeEvent = e.type		
+				this.activeEvent = e.type
+
+				this.setBorder()
 
 				setTimeout(() => target.display = 'block', 0)
 
@@ -410,16 +429,12 @@ export class View {
 		x = Math.round(left + dropCoords[0] - material.pageX),
 		y = Math.round(top + dropCoords[1] - material.pageY)
 
-		console.log(dropCoords)
-		console.log(range)
-
 		if (
 			dropCoords[0] <= range[0] ||
 			dropCoords[0] >= range[1] ||
 			dropCoords[1] <= range[2] ||
 			dropCoords[1] >= range[3]
 		) return false
-
 
 		// Move
 		material.style.left = x + 'px'
@@ -735,5 +750,12 @@ export class View {
 		shadow.style.left = target.shadowLeft + touchLocation.pageX - target.pageX + 'px'
 
 		shadow.style.top = target.shadowTop + touchLocation.pageY - target.pageY + 'px'
+	}
+
+	setBorder(style = '1px solid grey')
+	{
+		const s = this.el.style
+
+		s.border = (s.border === 'none') ? style : 'none'
 	}
 }
