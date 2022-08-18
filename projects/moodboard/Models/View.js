@@ -137,6 +137,7 @@ export class View {
 	{
 		const 
 		target = this.el, // View
+		materials = this.materials,
 		selectedMaterial = this.selectedMaterial,
 		alert = this.alert
 
@@ -151,10 +152,9 @@ export class View {
 
 				this.setBorder()
 
-				target.pageX = e.pageX
-				target.pageY = e.pageY
+				target.pageX = e.pageX;	target.pageY = e.pageY;
 
-				setTimeout(() => target.display = 'none', 0)
+				// setTimeout(() => target.style.display = 'none', 0)
 
 				break
 
@@ -170,7 +170,7 @@ export class View {
 
 				this.setBorder()
 		
-				setTimeout(() => target.display = 'none', 0)
+				// setTimeout(() => target.style.display = 'none', 0)
 		
 				break				
 
@@ -202,17 +202,26 @@ export class View {
 
 				this.setBorder()
 
-				touchLocation = e.targetTouches[0]
+				touchLocation = e.targetTouches[0]				
 
-				target.pageX = touchLocation.pageX
+				if (selectedMaterial !== null) {
 
-				target.pageY = touchLocation.pageY
+					selectedMaterial.pageX = touchLocation.pageX;	selectedMaterial.pageY = touchLocation.pageY
 
-				target.shadowLeft = 0
+					selectedMaterial.shadowLeft = selectedMaterial.style.left !== null ? 1 * parseInt(selectedMaterial.style.left) : 0
 
-				target.shadowTop = 0
+					selectedMaterial.shadowTop = selectedMaterial.style.top !== null ? 1 * parseInt(selectedMaterial.style.top) : 0
+				
+					setTimeout(() => selectedMaterial.style.display = 'none', 0)
 
-				setTimeout(() => target.display = 'none', 0)
+				} else {
+
+					target.pageX = touchLocation.pageX;	target.pageY = touchLocation.pageY;
+
+					target.shadowLeft = 0; target.shadowTop = 0;
+
+					setTimeout(() => target.style.opacity = 0, 0)
+				}
 
 				document.querySelector('body').style.overflowY = 'hidden'
 				document.querySelector('html').style.overflowY = 'hidden'
@@ -229,7 +238,9 @@ export class View {
 
 				this.dropCoords = [touchLocation.pageX, touchLocation.pageY]
 
-				this.setShadow(target, touchLocation)
+				if (selectedMaterial !== null) this.setShadow(selectedMaterial, touchLocation)
+
+				else this.setShadow(target, touchLocation)
 
 				document.querySelector('body').style.overflowY = 'hidden'
 				document.querySelector('html').style.overflowY = 'hidden'
@@ -244,19 +255,21 @@ export class View {
 
 					if (selectedMaterial !== null) {
 
-						selectedMaterial.pageX = target.pageX
-						selectedMaterial.pageY = target.pageY
-
 						this.moveMaterial(selectedMaterial)
 
-					}	else this.moveAllMaterials()					
+						setTimeout(() => selectedMaterial.style.display = 'block', 0)
+
+					}	else {
+
+						this.moveAllMaterials()
+
+						setTimeout(() => target.style.opacity = 1, 0)
+					}
 				}
 
 				this.activeEvent = e.type
 
 				this.setBorder()
-
-				setTimeout(() => target.display = 'block', 0)
 
 				document.querySelector('body').style.overflowY = 'auto'
 				document.querySelector('html').style.overflowY = 'auto'
@@ -742,7 +755,7 @@ export class View {
 
 			var s = shadow.style
 
-			s.position = 'absolute'; s.borderBottomColor = 'transparent'; s.display = 'block';	s.opacity = 0.5;
+			s.position = 'absolute'; /*s.borderBottomColor = 'transparent';*/ s.display = 'block';	s.opacity = 0.5;
 
 			parent.append(shadow)	
 		}

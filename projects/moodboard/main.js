@@ -75,7 +75,7 @@ import {Control} from './Models/Control.js'
 	// Body events for mobile
 	body.addEventListener('touchstart', (e) => {
 		
-		e.preventDefault(); //v.setSelectedMaterial();
+		e.preventDefault(); v.setSelectedMaterial();
 	})
 
 
@@ -89,7 +89,7 @@ import {Control} from './Models/Control.js'
 	// Html events for mobile
 	html.addEventListener('touchstart', (e) => {
 		
-		e.preventDefault(); //v.setSelectedMaterial();
+		e.preventDefault(); v.setSelectedMaterial();
 	})
 
 	html.addEventListener('touchmove', e => e.preventDefault())
