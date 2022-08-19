@@ -17,8 +17,8 @@ import {Control} from './Models/Control.js'
 	alert = document.querySelector('.alert')
 	
 	const
-	modal = document.querySelector('.modal'),
-	btnsOpenModal = document.querySelectorAll('[data-modal=open]')
+	modalMood = document.querySelector('#modal-mood'),
+	modal = document.querySelector('#modal')
 
 	const
 	mb = document.querySelector('.mb'),	
@@ -30,6 +30,7 @@ import {Control} from './Models/Control.js'
 
 	const
 	a = new Alert(alert),
+	mm = new Modal(modalMood),
 	m = new Modal(modal),
 	// o = new Observer(vw),
 	v = new View(vw),
@@ -43,12 +44,19 @@ import {Control} from './Models/Control.js'
 	
 	ca.alert = a; cr.alert = a; cl.alert = a; crm.alert = a;
 
+	mm.btns.forEach((btn) => {
 
-	btnsOpenModal.forEach(btn => {
+		let ref = btn.getAttribute('data-ref')
+
+		btn.addEventListener('click', () => mmHandler(ref))
+		btn.addEventListener('touchstart', () => mmHandler(ref))
+	})
+
+	m.btns.forEach((btn) => {
 
 		let 
 		ref = btn.getAttribute('data-ref'),
-		action = btn.getAttribute('data-action')
+		action = btn.getAttribute('data-modal-action')
 		
 		const clone = document.querySelector(ref).cloneNode(true)
 
@@ -94,9 +102,6 @@ import {Control} from './Models/Control.js'
 
 	html.addEventListener('touchmove', e => e.preventDefault())
 	html.addEventListener('touchend', e => e.preventDefault())
-	
-	
-	v.clear()
 
 
 	// Handler functions
@@ -162,6 +167,20 @@ import {Control} from './Models/Control.js'
 				
 				a.display('Flag must be click');
 		}	
+	}
+
+	function mmHandler(ref) {
+		
+		if (ref === 'new' && v.checkStorage()) {
+
+			if (confirm('Do you wanto to create a new moodboard?')) {
+
+				v.clear(); mm.display();
+			}
+		} else {
+
+			mm.display(); v.resize()
+		}		
 	}
 
 })()

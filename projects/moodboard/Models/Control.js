@@ -808,28 +808,6 @@ export class Control {
 		if (alert !== undefined && alert !== null) alert.display('Plan Z changed')
 	}
 
-	/*setBg(src)
-	{
-		const 
-		view = this.view.el,
-		alert = this.alert
-
-
-		if (view !== null) {
-
-			const s = view.style
-
-			s.backgroundImage = (src !== undefined && src !== '') ? 'url("' + src + '")' : 'none'
-			s.backgroundRepeat = 'no-repeat' 
-			s.backgroundSize = 'cover'
-
-			view.updateStorage()
-
-			if (alert !== undefined && alert !== null) alert.display('Background changed')
-
-		} else console.log('Element dropItem is null')
-	}*/
-
 	setImg(src) 
 	{
 		const 

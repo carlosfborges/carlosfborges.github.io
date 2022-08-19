@@ -18,9 +18,7 @@ export class View {
 
 		this.alert = null
 		
-		try {	
-
-			this.load()
+		try {				
 
 			if (el === undefined || el === null) throw 'Attribute el must be set'
 
@@ -46,11 +44,13 @@ export class View {
 
 			this.widthFactor = 1 * (this.naturalH / this.naturalW).toFixed(2)
 				
-			this.resize()
-
 			this.events()
 
-			this.setSelectedMaterial()
+			if (this.checkStorage()) this.load()
+
+			this.resize()
+
+			// this.setSelectedMaterial()
 			
 		} catch(msg) { console.log(msg) }		
 	}
@@ -79,20 +79,17 @@ export class View {
 		// Limit view height. Must be less then screen height
 		if (height >= refH) {
 
-			height = refH
-
-			width = height / widthFactor
+			height = refH; width = height / widthFactor;
 		}
 
 		view.style.width = width + 'px'
-
 		view.style.height = height + 'px'
 
 		if (materials.length > 0) this.resizeAllMaterials()
 
-		if (alert !== undefined && alert !== null) alert.display('Resized')
+		// if (alert !== undefined && alert !== null) alert.display('Resized')
 
-		this.updateStorage()	
+		// this.updateStorage()	
 	}
 
 	setBg(src) 
@@ -316,13 +313,13 @@ export class View {
 
 					this.setSelectedMaterial()
 
+					this.updateStorage()	
+
 					setTimeout(() => {
 
 						if (alert !== undefined && alert !== null) alert.display('Material created')
 							
 					}, 500)
-
-					this.updateStorage()	
 				
 				} else {
 
@@ -342,16 +339,18 @@ export class View {
 		parent = this.el, 
 		materials = this.materials,
 		newMaterials = [],
-		clone = material.cloneNode(true)
+		clone = material.cloneNode(true),
+		// bounding = clone.getBoundingClientRect(),
 		alert = this.alert
 
 		this.setSelectedMaterial()
 
 		clone.classList.remove('selected')
 
-		clone.style.left = 1 * clone.style.left.replace('px', '') + 10 + 'px'
-		clone.style.top = 1 * clone.style.top.replace('px', '') + 10 + 'px'
+		clone.pageX = 0; clone.pageY = 0;	this.dropCoords = [10, 10];
 
+		this.moveMaterial(clone, false)
+		
 		this.eventsMaterial(clone)
 
 		parent.append(clone)
@@ -364,8 +363,6 @@ export class View {
 		})
 
 		this.materials = newMaterials
-
-		this.updateStorage()	
 
 		return clone
 	}
@@ -399,7 +396,7 @@ export class View {
 			imgParent.style.left = left + 'px'
 			imgParent.style.top = top + 'px'	
 
-			this.updateStorage()			
+			// this.updateStorage()			
 
 		} catch(msg) { console.log(msg)	} 
 	}
@@ -409,7 +406,7 @@ export class View {
 		this.materials.forEach(material => this.resizeMaterial(material.children[0]))
 	}
 
-	moveMaterial(material) 
+	moveMaterial(material, checkArea = true) 
 	{
 		const 
 		parent = this.el,
@@ -427,15 +424,13 @@ export class View {
 		y = Math.round(top + dropCoords[1] - material.pageY)
 
 		if (
-			dropCoords[0] <= range[0] ||
-			dropCoords[0] >= range[1] ||
-			dropCoords[1] <= range[2] ||
-			dropCoords[1] >= range[3]
+			checkArea === true && (
+			dropCoords[0] <= range[0] || dropCoords[0] >= range[1] ||
+			dropCoords[1] <= range[2] || dropCoords[1] >= range[3] )
 		) return false
 
 		// Move
-		material.style.left = x + 'px'
-		material.style.top = y + 'px'
+		material.style.left = x + 'px';	material.style.top = y + 'px';
 
 		// Set natural position
 		material.setAttribute('naturalL', Math.round(x * this.naturalW / parent.clientWidth))
@@ -654,11 +649,9 @@ export class View {
 	load(html = '', bg = '')
 	{
 		const 
-		view = this.el
+		view = this.el	
 
 		let 
-		materials = view.children, 
-		newMaterials = [], index = 0, i,
 		viewContent = localStorage.getItem('viewContent'),
 		viewBg = localStorage.getItem('viewBg'),
 		content = (html === '' && viewContent !== null) ? 
@@ -675,30 +668,10 @@ export class View {
 			this.setBg(src)
 		}
 
-		for (let mat of materials) {
-
-			this.eventsMaterial(mat)
-
-			for (i = 0; i < materials.length; i++) {
-
-				if (materials[i].style.zIndex == index) {
-
-					newMaterials.push(materials[i])					
-
-					break
-				}
-			}
-
-			index++
-		}		
-
-		materials = this.materials = newMaterials
-
-		this.resizeAllMaterials()	
-
-		this.setSelectedMaterial()
-
-		this.updateStorage()	
+		view.childNodes.forEach((mat) => {
+			mat.style.display = 'block'
+			this.eventsMaterial(mat); this.materials.push(mat);
+		})
 	}
 
 	updateStorage()
@@ -709,6 +682,14 @@ export class View {
 
 		localStorage.setItem('viewBg', bg)
 		localStorage.setItem('viewContent', content)
+	}
+
+	checkStorage()
+	{
+		return (
+			localStorage.getItem('viewBg') !== 'url("")' ||
+			localStorage.getItem('viewContent') !== ''
+		)
 	}
 
 	removeStorage()
