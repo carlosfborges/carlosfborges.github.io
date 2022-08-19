@@ -139,6 +139,7 @@ export class View {
 		target = this.el, // View
 		materials = this.materials,
 		selectedMaterial = this.selectedMaterial,
+		parent = target.parentElement,
 		alert = this.alert
 
 		let 
@@ -146,15 +147,24 @@ export class View {
 
 		switch (e.type) {
 
-			case 'dragstart':
+			case 'dragstart':					
+
+				if (selectedMaterial !== null) {
+
+					const img = document.createElement('img')
+
+					e.dataTransfer.setDragImage(img, 0, 0)
+					
+					return false
+				}
+
+				target.pageX = e.pageX;	target.pageY = e.pageY;
 
 				this.activeEvent = e.type
 
 				this.setBorder()
 
-				target.pageX = e.pageX;	target.pageY = e.pageY;
-
-				// setTimeout(() => target.style.display = 'none', 0)
+				setTimeout(() => target.style.opacity = 0, 0)	
 
 				break
 
@@ -168,9 +178,11 @@ export class View {
 
 			case 'dragend':
 
+				if (selectedMaterial !== null) return false
+
 				this.setBorder()
-		
-				// setTimeout(() => target.style.display = 'none', 0)
+
+				setTimeout(() => target.style.opacity = 1, 0)
 		
 				break				
 
@@ -178,19 +190,9 @@ export class View {
 
 				this.dropCoords = [e.pageX, e.pageY]
 
-				if (this.activeEvent === 'dragstart')	{
-				
-					if (selectedMaterial !== null) {
+				if (this.activeEvent === 'dragstart')	this.moveAllMaterials()
 
-						selectedMaterial.pageX = target.pageX
-						selectedMaterial.pageY = target.pageY
-
-						this.moveMaterial(selectedMaterial)
-
-					}	else this.moveAllMaterials()
-				}
-
-				this.activeEvent = e.type									
+				this.activeEvent = e.type	
 		
 				break
 
@@ -198,30 +200,21 @@ export class View {
 
 				e.stopPropagation()
 
+				if (selectedMaterial !== null) return false
+
 				this.activeEvent = e.type
 
 				this.setBorder()
 
-				touchLocation = e.targetTouches[0]				
+				touchLocation = e.targetTouches[0]
 
-				if (selectedMaterial !== null) {
+				target.pageX = touchLocation.pageX;	target.pageY = touchLocation.pageY;
 
-					selectedMaterial.pageX = touchLocation.pageX;	selectedMaterial.pageY = touchLocation.pageY
+				target.shadowLeft = 16
 
-					selectedMaterial.shadowLeft = selectedMaterial.style.left !== null ? 1 * parseInt(selectedMaterial.style.left) : 0
+				target.shadowTop = 16
 
-					selectedMaterial.shadowTop = selectedMaterial.style.top !== null ? 1 * parseInt(selectedMaterial.style.top) : 0
-				
-					setTimeout(() => selectedMaterial.style.display = 'none', 0)
-
-				} else {
-
-					target.pageX = touchLocation.pageX;	target.pageY = touchLocation.pageY;
-
-					target.shadowLeft = 0; target.shadowTop = 0;
-
-					setTimeout(() => target.style.opacity = 0, 0)
-				}
+				setTimeout(() => target.style.opacity = 0, 0)				
 
 				document.querySelector('body').style.overflowY = 'hidden'
 				document.querySelector('html').style.overflowY = 'hidden'
@@ -232,15 +225,15 @@ export class View {
 
 				e.stopPropagation()
 
+				if (selectedMaterial !== null) return false
+
 				this.activeEvent = e.type
 
 				touchLocation = e.targetTouches[0]
 
 				this.dropCoords = [touchLocation.pageX, touchLocation.pageY]
 
-				if (selectedMaterial !== null) this.setShadow(selectedMaterial, touchLocation)
-
-				else this.setShadow(target, touchLocation)
+				this.setShadow(target, touchLocation)
 
 				document.querySelector('body').style.overflowY = 'hidden'
 				document.querySelector('html').style.overflowY = 'hidden'
@@ -249,25 +242,16 @@ export class View {
 
 			case 'touchend':
 
+				if (selectedMaterial !== null) return false
+
 				if (this.activeEvent === 'touchmove')	{
 
-					shadow.remove()
-
-					if (selectedMaterial !== null) {
-
-						this.moveMaterial(selectedMaterial)
-
-						setTimeout(() => selectedMaterial.style.display = 'block', 0)
-
-					}	else {
-
-						this.moveAllMaterials()
-
-						setTimeout(() => target.style.opacity = 1, 0)
-					}
+					shadow.remove(); this.moveAllMaterials();
 				}
 
-				this.activeEvent = e.type
+				setTimeout(() => target.style.opacity = 1, 0)
+
+				this.activeEvent = e.type;
 
 				this.setBorder()
 
@@ -755,7 +739,7 @@ export class View {
 
 			var s = shadow.style
 
-			s.position = 'absolute'; /*s.borderBottomColor = 'transparent';*/ s.display = 'block';	s.opacity = 0.5;
+			s.position = 'absolute'; s.display = 'block';	s.opacity = 0.5;
 
 			parent.append(shadow)	
 		}

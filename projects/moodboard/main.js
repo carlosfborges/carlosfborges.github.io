@@ -3,7 +3,7 @@
 // Import classes
 import {Alert} from './Models/Alert.js'
 import {Modal} from './Models/Modal.js'
-import {Observer} from './Models/Observer.js'
+// import {Observer} from './Models/Observer.js'
 import {View} from './Models/View.js'
 import {Control} from './Models/Control.js'
 
@@ -31,7 +31,7 @@ import {Control} from './Models/Control.js'
 	const
 	a = new Alert(alert),
 	m = new Modal(modal),
-	o = new Observer(vw),
+	// o = new Observer(vw),
 	v = new View(vw),
 	ca = new Control(ctrlAll, v),
 	cr = new Control(ctrlR, v),
