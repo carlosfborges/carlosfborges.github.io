@@ -16,6 +16,8 @@ export class View {
 
 		this.selectedMaterial = null 
 
+		this.viewer = document.querySelector('.mb-viewer')
+
 		this.alert = null
 		
 		try {				
@@ -48,7 +50,7 @@ export class View {
 
 			if (this.checkStorage()) this.load()
 
-			this.resize()
+			// this.resize()
 
 			// this.setSelectedMaterial()
 			
@@ -59,6 +61,7 @@ export class View {
 	{
 		const 
 		view = this.el, 
+		viewer = this.viewer,
 		materials = this.materials,
 		widthFactor = this.widthFactor, 
 		alert = this.alert,
@@ -89,7 +92,7 @@ export class View {
 
 		// if (alert !== undefined && alert !== null) alert.display('Resized')
 
-		// this.updateStorage()	
+		this.updateStorage()	
 	}
 
 	setBg(src) 
@@ -180,6 +183,8 @@ export class View {
 				this.setBorder()
 
 				setTimeout(() => target.style.opacity = 1, 0)
+
+				this.updateStorage()
 		
 				break				
 
@@ -251,6 +256,8 @@ export class View {
 				this.activeEvent = e.type;
 
 				this.setBorder()
+
+				this.updateStorage()
 
 				document.querySelector('body').style.overflowY = 'auto'
 				document.querySelector('html').style.overflowY = 'auto'
@@ -382,9 +389,9 @@ export class View {
 			naturalH = img.getAttribute('naturalH'),
 			naturalL = imgParent.getAttribute('naturalL'),
 			naturalT = imgParent.getAttribute('naturalT'),
-			width = Math.round(naturalW * parent.clientWidth / this.naturalW),
-			left = Math.round(parent.clientWidth * naturalL / this.naturalW),
-			top = Math.round(parent.clientHeight * naturalT / this.naturalH)
+			width = Math.round(naturalW * parseInt(parent.style.width) / this.naturalW),
+			left = Math.round(parseInt(parent.style.width) * naturalL / this.naturalW),
+			top = Math.round(parseInt(parent.style.height) * naturalT / this.naturalH)
 
 			img.widthFactor = 1 * (naturalH / naturalW).toFixed(2)
 
@@ -436,7 +443,7 @@ export class View {
 		material.setAttribute('naturalL', Math.round(x * this.naturalW / parent.clientWidth))
 		material.setAttribute('naturalT', Math.round(y * this.naturalH / parent.clientHeight))
 
-		this.updateStorage()	
+		// this.updateStorage()	
 	}
 
 	moveAllMaterials() 
@@ -463,6 +470,8 @@ export class View {
 
 			material.classList.add('selected')
 
+			this.el.style.cursor = 'auto'
+
 			this.setMask(false)
 
 		}	else {
@@ -471,6 +480,8 @@ export class View {
 				this.selectedMaterial.classList.remove('selected')				
 
 			this.selectedMaterial = null	
+
+			this.el.style.cursor = 'move'
 			
 			this.setMask(true)
 		}
@@ -673,17 +684,22 @@ export class View {
 		view.childNodes.forEach((mat) => {
 			mat.style.display = 'block'
 			this.eventsMaterial(mat); this.materials.push(mat);
-		})
+		})	
+
+		this.resize()	
 	}
 
 	updateStorage()
 	{
 		let 
 		bg = this.el.style.backgroundImage,
-		content  = this.el.innerHTML.replace('selected', '')
+		content = 
+			this.el.innerHTML.replace('selected', '').replace('none', 'block')
 
 		localStorage.setItem('viewBg', bg)
 		localStorage.setItem('viewContent', content)
+
+		this.updateViewer(bg, content)
 	}
 
 	checkStorage()
@@ -737,5 +753,27 @@ export class View {
 		const s = this.el.style
 
 		s.border = (s.border === 'none') ? style : 'none'
+	}
+
+	updateViewer(bg, content)
+	{
+		const viewer = this.viewer		
+
+		if (viewer !== undefined && viewer !== null) {
+
+			viewer.style.width = this.el.style.width
+			viewer.style.height = this.el.style.height
+
+			viewer.classList.add('mb')
+
+			viewer.innerHTML = '<div class="view">' + content + '</div>'
+
+			const view = viewer.querySelector('.view')
+			
+			view.style.backgroundImage = bg
+			view.style.backgroundSize = 'cover'
+			view.style.backgroundRepeat = 'no-repeat'
+		
+		}	else console.log('Element .mb-viewer not set')
 	}
 }

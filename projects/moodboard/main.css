@@ -40,13 +40,14 @@ h4 {
 	border: 1px solid grey;
 }
 .mb .view .item {
-	cursor: grab;
+	cursor: pointer;
 	height: fit-content;
 	width: fit-content;
 	position: absolute;
 	left: 0;
 	top: 0;
 }
+.mb .view .item.selected { cursor: grab; }
 .mb .view .item.selected .mask {
 	outline: 2px dashed black;
 	outline-offset: 5px;
@@ -68,6 +69,10 @@ h4 {
 }
 .mb .opt .list {}
 .mb .opt .list .item { cursor: pointer; }
+
+.mb-viewer { margin: 20px auto; }
+.mb-viewer * { cursor: auto; }
+.mb-viewer .view { height: inherit; cursor: auto;}
 
 .control { position: absolute; background-color: rgba(255, 255, 255, 0.8); }
 .control div[data-mask] { 
@@ -215,7 +220,7 @@ h4 {
 .modal.full .content {	width: 100%; height: 100%; margin: auto;}
 .modal.full .content .section {	height: calc(100% - 55px); }
 
-.inline { 
+.button-group {
 	display: flex; justify-content: center; 
 	align-items: center; flex-wrap: wrap;
 }
@@ -229,3 +234,7 @@ h4 {
 .btn.btn-whitesmoke:hover { background-color: lightgray; }
 .btn.btn-black { background-color: rgb(30, 30, 30); color: white; }
 .btn.btn-black:hover { background-color: black; }
+
+@media only screen and (max-width: 700px) {
+	.button-group { flex-direction: column; }	
+}
