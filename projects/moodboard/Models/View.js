@@ -63,13 +63,13 @@ export class View {
 		widthFactor = this.widthFactor, 
 		alert = this.alert,
 		bounding = document.body.getBoundingClientRect()
-
+		
 		let
 		bodyW = bounding.width, 
 		screenH = bounding.height * 95 / 100
 
 		let
-		refW = bodyW - 100,
+		refW = bodyW - 2 * 65,
 		refH = 80 / 100 * screenH
 
 		let
@@ -542,8 +542,10 @@ export class View {
 
 				e.stopPropagation()
 
-				if (this.selectedMaterial === null || !Object.is(target, this.selectedMaterial)) 
-					return false
+				if (
+					this.selectedMaterial === null || 
+					!Object.is(target, this.selectedMaterial)
+				) return false
 
 				touchLocation = e.targetTouches[0]
 				

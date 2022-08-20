@@ -52,11 +52,15 @@ import {Control} from './Models/Control.js'
 		btn.addEventListener('touchstart', () => mmHandler(ref))
 	})
 
+	mm.handlerContent = function(e, el) {
+		e.stopPropagation(); v.setSelectedMaterial();
+	}
+
 	m.btns.forEach((btn) => {
 
 		let 
 		ref = btn.getAttribute('data-ref'),
-		action = btn.getAttribute('data-modal-action')
+		action = btn.getAttribute('data-action')
 		
 		const clone = document.querySelector(ref).cloneNode(true)
 
@@ -173,7 +177,7 @@ import {Control} from './Models/Control.js'
 		
 		if (ref === 'new' && v.checkStorage()) {
 
-			if (confirm('Do you wanto to create a new moodboard?')) {
+			if (confirm('Do you want to create a new moodboard?')) {
 
 				v.clear(); mm.display();
 			}

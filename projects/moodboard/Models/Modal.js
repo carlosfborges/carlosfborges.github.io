@@ -225,16 +225,21 @@ export class Modal {
 		// Events for desktop
 		modal.addEventListener('click', e => this.display())
 
-		content.addEventListener('click', e => e.stopPropagation())
+		content.addEventListener('click', e => this.handlerContent(e, content))
 
 		close.addEventListener('click', e => this.display())
 
 		// Events for mobile
 		modal.addEventListener('touchstart', e => this.display())
 
-		content.addEventListener('touchstart', e => e.stopPropagation())
+		content.addEventListener('touchstart', e => this.handlerContent(e, content))
 
 		close.addEventListener('touchstart', e => this.display())		
+	}
+
+	handlerContent(e, el = null)
+	{
+		e.stopPropagation()
 	}
 }	
 			

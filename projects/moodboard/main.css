@@ -26,7 +26,7 @@ h4 {
 
 .mb {
 	position: relative;
-	margin: 60px auto;
+	margin: 90px auto 0;
 	width: fit-content;
 	max-width: 1000px;
 	padding: 10px;	
@@ -187,7 +187,8 @@ h4 {
 	right: 20px;
 	font-weight: bolder;
 	cursor: pointer;	
-	text-transform: uppercase;	
+	text-transform: uppercase;
+	height: 23px;	
 }
 .modal .content .close p {
 	font-size: 14px;
@@ -224,7 +225,7 @@ h4 {
 	border-color: grey; padding: 15px; min-width: 250px; font-weight: bolder; 
 	margin: 15px 20px; transition: all 0.6s ease-out;
 }
-.btn.btn-whitesmoke { background-color: whitesmoke; }
+.btn.btn-whitesmoke { background-color: whitesmoke; color: blue; }
 .btn.btn-whitesmoke:hover { background-color: lightgray; }
 .btn.btn-black { background-color: rgb(30, 30, 30); color: white; }
 .btn.btn-black:hover { background-color: black; }
