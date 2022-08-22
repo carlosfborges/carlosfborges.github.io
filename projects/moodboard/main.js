@@ -147,15 +147,18 @@ import {Control} from './Models/Control.js'
 
 				e.stopPropagation()
 
-				let src = item.getAttribute('data-img')
+				let 
+				src = item.getAttribute('data-img'),
+				title = item.getAttribute('data-title'),
+				value = item.getAttribute('data-value')
 
 				switch(ref) {
 					
 					case '#materials':
 
-						if (action !== 'switch') v.createMaterial(src)
+						if (action !== 'switch') v.createMaterial(src, title, value)
 					
-						else { cr.setImg(src); m.display(); }
+						else { cr.setImg(src, title, value); m.display(); }
 					
 						break
 

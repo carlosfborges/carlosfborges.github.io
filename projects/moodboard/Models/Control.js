@@ -808,14 +808,19 @@ export class Control {
 		if (alert !== undefined && alert !== null) alert.display('Plan Z changed')
 	}
 
-	setImg(src) 
+	setImg(src, title, value) 
 	{
 		const 
-		view = this.view,		
-		slave = view.selectedMaterial.children[0],
+		view = this.view,	
+		slave = view.selectedMaterial,	
+		img = view.selectedMaterial.children[0],
 		alert = this.alert
 
-		slave.src = src
+		slave.setAttribute('data-img', src)
+		slave.setAttribute('data-title', title)
+		slave.setAttribute('data-value', value)
+
+		img.src = src
 
 		view.setSelectedMaterial()
 

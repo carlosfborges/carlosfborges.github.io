@@ -277,6 +277,18 @@ h4 {
 	margin-right: 5px;
 }
 
+.mb-list { margin-top: 40px; }
+.mb-list-title {  }
+.mb-list-content { 
+	margin-top: 10px; 
+	border: 10px solid whitesmoke;
+	border-top: 25px solid whitesmoke; 
+	border-bottom: 75px solid whitesmoke; 
+}
+.materials .list .list-content .item { cursor: auto; }
+.mb-list-content .list .list-content .item:hover {
+	border-color: transparent;	
+}
 
 @media only screen and (max-width: 700px) {
 
@@ -287,8 +299,13 @@ h4 {
 	.materials .list .list-content {
 		grid-template-columns: auto auto auto;	
 	}
+
+	.mb-list { margin-top: 75px; }
 }
 
 @media only screen and (max-width: 700px) and (orientation: landscape) {
+	
 	.button-group { margin-bottom: 145px; }		
+
+	.mb-list { margin-top: 160px; }
 }

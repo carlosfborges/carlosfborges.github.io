@@ -18,6 +18,8 @@ export class View {
 
 		this.viewer = document.querySelector('.mb-viewer')
 
+		this.list = document.querySelector('.mb-list-content')
+
 		this.alert = null
 		
 		try {				
@@ -268,7 +270,7 @@ export class View {
 	}
 
 	// Materials
-	createMaterial(src) 
+	createMaterial(src, title, value) 
 	{
 		const 
 		parent = this.el, 
@@ -281,6 +283,10 @@ export class View {
 			if (parent === undefined || parent === null) throw 'Attribute el must be set'
 
 			if (src === undefined || src === null || src === '') throw 'Parameter src must be set'
+
+			material.setAttribute('data-img', src)
+			material.setAttribute('data-title', title)
+			material.setAttribute('data-value', value)
 
 			material.innerHTML = `
 			<img src="` + src + `">
@@ -694,6 +700,8 @@ export class View {
 		localStorage.setItem('viewContent', content)
 
 		this.updateViewer(bg, content)
+
+		this.updateList()
 	}
 
 	checkStorage()
@@ -702,6 +710,14 @@ export class View {
 			localStorage.getItem('viewBg') !== 'url("")' ||
 			localStorage.getItem('viewContent') !== ''
 		)
+	}
+
+	getStorage()
+	{
+		return { 
+			bg: localStorage.getItem('viewBg'),
+			content: localStorage.getItem('viewContent'),
+		}
 	}
 
 	removeStorage()
@@ -797,5 +813,54 @@ export class View {
 		let widthFactor = 1 * (bodyW - 10) / viewer.clientWidth
 
 		style.transform = 'scale(' + widthFactor + ')'
+	}
+
+	updateList()
+	{
+		const 
+		materials = this.materials,
+		list = this.list // html element
+
+		let titles = [], imgs = [], html = ''
+
+		if (list === undefined || list === null) return false
+
+		list.classList.add('materials')
+		list.innerHTML = ''
+
+		materials.forEach(mat => titles.push(mat.getAttribute('data-title')))
+
+		titles = [... new Set(titles)]
+
+		titles.forEach((title) => {
+
+			if (title !== null) {
+			
+				html += `
+					<div class="list">
+						<h5 class="list-title">` + title + `</h5>
+						<div class="list-content">
+				`
+	
+				materials.forEach((mat) => {
+	
+					let
+					src = mat.getAttribute('data-img'),
+					title2 = mat.getAttribute('data-title'),
+					value = mat.getAttribute('data-value')
+	
+					if (title === title2 && imgs.indexOf(src) === -1) {
+	
+						html += `<div class="item"><img src="` + src + `" />` + value + `</div>`
+	
+						imgs.push(src)
+					}
+				})
+	
+				html += `</div></div>`
+			}
+		})	
+
+		list.innerHTML = html	
 	}
 }
