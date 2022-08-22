@@ -218,8 +218,7 @@ export class View {
 
 				setTimeout(() => target.style.opacity = 0, 0)				
 
-				document.querySelector('body').style.overflowY = 'hidden'
-				document.querySelector('html').style.overflowY = 'hidden'
+				this.setOverflowY('none')
 
 				break
 
@@ -237,8 +236,7 @@ export class View {
 
 				this.setShadow(target, touchLocation)
 
-				document.querySelector('body').style.overflowY = 'hidden'
-				document.querySelector('html').style.overflowY = 'hidden'
+				this.setOverflowY('hidden')
 
 				break
 
@@ -259,8 +257,7 @@ export class View {
 
 				this.updateStorage()
 
-				document.querySelector('body').style.overflowY = 'auto'
-				document.querySelector('html').style.overflowY = 'auto'
+				this.setOverflowY('auto')
 
 				break
 
@@ -572,8 +569,7 @@ export class View {
 
 				setTimeout(() => target.style.display = 'none', 0)
 
-				document.querySelector('body').style.overflowY = 'hidden'
-				document.querySelector('html').style.overflowY = 'hidden'
+				this.setOverflowY('hidden')				
 
 				break
 
@@ -592,8 +588,7 @@ export class View {
 
 				this.setShadow(target, touchLocation)
 
-				document.querySelector('body').style.overflowY = 'hidden'
-				document.querySelector('html').style.overflowY = 'hidden'
+				this.setOverflowY('hidden')
 				
 				break
 
@@ -613,8 +608,7 @@ export class View {
 
 				setTimeout(() => target.style.display = 'block', 0)
 
-				document.querySelector('body').style.overflowY = 'auto'
-				document.querySelector('html').style.overflowY = 'auto'
+				this.setOverflowY('auto')
 
 				this.updateStorage()
 
@@ -755,9 +749,17 @@ export class View {
 		s.border = (s.border === 'none') ? style : 'none'
 	}
 
+	setOverflowY(value)
+	{
+		document.querySelector('body').style.overflowY = value
+		document.querySelector('html').style.overflowY = value
+	}
+
 	updateViewer(bg, content)
 	{
-		const viewer = this.viewer		
+		const viewer = this.viewer
+
+		let bodyW = document.body.clientWidth
 
 		if (viewer !== undefined && viewer !== null) {
 
@@ -773,7 +775,27 @@ export class View {
 			view.style.backgroundImage = bg
 			view.style.backgroundSize = 'cover'
 			view.style.backgroundRepeat = 'no-repeat'
+
+			if (bodyW <= 700) this.scaleViewer(bodyW)
+
+			else this.scaleViewer()
 		
 		}	else console.log('Element .mb-viewer not set')
+	}
+
+	scaleViewer(bodyW)
+	{
+		const 
+		viewer = this.viewer,		
+		style = viewer.style
+
+		if (bodyW === undefined || bodyW === null) {
+
+			style.transform = 'scale(1)';	return false;
+		}
+		
+		let widthFactor = 1 * (bodyW - 10) / viewer.clientWidth
+
+		style.transform = 'scale(' + widthFactor + ')'
 	}
 }

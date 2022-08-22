@@ -41,9 +41,16 @@ import {Control} from './Models/Control.js'
 
 
 	v.alert = a
+
+	v.setOverflowY = function(value) {
+		body.style.overflowY = value
+		html.style.overflowY = value
+		mm.el.querySelector('.content').style.overflowY = value
+	}
 	
 	ca.alert = a; cr.alert = a; cl.alert = a; crm.alert = a;
 
+	
 	mm.btns.forEach((btn) => {
 
 		let ref = btn.getAttribute('data-ref')

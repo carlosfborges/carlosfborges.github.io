@@ -70,7 +70,7 @@ h4 {
 .mb .opt .list {}
 .mb .opt .list .item { cursor: pointer; }
 
-.mb-viewer { margin: 20px auto; }
+.mb-viewer { margin: 0 auto; margin-top: 20px; padding: 0; }
 .mb-viewer * { cursor: auto; }
 .mb-viewer .view { height: inherit; cursor: auto;}
 
@@ -218,7 +218,7 @@ h4 {
 .modal .section { margin-top: 50px; }
 
 .modal.full .content {	width: 100%; height: 100%; margin: auto;}
-.modal.full .content .section {	height: calc(100% - 55px); }
+.modal.full .content .section {	height: fit-content; }
 
 .button-group {
 	display: flex; justify-content: center; 
@@ -236,5 +236,12 @@ h4 {
 .btn.btn-black:hover { background-color: black; }
 
 @media only screen and (max-width: 700px) {
+
 	.button-group { flex-direction: column; }	
+
+	.mb-viewer { margin-top: 50px; }
+}
+
+@media only screen and (max-width: 700px) and (orientation: landscape) {
+	.button-group { margin-bottom: 145px; }		
 }
