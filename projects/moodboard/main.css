@@ -235,11 +235,58 @@ h4 {
 .btn.btn-black { background-color: rgb(30, 30, 30); color: white; }
 .btn.btn-black:hover { background-color: black; }
 
+
+.materials { 
+	margin: auto; 
+	margin-top: 30px; 
+	padding: 10px;
+	max-width: 740px;
+}
+.materials .list {}
+.materials .list .list-title {
+	text-transform: uppercase;
+	border-bottom: 1px solid black;
+}
+.materials .list .list-content {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto auto;	
+	grid-gap: 10px;
+	margin: 10px 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+.materials .list .list-content .item {
+	display: flex;
+	justify-content: center;
+	align-items: center;	
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent;
+	transition: all 0.6s ease-out;
+	cursor: pointer;
+	padding: 5px;
+	max-width: 120px;
+	min-height: 50px;
+}
+.materials .list .list-content .item:hover {
+	border-color: black;	
+}
+.materials .list .list-content .item img {
+	max-width: 36px;
+	max-height: 36px;
+	margin-right: 5px;
+}
+
+
 @media only screen and (max-width: 700px) {
 
 	.button-group { flex-direction: column; }	
 
 	.mb-viewer { margin-top: 50px; }
+
+	.materials .list .list-content {
+		grid-template-columns: auto auto auto;	
+	}
 }
 
 @media only screen and (max-width: 700px) and (orientation: landscape) {
