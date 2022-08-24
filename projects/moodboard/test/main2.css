@@ -1,0 +1,311 @@
+* {	
+	user-select: none;
+	-webkit-touch-callout: none; /* IOS Safari */
+	-webkit-user-select: none;   /* Safari */
+	-ms-user-select: none;       /* Internet Explorer/Edge */
+	-moz-user-select: none;      /* Firefox */
+	-khtml-user-select: none;    /* Konqueror HTML  */
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	touch-action: manipulation;
+	position: relative;
+	overflow-x: hidden;	
+	width: 100%;
+	height: 100%;
+}
+
+h4 {
+	padding: 20px 10px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.mb {
+	position: relative;
+	margin: 90px auto 0;
+	width: fit-content;
+	max-width: 1000px;
+	padding: 10px;	
+	z-index: 0;
+}
+.mb .view {
+	background: linear-gradient(to right, whitesmoke, white, whitesmoke);
+	cursor: move;
+	overflow: hidden;
+	position: relative;
+	border: 1px solid grey;
+}
+.mb .view .item {
+	cursor: pointer;
+	height: fit-content;
+	width: fit-content;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.mb .view .item.selected { cursor: grab; }
+.mb .view .item.selected .mask {
+	outline: 2px dashed black;
+	outline-offset: 5px;
+}
+.mb .view .item .mask {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 2;	
+}
+.mb .view .item > img {	
+	width: 100%;
+	z-index: 1;
+}
+.mb .opt {
+	background-color: grey;
+}
+.mb .opt .list {}
+.mb .opt .list .item { cursor: pointer; }
+
+.mb-viewer { margin: 0 auto; margin-top: 20px; padding: 0; }
+.mb-viewer * { cursor: auto; }
+.mb-viewer .view { height: inherit; cursor: auto;}
+
+.control { position: absolute; background-color: rgba(255, 255, 255, 0.8); }
+.control div[data-mask] { 
+	position: absolute; 
+	width: 100%; 
+	height: 100%; 
+	top: 0;
+	left: 0;
+	background-color: rgba(255, 255, 255, 0.9);
+}
+.control div[data-mask=true] { display: block; }
+.control div[data-mask=false] { display: none; }
+.control .item { cursor: pointer;	padding: 10px; transition: all 0.5s ease-out; }
+.control .item:hover { background-color: grey; }
+.control .item[data-status=true] { color: blue;	font-weight: bold; }
+
+.control .group { 
+	display: flex; 
+	flex-direction: column;
+	justify-content: center; 
+	align-items: center;
+	border-width: 0;
+	border-style: inset;
+	border-color: grey;
+	padding: 2px;
+}
+.control .group.horizontal { border-right-width: 2px; }
+.control .group.vertical { border-bottom-width: 2px; }
+.control .group .label { font-size: 12.5px; }
+.control .group.horizontal .btn-group div { display: inline-block; }
+
+.control-all {
+	display: flex;
+	bottom: 0;
+	left: 0;
+	margin-bottom: -66px;
+}
+
+.control-material-right {
+	top: 15px;
+	right: 0;
+	margin-right: -44px;
+}
+
+.control-material-left {
+	top: 15px;
+	left: 0;
+	margin-left: -44px;
+}
+
+.control-remove {
+	bottom: 0px;
+	right: 10px;
+	margin-bottom: -66px;
+}
+.control-remove .item {
+	transition: all 0.5s ease-out;
+}
+.control-remove:hover .item {
+	background-color: red;
+}
+
+.add-materials, .background {
+	display: flex;
+	align-items: center;
+	cursor: pointer; 
+	position: absolute;
+	top: 0;
+	padding: 10px;
+	margin-top: -36px;
+	transition: all 0.5s ease-out;
+}
+.add-materials { left: 0; }
+.background { right: 0 ; }
+.add-materials:hover, .background:hover { font-size: 18px; }
+
+.alert {
+	display: none;
+	opacity: 0;
+	background: whitesmoke;
+	position: fixed;
+	top: 5vh;
+	right: 0;
+	width: fit-content;
+	text-align: right;
+	text-transform: uppercase;
+	padding: 20px;
+	font-size: 14px;
+	box-shadow: -5px 5px 10px black;
+	z-index: 2;
+}
+
+.modal {
+	display: none;
+	opacity: 0;
+	background-color: rgba(0, 0, 0, 0.7);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1;
+}
+.modal .content {
+	position: relative;
+	opacity: 0;
+	width: 80vw;
+	height: 80vh;
+	margin: 10vh auto;
+	background-color: white;
+	box-shadow: 2px 2px 10px black;
+	overflow-y: auto;
+}
+.modal .content .close {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	font-weight: bolder;
+	cursor: pointer;	
+	text-transform: uppercase;
+	height: 23px;	
+}
+.modal .content .close p {
+	font-size: 14px;
+	opacity: 0;
+	transition: all 0.3s;
+	transition-timing-function: ease-in;
+}
+.modal .content .close:hover p {
+	font-size: 20px;
+	opacity: 1;
+}
+.modal .content .close span {
+	position: absolute;
+	right: 0;
+	font-size: 20px;
+	transition: all 0.3s;
+	transition-timing-function: ease-in;
+}
+.modal .content .close:hover span {	
+	right: 105%;
+}
+.modal .section { margin-top: 50px; }
+
+.modal.full .content {	width: 100%; height: 100%; margin: auto;}
+.modal.full .content .section {	height: fit-content; }
+
+.button-group {
+	display: flex; justify-content: center; 
+	align-items: center; flex-wrap: wrap;
+}
+
+.btn { 
+	cursor: pointer; border-width: 1px; border-style: solid; 
+	border-color: grey; padding: 15px; min-width: 250px; font-weight: bolder; 
+	margin: 15px 20px; transition: all 0.6s ease-out;
+}
+.btn.btn-whitesmoke { background-color: whitesmoke; color: blue; }
+.btn.btn-whitesmoke:hover { background-color: lightgray; }
+.btn.btn-black { background-color: rgb(30, 30, 30); color: white; }
+.btn.btn-black:hover { background-color: black; }
+
+
+.materials { 
+	margin: auto; 
+	margin-top: 30px; 
+	padding: 10px;
+	max-width: 740px;
+}
+.materials .list {}
+.materials .list .list-title {
+	text-transform: uppercase;
+	border-bottom: 1px solid black;
+}
+.materials .list .list-content {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto auto;	
+	grid-gap: 10px;
+	margin: 10px 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+.materials .list .list-content .item {
+	display: flex;
+	justify-content: center;
+	align-items: center;	
+	border-width: 1px;
+	border-style: solid;
+	border-color: transparent;
+	transition: all 0.6s ease-out;
+	cursor: pointer;
+	padding: 5px;
+	max-width: 120px;
+	min-height: 50px;
+}
+.materials .list .list-content .item:hover {
+	border-color: black;	
+}
+.materials .list .list-content .item img {
+	max-width: 36px;
+	max-height: 36px;
+	margin-right: 5px;
+}
+
+.mb-list { margin-top: 40px; }
+.mb-list-title {  }
+.mb-list-content { 
+	margin-top: 10px; 
+	border: 10px solid whitesmoke;
+	border-top: 25px solid whitesmoke; 
+	border-bottom: 75px solid whitesmoke; 
+}
+.materials .list .list-content .item { cursor: auto; }
+.mb-list-content .list .list-content .item:hover {
+	border-color: transparent;	
+}
+
+@media only screen and (max-width: 700px) {
+
+	.button-group { flex-direction: column; }	
+
+	.mb-viewer { margin-top: 50px; }
+
+	.materials .list .list-content {
+		grid-template-columns: auto auto auto;	
+	}
+
+	.mb-list { margin-top: 75px; }
+}
+
+@media only screen and (max-width: 700px) and (orientation: landscape) {
+	
+	.button-group { margin-bottom: 145px; }		
+
+	.mb-list { margin-top: 160px; }
+}
