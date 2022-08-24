@@ -2,13 +2,30 @@
 
 export class View {
 	
-	constructor(el = null, materials = []) 
-	{		
-		this.el = el
+	constructor() 
+	{	
+		for (const arg of arguments) {
 
-		this.materials = materials
+			switch (arg.constructor.name) {
 
-		this.controlMasks = el.parentElement.querySelectorAll('[data-mask]')
+				case 'Alert':
+					this.alert = arg
+					break
+
+				case 'Modal':
+					this.modal = arg
+					break
+
+				default:
+					console.log('Parameter not valid')
+			}
+		}
+
+		this.el = document.querySelector('.view')
+
+		this.materials = []
+
+		this.controlMasks = this.el.parentElement.querySelectorAll('[data-mask]')
 
 		this.dropCoords = [0, 0]
 		
@@ -20,15 +37,15 @@ export class View {
 
 		this.list = document.querySelector('.mb-list-content')
 
-		this.alert = null
+		// this.alert = null
 		
 		try {				
 
-			if (el === undefined || el === null) throw 'Attribute el must be set'
+			//if (el === undefined || el === null) throw 'Attribute el must be set'
 
 			let 
-			naturalW = el.getAttribute('naturalW'),
-			naturalH = el.getAttribute('naturalH')
+			naturalW = this.el.getAttribute('naturalW'),
+			naturalH = this.el.getAttribute('naturalH')
 			
 			if (
 				naturalW === undefined || 
@@ -56,7 +73,7 @@ export class View {
 
 			// this.setSelectedMaterial()
 			
-		} catch(msg) { console.log(msg) }		
+		} catch(msg) { console.log(msg) }
 	}
 
 	resize() 

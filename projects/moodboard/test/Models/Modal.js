@@ -12,7 +12,21 @@ export class Modal {
 		
 		this.status = 'close'
 
+		this.createEls()
+
 		this.events()
+	}
+
+	createEls()
+	{
+		let html = `
+			<div class="content">
+				<div class="close"><span>X</span><p>Close</p></div>
+				<div class="section"></section>
+			</div>
+		`
+
+		this.el.innerHTML = html
 	}
 
 	display(html = '') 

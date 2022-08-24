@@ -1,3 +1,5 @@
+(() => {
+
 'use strict'
 
 const 
@@ -31,7 +33,7 @@ try {
 		(viewOriginalHeight !== undefined && viewOriginalHeight !== '') ? 
 		viewOriginalHeight : 500
 
-	var materialsRef = document.querySelector(ref)
+	const materialsRef = document.querySelector(ref)
 
 	if (materialsRef === null) 
 		throw 'Element materials ref is null.'
@@ -58,7 +60,20 @@ try {
 			throw 'Some item(s) of Material Ref element doesn\'t have all dataset.' 
 	})
 
-	// Everything is checked. Let's create a style and script elements.
+	// Everything is checked. 
+
+	// Let's create dependencies elements: alert and modals
+
+	const 
+	alert = document.createElement('div'),
+	modalMood = document.createElement('div')
+
+	alert.id = 'alert'
+	modalMood.id = 'modal-mood'
+
+	body.append(alert, modalMood)
+
+	// Let's create a style and script elements.
 
 	const 
 	link = document.createElement('link'),
@@ -76,3 +91,5 @@ try {
 	body.append(script)
 
 } catch (error) { console.log(error) }
+
+})()
