@@ -1,259 +1,143 @@
 'use strict'
 
-export class Modal {
-
-	constructor(el, html = '')
+export class Modal 
+{
+	constructor(id, css = !0)
 	{
-		this.el = el
+		try {
 
-		// this.btns = document.querySelectorAll('[data-modal-target="#' + el.id + '"]')
+			if (void 0 === id) throw 'The id is undefined.'
 
-		this.html = html
-		
-		this.status = 'close'
+			if ('string' !== typeof id) throw 'The id must be type of string'
 
-		this.createEls()
+			this.arrStatus = ['open', 'close']; this.arrType = ['html', 'src']
 
-		this.events()
+			this.createEl(), this.el.id = id
+
+			!0 === css && this.createStyle()
+
+			this.children = {
+				header: this.el.querySelector('[data-modal-header]'),
+				close: this.el.querySelector('[data-modal-close]'),
+				content: this.el.querySelector('[data-modal-content]'),
+				mask: this.el.querySelector('[data-modal-mask]'),
+				loading: this.el.querySelector('[data-modal-loading]')
+			}
+
+			this.msgs = {	open: 'Loading ...', abort: 'Feiled.'	}
+
+			this.addEvents()
+
+		} catch (msg) { console.log(msg) }
 	}
 
-	createEls()
+	createEl()
+	{		
+		this.el = document.createElement('div')
+
+		this.el.innerHTML = `<div data-modal-header><div data-modal-close>Close</div></div><div data-modal-content></div><div data-modal-mask><div data-modal-loading></div></div>`
+
+		document.querySelector('body').append(this.el)
+	}
+
+	createStyle()
 	{
-		let html = `
-			<div class="content">
-				<div class="close"><span>X</span><p>Close</p></div>
-				<div class="section"></section>
-			</div>
+		this.setStatus('close')
+		
+		const s = document.createElement('style')
+
+		s.innerHTML = `
+			#` + this.el.id + `	{	box-sizing: border-box; background-color: whitesmoke;	padding: 10px; position: fixed;	top: 0;	left: 0; overflow: hidden; width: 100%;	height: 100%; }
+			#` + this.el.id + `[data-modal-status='close'] { display: none; }
+			#` + this.el.id + `[data-modal-status='open'] { display: block; }
+			#` + this.el.id + `[data-modal-type='html'] > div[data-modal-mask] { display: none; }
+			#` + this.el.id + ` > div[data-modal-header] { display: flex; justify-content: flex-end; }
+			#` + this.el.id + ` > div[data-modal-header] > div[data-modal-close] { cursor: pointer; padding: 0 5px; border-left: 1px solid gray; }
+			#` + this.el.id + ` > div[data-modal-content] { background-color: white; margin-top: 10px; height: 100%; overflow-y: auto; }
+			#` + this.el.id + ` > div[data-modal-content] > iframe { width: 100%; height: 95%; border: none; }
+			#` + this.el.id + ` > div[data-modal-mask] { background-color: rgba(0, 0, 0, 0.7); position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+			#` + this.el.id + ` > div[data-modal-mask] > div[data-modal-loading] { color: white; }
 		`
 
-		this.el.innerHTML = html
+		document.querySelector('head').append(s)
 	}
 
-	display(html = '') 
+	addEvents()
 	{
-		if (this.status === 'anima') return false
+		this.children.close.addEventListener('click', () => this.setStatus('close'))
+	}
 
-		this.html = html
+	setStatus(status)
+	{
+		if (!this.arrStatus.includes(status)) return console.log('Status not valid.'), !1
+
+		this.el.dataset.modalStatus = status
+	}
+
+	setType(type)
+	{
+		if (!this.arrType.includes(type)) return console.log('Type not valid.'), !1
+
+		this.el.dataset.modalType = type
+	}
+
+	setContent(content, type)
+	{
+		this.clearContent()
+
+		this.children.loading.innerHTML = this.msgs.open
+
+		if ('html' === type) return this.children.content.innerHTML = content, !1
+
+		this.setType('src')
 
 		const 
-		modal = this.el, 
-		content = modal.querySelector('.content'),
-		section = content.querySelector('.section'),
-		status = this.status			
+		iframe = document.createElement('iframe'), 
+		doc = (
+			iframe.src = content,	this.children.content.append(iframe), 
+			iframe.contentWindow.document || iframe.contentDocument
+		)
 
-		this.status = (status === 'close') ? 'open' : 'close'
+		let	i = 0, iMax = 5e3, step = 1e3, idInterval = setInterval(() => {
 
-		if (html !== '') {
+			'complete' === doc.readyState && void(0) === clearInterval(idInterval) && this.setType('html')
 
-			if (typeof html === 'string')	section.innerhtml = html
+			i >= iMax && void(0) === clearInterval(idInterval) && this.abortContent()
 
-			else {
+			i += step
+		}, step)
+	}
 
-				section.innerHTML = ''
-
-				section.append(html)
-			}
-
-		}
-
-		this.animaModal(status)
-
-		this.animaContent(status)
-	}	
-
-	animaModal(status) 
+	display(content, type = 'html') 
 	{
-		const el = this.el
+		if (!1 === this.setType(type)) return !1
 
-		// Animation - Open
-		if (status === 'close') {
+		this.setContent(content, type),	this.setStatus('open')
+	}
 
-			el.style.display = 'block'
-
-			const anima = {
-				i: { open: 0, close: 0, },
-				time: {	delay: 0, open: 400,	wait: 0,	close: 0, }, // Durations
-				interval: { open: 20, close: 20, }, // Interval per iteration
-				steps: function(from, to) { 
-					let 
-					open = (to - from) * this.interval.open / this.time.open,
-					close = (from - to) * this.interval.close / this.time.close
-
-					return [open, close]
-				},
-			}
-			
-			let opacity = { from: 0, to: 1, }
-	
-			opacity.value = opacity.from
-			opacity.steps = anima.steps(opacity.from, opacity.to)
-	
-			setTimeout(() => {
-	
-				const id = setInterval(() => {
-	
-					if (anima.i.open >= anima.time.open) clearInterval(id)
-	
-					opacity.value += opacity.steps[0]
-	
-					anima.i.open += anima.interval.open
-	
-					el.style.opacity = (opacity.value > opacity.to) ? opacity.to : opacity.value
-	
-				}, anima.interval.open)
-			
-			}, anima.time.delay)
-
-		// Animation - Close
-		} else {
-
-			const anima = {
-				i: { open: 0, close: 0, },
-				time: {	delay: 500, open: 0,	wait: 0,	close: 400, }, // Durations
-				interval: { open: 20, close: 20, }, // Interval per iteration
-				steps: function(from, to) { 
-					let 
-					open = (to - from) * this.interval.open / this.time.open,
-					close = (from - to) * this.interval.close / this.time.close
-
-					return [open, close]
-				},
-			}
+	abortContent()
+	{
+		this.clearContent()
 		
-			let opacity = { from: 0, to: 1, }
+		let i = 4e3,	idInterval = setInterval(() => {
 
-			opacity.value = opacity.to
-			opacity.steps = anima.steps(opacity.from, opacity.to)
+			i <= 0 && void(0) === clearInterval(idInterval) && this.setStatus('close')
 
-			setTimeout(() => {				
+			this.children.loading.innerHTML = this.msgs.abort + ' Closing in ' + (i - 1e3) / 1e3
 
-				const id = setInterval(() => {
+			i -= 1e3
+		}, 1e3)
+	}
 
-					if (anima.i.close >= anima.time.close) {
+	clearContent(content = 'content')
+	{
+		switch (content) {
 
-						clearInterval(id)
+			case 'all': this.children.content.innerHTML = '', this.children.loading.innerHTML = ''; break
 
-						el.style.display = 'none'
-					}
+			case 'loading': this.children.loading.innerHTML = ''; break
 
-					opacity.value += opacity.steps[1]
-
-					anima.i.close += anima.interval.close
-
-					el.style.opacity = (opacity.value < opacity.from) ? opacity.from : opacity.value
-
-				}, anima.interval.close)
-			
-			}, anima.time.delay)			
+			default: this.children.content.innerHTML = ''
 		}
 	}
-
-	animaContent(status) 
-	{
-		const 
-		el = this.el.querySelector('.content')
-
-		// Animation - Open
-		if (status === 'close') {
-
-			const anima = {
-				i: { open: 0, close: 0, },
-				time: {	delay: 500, open: 400,	wait: 0,	close: 0, }, // Durations
-				interval: { open: 20, close: 20, }, // Interval per iteration
-				steps: function(from, to) { 
-					let 
-					open = (to - from) * this.interval.open / this.time.open,
-					close = (from - to) * this.interval.close / this.time.close
-
-					return [open, close]
-				},
-			}
-			
-			let opacity = { from: 0, to: 1, }
-	
-			opacity.value = opacity.from
-			opacity.steps = anima.steps(opacity.from, opacity.to)
-	
-			setTimeout(() => {
-	
-				const id = setInterval(() => {
-	
-					if (anima.i.open >= anima.time.open) clearInterval(id)
-	
-					opacity.value += opacity.steps[0]
-	
-					anima.i.open += anima.interval.open
-	
-					el.style.opacity = (opacity.value > opacity.to) ? opacity.to : opacity.value
-	
-				}, anima.interval.open)
-			
-			}, anima.time.delay)
-
-		// Animation - Close
-		} else {
-			
-			const anima = {
-				i: { open: 0, close: 0, },
-				time: {	delay: 0, open: 0,	wait: 0,	close: 400, }, // Durations
-				interval: { open: 20, close: 20, }, // Interval per iteration
-				steps: function(from, to) { 
-					let 
-					open = (to - from) * this.interval.open / this.time.open,
-					close = (from - to) * this.interval.close / this.time.close
-
-					return [open, close]
-				},
-			}
-		
-			let opacity = { from: 0, to: 1, }
-
-			opacity.value = opacity.to
-			opacity.steps = anima.steps(opacity.from, opacity.to)
-
-			setTimeout(() => {				
-
-				const id = setInterval(() => {
-
-					if (anima.i.close >= anima.time.close) clearInterval(id)
-
-					opacity.value += opacity.steps[1]
-
-					anima.i.close += anima.interval.close
-
-					el.style.opacity = (opacity.value < opacity.from) ? opacity.from : opacity.value
-
-				}, anima.interval.close)
-			
-			}, anima.time.delay)
-		}
-	}
-
-	events()
-	{
-		const 
-		modal = this.el,
-		close = modal.querySelector('.close'),
-		content = modal.querySelector('.content')
-
-		// Events for desktop
-		modal.addEventListener('click', e => this.display())
-
-		content.addEventListener('click', e => this.handlerContent(e, content))
-
-		close.addEventListener('click', e => this.display())
-
-		// Events for mobile
-		modal.addEventListener('touchstart', e => this.display())
-
-		content.addEventListener('touchstart', e => this.handlerContent(e, content))
-
-		close.addEventListener('touchstart', e => this.display())		
-	}
-
-	handlerContent(e, el = null)
-	{
-		e.stopPropagation()
-	}
-}	
-			
+}
