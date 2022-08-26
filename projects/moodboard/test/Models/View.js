@@ -8,16 +8,11 @@ export class View {
 
 			switch (arg.constructor.name) {
 
-				case 'Alert':
-					this.alert = arg
-					break
+				case 'Alert':	this.alert = arg;	break;
 
-				case 'Modal':
-					this.modal = arg
-					break
+				case 'Modal':	this.modal = arg;	break;
 
-				default:
-					console.log('Parameter not valid')
+				default:	console.log('Parameter not valid');
 			}
 		}
 
@@ -36,12 +31,8 @@ export class View {
 		this.viewer = document.querySelector('.mb-viewer')
 
 		this.list = document.querySelector('.mb-list-content')
-
-		// this.alert = null
 		
-		try {				
-
-			//if (el === undefined || el === null) throw 'Attribute el must be set'
+		try {
 
 			let 
 			naturalW = this.el.getAttribute('naturalW'),
@@ -68,10 +59,6 @@ export class View {
 			this.events()
 
 			if (this.checkStorage()) this.load()
-
-			// this.resize()
-
-			// this.setSelectedMaterial()
 			
 		} catch(msg) { console.log(msg) }
 	}
@@ -287,7 +274,7 @@ export class View {
 	}
 
 	// Materials
-	createMaterial(src, title, value) 
+	createMaterial(item) 
 	{
 		const 
 		parent = this.el, 
@@ -295,14 +282,14 @@ export class View {
 		material = document.createElement('div'),
 		alert = this.alert
 
+		let
+		value = item.dataset.viewMaterialValue,
+		src = item.dataset.viewMaterialSrc
+
 		try {
 
-			if (parent === undefined || parent === null) throw 'Attribute el must be set'
-
-			if (src === undefined || src === null || src === '') throw 'Parameter src must be set'
-
 			material.setAttribute('data-img', src)
-			material.setAttribute('data-title', title)
+			// material.setAttribute('data-title', title)
 			material.setAttribute('data-value', value)
 
 			material.innerHTML = `

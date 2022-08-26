@@ -2,29 +2,29 @@
 
 export class Control {
 	
-	constructor(el, view) 
+	constructor() 
 	{		
-		this.el = el		
-		
-		this.view = view			
+		for (const arg of arguments) {
 
-		this.alert = null
+			switch (arg.constructor.name) {
+
+				case 'HTMLDivElement': this.el = arg;	break;
+
+				case 'View': this.view = arg;	break;
+
+				case 'Alert': this.alert = arg;	break;
+
+				default: console.log('Parameter not valid');
+			}
+		}
 
 		this.interval = null
 
-		try {
+		this.events()
+		
+		this.buttons = this.el.querySelectorAll('.item')
 
-			if (el === undefined || el === null) throw 'Attribute el must be set'
-
-			if (view === undefined || view === null) throw 'Attribute view must be set'
-
-			this.events()
-			
-			this.buttons = el.querySelectorAll('.item')
-
-			for (const btn of this.buttons) this.eventsButton(btn)
-
-		} catch (msg) { console.log(msg) }
+		for (const btn of this.buttons) this.eventsButton(btn)
 	}
 
 	events() 
@@ -808,7 +808,7 @@ export class Control {
 		if (alert !== undefined && alert !== null) alert.display('Plan Z changed')
 	}
 
-	setImg(src, title, value) 
+	setImg(item) 
 	{
 		const 
 		view = this.view,	
@@ -816,11 +816,10 @@ export class Control {
 		img = view.selectedMaterial.children[0],
 		alert = this.alert
 
-		slave.setAttribute('data-img', src)
-		slave.setAttribute('data-title', title)
-		slave.setAttribute('data-value', value)
+		slave.dataset.viewMaterialValue = item.dataset.viewMaterialValue
+		slave.dataset.viewMaterialSrc = item.dataset.viewMaterialSrc
 
-		img.src = src
+		img.src = item.dataset.viewMaterialSrc
 
 		view.setSelectedMaterial()
 

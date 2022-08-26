@@ -31,42 +31,21 @@ moodboard = document.querySelector('#cfb-moodboard')
 // Setup objects: alert, modal and view
 
 const
-mb = new Moodboard(),
 a = new Alert(alert),
 mm = new Modal(modalMood),
-v = new View(a, mm)
+mb = new Moodboard(mm),
+v = new View(a, mm),
+ca = new Control(mb.ctrls.all, v, a),
+cr = new Control(mb.ctrls.right, v, a),
+cl = new Control(mb.ctrls.left, v, a),
+crm = new Control(mb.ctrls.remove, v, a)
 
 /*
-const
-mb = document.querySelector('.mb'),	
-vw = mb.querySelector('.view'),
-ctrlAll = mb.querySelector('.control-all'),
-ctrlR = mb.querySelector('.control-material-right'),
-ctrlL = mb.querySelector('.control-material-left'),
-ctrlRemove = mb.querySelector('.control-remove')
-
-const
-a = new Alert(alert),
-mm = new Modal(modalMood),
-m = new Modal(modal),
-// o = new Observer(vw),
-v = new View(vw),
-ca = new Control(ctrlAll, v),
-cr = new Control(ctrlR, v),
-cl = new Control(ctrlL, v),
-crm = new Control(ctrlRemove, v)
-
-
-v.alert = a
-
 v.setOverflowY = function(value) {
 	body.style.overflowY = value
 	html.style.overflowY = value
 	mm.el.querySelector('.content').style.overflowY = value
 }
-
-ca.alert = a; cr.alert = a; cl.alert = a; crm.alert = a;
-
 
 mm.btns.forEach((btn) => {
 
@@ -79,27 +58,50 @@ mm.btns.forEach((btn) => {
 mm.handlerContent = function(e, el) {
 	e.stopPropagation(); v.setSelectedMaterial();
 }
-
-m.btns.forEach((btn) => {
+*/
+/*
+mb.btns.forEach((btn) => {
 
 	let 
-	ref = btn.getAttribute('data-ref'),
+	ref = btn.dataset.ref,
+	materialRef = mb.materialsRef,
 	action = btn.getAttribute('data-action')
 	
-	const clone = document.querySelector(ref).cloneNode(true)
+	const clone = materialRef.cloneNode(true)
 
 	clone.style.display = 'block'
 
 	btn.addEventListener('click', e => btnHandler(e, action, clone))
 	btn.addEventListener('touchstart', e => btnHandler(e, action, clone))
 
-	clone.querySelectorAll('.opt .list .item').forEach(item => {
+	clone.querySelectorAll('[data-view-material-value]').forEach(item => {
 			
 		item.addEventListener('click', e => itemHandler(e, action, item, ref))
 		item.addEventListener('touchstart', e => itemHandler(e, action, item, ref))
 	})
 })
+*/
 
+mb.btns.forEach((btn) => {
+
+	console.log(btn)
+
+	let action = btn.dataset.action
+
+	mb.cloneMaterials.querySelectorAll('[data-view-material-value]').forEach(mt => {
+			
+		mt.addEventListener('click', e => materialHandler(e, action, mt))
+		
+		mt.addEventListener('touchstart', e => materialHandler(e, action, mt))
+	})
+
+	mb.cloneBackgrounds.querySelectorAll('[data-mb-bg-value]').forEach(bg => {
+			
+		bg.addEventListener('click', e => backgroundHandler(e, bg))
+		
+		bg.addEventListener('touchstart', e => backgroundHandler(e, bg))
+	})
+})
 
 // Window events
 window.addEventListener('resize', () => v.resize())
@@ -131,7 +133,35 @@ html.addEventListener('touchstart', (e) => {
 html.addEventListener('touchmove', e => e.preventDefault())
 html.addEventListener('touchend', e => e.preventDefault())
 
+function materialHandler(e, action, item) {
+	
+	switch (e.type) {
 
+		case 'click':
+		case 'touchstart':
+			if (action === 'switch') {
+				cr.setImg(item); mm.display(); return false; 
+			}
+
+			v.createMaterial(item);	break;
+
+		default: console.log('Event type not valid.')
+	}	
+}
+
+function backgroundHandler(e, item) {
+	
+	v.setBg(item.dataset.mbBgSrc);	mm.display();
+}
+
+
+
+
+
+
+
+
+/*
 // Handler functions
 function btnHandler(e, action, clone) {
 
@@ -145,7 +175,7 @@ function btnHandler(e, action, clone) {
 				a.display('No material selected', 'red');	return false;
 			}
 
-			m.display(clone)
+			mm.display(clone)
 
 			break
 
@@ -164,26 +194,21 @@ function itemHandler(e, action, item, ref) {
 
 			e.stopPropagation()
 
-			let 
-			src = item.getAttribute('data-img'),
-			title = item.getAttribute('data-title'),
-			value = item.getAttribute('data-value')
-
 			switch(ref) {
 				
 				case '#materials':
 
-					if (action !== 'switch') v.createMaterial(src, title, value)
+					if (action !== 'switch') v.createMaterial(item)
 				
-					else { cr.setImg(src, title, value); m.display(); }
+					else { cr.setImg(item); mm.display(); }
 				
 					break
 
 				case '#mood-bg':
 				
-					v.setBg(src)
+					v.setBg(item.dataset.view.MaterialSrc)
 				
-					m.display()
+					mm.display()
 				
 					break
 

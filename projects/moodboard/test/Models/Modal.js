@@ -6,7 +6,7 @@ export class Modal {
 	{
 		this.el = el
 
-		this.btns = document.querySelectorAll('[data-modal-target="#' + el.id + '"]')
+		// this.btns = document.querySelectorAll('[data-modal-target="#' + el.id + '"]')
 
 		this.html = html
 		

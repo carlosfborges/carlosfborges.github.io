@@ -4,9 +4,44 @@ export class Moodboard {
 
 	constructor()
 	{
+		for (const arg of arguments) {
+
+			switch (arg.constructor.name) {
+
+				case 'Modal': this.modal = arg; break;
+
+				default: console.log('Parameter not valid');					
+			}
+		}
+
 		this.el = document.querySelector('#cfb-moodboard')
 
+		this.materialsRef = document.querySelector(this.el.dataset.materialsRef)
+
+		this.backgroundsRef = document.querySelector(this.el.dataset.backgroundsRef)
+
+		this.cloneMaterials = this.materialsRef.cloneNode(true)
+
+		this.cloneBackgrounds = this.backgroundsRef.cloneNode(true)
+
 		this.createEls()
+
+		// Set components of moodboard
+
+		this.mb = this.el.querySelector('.mb')
+
+		this.view = this.mb.querySelector('.view')
+
+		this.btns = this.mb.querySelectorAll('[data-modal-target]')
+
+		this.ctrls = {
+			all: this.mb.querySelector('.control-all'),
+			right: this.mb.querySelector('.control-material-right'),
+			left: this.mb.querySelector('.control-material-left'),
+			remove: this.mb.querySelector('.control-remove'),
+		}
+
+		this.btnsEvents()
 	}
 
 	createEls()
@@ -20,14 +55,14 @@ export class Moodboard {
 			  
 			  <!-- Add Materials -->
 
-			  <div data-modal-action="open" data-modal-target="#modal" data-ref="#materials" class="add-materials">
+			  <div data-modal-action="open" data-modal-target="#modal-mood" data-ref="materials" class="add-materials">
 			  	<img src="svg/folder-plus.svg" width="28" height="28" style="margin-right: 5px;" />
 			  	Add Materials
 			  </div>
 
 			  <!-- Add/Change Background -->
 
-				<div data-modal-action="open" data-modal-target="#modal" data-ref="#mood-bg" class="background">
+				<div data-modal-action="open" data-modal-target="#modal-mood" data-ref="backgrounds" class="background">
 			  	<img src="svg/image.svg" width="28" height="28" style="margin-right: 5px;" />
 			  	Background
 			  </div>  
@@ -112,7 +147,7 @@ export class Moodboard {
 					<div class="group vertical">
 						<div class="label">Edit Img</div>
 						<div class="btn-group">
-							<div class="item" data-status="false" data-action="switch" data-modal-action="open" data-modal-target="#modal" data-ref="#materials">
+							<div class="item" data-status="false" data-action="switch" data-modal-action="open" data-modal-target="#modal-mood" data-ref="materials">
 								<img src="svg/image.svg" width="24" height="24" />
 							</div>		
 						</div>
@@ -166,5 +201,30 @@ export class Moodboard {
 		`
 
 		this.el.innerHTML = html
+	}
+
+	btnsEvents()
+	{
+		this.btns.forEach(btn => {
+
+			this.cloneMaterials.style.display = 'block'
+			this.cloneBackgrounds.style.display = 'block'
+
+			btn.addEventListener('click', () => this.modalHandler(btn))
+
+			btn.addEventListener('touchstart', () => this.modalHandler(btn))
+		})
+	}
+
+	modalHandler(btn)
+	{
+		switch (btn.dataset.ref) {
+
+			case 'materials': this.modal.display(this.cloneMaterials); break;
+
+			case 'backgrounds': this.modal.display(this.cloneBackgrounds); break;
+
+			default: console.log('Attribute data-ref must be materials or backgrounds')
+		}
 	}
 }
