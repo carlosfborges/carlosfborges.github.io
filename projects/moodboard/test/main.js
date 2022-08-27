@@ -1,8 +1,8 @@
 'use strict'
 
 // Import dependencies
-import {Alert} from './Models/Alert.js'
-import {Modal} from './Models/Modal.js'
+import {Alert} from './Models/Alert.min.js'
+import {Modal} from './Models/Modal.min.js'
 
 // Import project classes
 import {Moodboard} from './Models/Moodboard.js'
@@ -15,30 +15,27 @@ import {Control} from './Models/Control.js'
 
 const
 html = document.querySelector('html'),
-body = document.querySelector('body')
-
-// Dependencies elements
-
-const
-alert = document.querySelector('#alert'),
-modalMood = document.querySelector('#modal-mood')
-
-// Modal element
-
-const
-moodboard = document.querySelector('#cfb-moodboard')
+head = document.querySelector('head'),
+body = document.querySelector('body'),
+moodboard = document.querySelector('#cfb-moodboard'),
+link = document.createElement('link')
 
 // Setup objects: alert, modal and view
 
 const
-a = new Alert(alert),
-mm = new Modal(modalMood),
-mb = new Moodboard(mm),
-v = new View(a, mm),
-ca = new Control(mb.ctrls.all, v, a),
-cr = new Control(mb.ctrls.right, v, a),
-cl = new Control(mb.ctrls.left, v, a),
-crm = new Control(mb.ctrls.remove, v, a)
+a = new Alert('moodboard-alert'),
+m = new Modal('moodboard-modal'),
+mb = new Moodboard(m)//,
+//v = new View(a, m)//,
+//ca = new Control(mb.ctrls.all, v, a),
+//cr = new Control(mb.ctrls.right, v, a),
+//cl = new Control(mb.ctrls.left, v, a),
+//crm = new Control(mb.ctrls.remove, v, a)
+
+
+link.rel = 'stylesheet', link.type = 'text/css', link.href = 'main.css', head.append(link)
+
+})()
 
 /*
 v.setOverflowY = function(value) {
@@ -82,6 +79,7 @@ mb.btns.forEach((btn) => {
 })
 */
 
+/*
 mb.btns.forEach((btn) => {
 
 	console.log(btn)
@@ -239,4 +237,4 @@ function mmHandler(ref) {
 	}		
 }
 */
-})()
+

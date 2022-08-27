@@ -11,32 +11,20 @@ try {
 
 	// Checking all HTML set
 
-	if (moodboard === null) 
-		throw 'Moodboard is null'
+	if (null === moodboard)	throw 'Moodboard is null'
 
 	let 
 	ref = moodboard.dataset.materialsRef,
 	viewOriginalWidth = moodboard.dataset.viewOriginalWidth,
 	viewOriginalHeight = moodboard.dataset.viewOriginalHeight
 
-	if (ref === undefined) 
-		throw 'Attribute data-materials-ref must be set on moodboard element.'
+	if (void(0) === ref) throw 'Attribute data-materials-ref must be set on moodboard element.'
 
-	if (ref === '') 
-		throw 'Attribute data-materials-ref must have some value.'
+	if ('' === ref) throw 'Attribute data-materials-ref must have some value.'
 		
-	moodboard.dataset.viewOriginalWidth = 
-		(viewOriginalWidth !== undefined && viewOriginalWidth !== '') ? 
-		viewOriginalWidth : 500
-
-	moodboard.dataset.viewOriginalHeight = 
-		(viewOriginalHeight !== undefined && viewOriginalHeight !== '') ? 
-		viewOriginalHeight : 500
-
 	const materialsRef = document.querySelector(ref)
 
-	if (materialsRef === null) 
-		throw 'Element materials ref is null.'
+	if (null === materialsRef) throw 'Element materials ref is null.'
 
 	const 
 	items = materialsRef.querySelectorAll('[data-view-material-value]'),
@@ -47,48 +35,33 @@ try {
 		'viewMaterialOriginalHeight'
 		]
 	
-	if (items.length === 0) 
-		throw 'Materials Ref items not found. Check dataset.'
+	if (0 === items.length) throw 'Materials Ref items not found. Check dataset.'
 
 	items.forEach(item => {
 
 		let i = 0
 
-		Object.keys(item.dataset).forEach(data => { if (keys.includes(data)) i++ })
+		Object.keys(item.dataset).forEach(data => { keys.includes(data) && i++ })
 		 		
-		if (i !== 4) 
-			throw 'Some item(s) of Material Ref element doesn\'t have all dataset.' 
+		if (4 !== i) throw 'Some item(s) of Material Ref element doesn\'t have all dataset.' 
 	})
 
 	// Everything is checked. 
+	// Let's create the script element.
 
-	// Let's create dependencies elements: alert and modals
+	const script = document.createElement('script')
 
-	const 
-	alert = document.createElement('div'),
-	modalMood = document.createElement('div')
+	script.src = 'main.js',	script.type = 'module',	body.append(script)
+	
+	// Reset originals dimensions
 
-	alert.id = 'alert'
-	modalMood.id = 'modal-mood'
+	moodboard.dataset.viewOriginalWidth = 
+		(void(0) !== viewOriginalWidth && '' !== viewOriginalWidth) ? 
+		viewOriginalWidth : 500
 
-	body.append(alert, modalMood)
-
-	// Let's create a style and script elements.
-
-	const 
-	link = document.createElement('link'),
-	script = document.createElement('script')
-
-	link.rel = 'stylesheet' 
-	link.type = 'text/css'
-	link.href = 'main2.css'
-
-	head.append(link)
-
-	script.src = 'main.js'
-	script.type = 'module'
-
-	body.append(script)
+	moodboard.dataset.viewOriginalHeight = 
+		(void(0) !== viewOriginalHeight && '' !== viewOriginalHeight) ? 
+		viewOriginalHeight : 500
 
 } catch (error) { console.log(error) }
 
