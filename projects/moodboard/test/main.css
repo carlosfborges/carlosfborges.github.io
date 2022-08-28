@@ -69,6 +69,7 @@ html, body {
 	height: inherit;
 	border: 1px solid lightgrey;
 	background-color: white;
+	overflow: hidden;
 }
 
 /* Moodboard group: BOTTOM */
@@ -168,4 +169,9 @@ html, body {
 /* AUXILIAR styles */
 #cfb-moodboard[data-moodboard-hide] {
 	opacity: 0;
+}
+
+#cfb-moodboard [data-item-selected] {
+	outline: 3px dashed black;
+	outline-offset: 5px;
 }

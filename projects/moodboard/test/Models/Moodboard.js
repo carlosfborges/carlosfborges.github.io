@@ -22,10 +22,6 @@ export class Moodboard {
 
 		this.backgroundsRef = document.querySelector(this.el.dataset.backgroundsRef)
 
-		this.cloneMaterials = this.materialsRef.cloneNode(true)
-
-		this.cloneBackgrounds = this.backgroundsRef.cloneNode(true)
-
 		this.createEls()
 
 		// Set components of moodboard
@@ -34,8 +30,7 @@ export class Moodboard {
 			view: this.el.querySelector('[data-moodboard-view]'),
 			btns: {
 				addMaterials: this.el.querySelector('[data-moodboard-btn-add-materials]'),
-				backgorund: this.el.querySelector('[data-moodboard-btn-background'),
-				editImg: this.el.querySelector('[data-moodboard-btn-edit-img]')
+				background: this.el.querySelector('[data-moodboard-btn-background')
 			},
 			ctrls: {
 				clone: this.el.querySelector('[data-moodboard-ctrl-clone]'),
@@ -46,7 +41,7 @@ export class Moodboard {
 				rotateL: this.el.querySelector('[data-moodboard-ctrl-rotate-left]'), 
 				rotateR: this.el.querySelector('[data-moodboard-ctrl-rotate-right]'),
 				scaleP: this.el.querySelector('[data-moodboard-ctrl-scale-plus]'), 
-				scaleM: this.el.querySelector('[data-moodboard-ctrl-sclae-minus]'),
+				scaleM: this.el.querySelector('[data-moodboard-ctrl-scale-minus]'),
 				scaleXP: this.el.querySelector('[data-moodboard-ctrl-scalex-plus]'), 
 				scaleXM: this.el.querySelector('[data-moodboard-ctrl-scalex-minus]'),
 				scaleYP: this.el.querySelector('[data-moodboard-ctrl-scaley-plus]'), 
@@ -57,7 +52,7 @@ export class Moodboard {
 				scaleAllM: this.el.querySelector('[data-moodboard-ctrl-scale-all-minus]'),
 				remove:  this.el.querySelector('[data-moodboard-ctrl-remove]')
 			}
-		}	
+		}
 
 		this.idTimeout = null	
 		
@@ -67,40 +62,10 @@ export class Moodboard {
 		}
 
 		this.resize()
-		this.windowEvents()
-	}
 
-	windowEvents()
-	{
-		window.addEventListener('resize', () => this.resize())
-	}
-
-	resize()
-	{			
-		this.el.dataset.moodboardHide = ''
-
-		clearTimeout(this.idTimeout)
-
-		this.el.style.width = '100%', this.el.style.height = '100%'
-
-		this.idTimeout = setTimeout(() => {
-
-			this.el.clientWidth >= this.el.clientHeight && 
-			(this.el.style.width = this.el.clientHeight + 'px')
-
-			this.el.clientWidth <= this.el.clientHeight && 
-			(this.el.style.height = this.el.clientWidth + 'px') &&
-			(this.components.view.style.height = this.el.clientWidth - 130 + 'px')
-
-			null === this.objResize.viewWidth && (this.objResize.viewWidth = this.components.view.clientWidth)
-
-			this.objResize.factor = this.components.view.clientWidth / this.objResize.viewWidth
-
-			this.objResize.viewWidth = this.components.view.clientWidth
-
-			this.el.removeAttribute('data-moodboard-hide')
-		}, 200)
-	}
+		// ADD EVENTS
+		this.windowEvents(), this.docEvents(), this.btnsEvents(), this.ctrlEvents()
+	}	
 
 	createEls()
 	{
@@ -126,15 +91,7 @@ export class Moodboard {
 			<!-- Group position middle -->
 
 			<div data-moodboard-group-row2>
-				<div data-moodboard-group-column1>		
-					<div>
-						<div>Edit Img</div>
-						<div>
-							<div data-moodboard-btn-edit-img>
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M447.1 32h-384C28.64 32-.0091 60.65-.0091 96v320c0 35.35 28.65 64 63.1 64h384c35.35 0 64-28.65 64-64V96C511.1 60.65 483.3 32 447.1 32zM111.1 96c26.51 0 48 21.49 48 48S138.5 192 111.1 192s-48-21.49-48-48S85.48 96 111.1 96zM446.1 407.6C443.3 412.8 437.9 416 432 416H82.01c-6.021 0-11.53-3.379-14.26-8.75c-2.73-5.367-2.215-11.81 1.334-16.68l70-96C142.1 290.4 146.9 288 152 288s9.916 2.441 12.93 6.574l32.46 44.51l93.3-139.1C293.7 194.7 298.7 192 304 192s10.35 2.672 13.31 7.125l128 192C448.6 396 448.9 402.3 446.1 407.6z"/></svg>
-							</div>		
-						</div>
-					</div>
+				<div data-moodboard-group-column1>							
 					<div>
 						<div>Clone</div>
 						<div>
@@ -262,39 +219,102 @@ export class Moodboard {
 		this.el.innerHTML = html
 	}
 
+	resize()
+	{			
+		this.el.dataset.moodboardHide = ''
+
+		clearTimeout(this.idTimeout)
+
+		this.el.style.width = '100%', this.el.style.height = '100%'
+
+		this.idTimeout = setTimeout(() => {
+
+			this.el.clientWidth >= this.el.clientHeight && (this.el.style.width = this.el.clientHeight + 'px')
+
+			this.el.clientWidth <= this.el.clientHeight && (this.el.style.height = this.el.clientWidth + 'px') &&
+			(this.components.view.style.height = this.el.clientWidth - 130 + 'px')
+
+			null === this.objResize.viewWidth && (this.objResize.viewWidth = this.components.view.clientWidth)
+
+			this.objResize.factor = this.components.view.clientWidth / this.objResize.viewWidth
+
+			this.objResize.viewWidth = this.components.view.clientWidth
+
+			this.el.removeAttribute('data-moodboard-hide')
+		}, 200)
+	}
+
+	windowEvents()
+	{
+		window.addEventListener('resize', () => this.resize())
+	}	
+
+	docEvents()
+	{
+		document.querySelector('body').addEventListener('click', () => this.removeDataSetItemSelected())
+	}
+
 	btnsEvents()
 	{
-		this.btns.forEach(btn => {
-
-			this.cloneMaterials.style.display = 'block'
-			this.cloneBackgrounds.style.display = 'block'
-
-			btn.addEventListener('click', () => this.modalHandler(btn))
-
-			btn.addEventListener('touchstart', () => this.modalHandler(btn))
+		this.components.btns.addMaterials.addEventListener('click', () => { 
+			this.modal.display(this.materialsRef.outerHTML.replace('display: none', '')) 
+			this.materialsRefItemEvent(this.modal.el.querySelectorAll('[data-material-ref-value]'))
+		})
+		this.components.btns.background.addEventListener('click', () => { 
+			this.modal.display(this.backgroundsRef.outerHTML.replace('display: none', '')) 
+			this.backgroundsRefItemEvent(this.modal.el.querySelectorAll('[data-background-ref-value]'))
 		})
 	}
 
-	modalHandler(btn)
+	ctrlEvents()
 	{
-		switch (btn.dataset.ref) {
-
-			case 'materials': this.modal.display(this.cloneMaterials); break;
-
-			case 'backgrounds': this.modal.display(this.cloneBackgrounds); break;
-
-			default: console.log('Attribute data-ref must be materials or backgrounds')
-		}
+		this.components.ctrls.clone.addEventListener('click', () => { this.alert.display('clone') })
+		this.components.ctrls.zIndexUp.addEventListener('click', () => { this.alert.display('zIndexUp') })
+		this.components.ctrls.zIndexDown.addEventListener('click', () => { this.alert.display('zIndexDown') })
+		this.components.ctrls.mirrorH.addEventListener('click', () => { this.alert.display('mirrorH') })
+		this.components.ctrls.mirrorV.addEventListener('click', () => { this.alert.display('mirrorV') })
+		this.components.ctrls.rotateL.addEventListener('click', () => { this.alert.display('rotateL') })
+		this.components.ctrls.rotateR.addEventListener('click', () => { this.alert.display('rotateR') })
+		this.components.ctrls.scaleP.addEventListener('click', () => { this.alert.display('scaleP') })
+		this.components.ctrls.scaleM.addEventListener('click', () => { this.alert.display('scaleM') })
+		this.components.ctrls.scaleXP.addEventListener('click', () => { this.alert.display('scaleXP') })
+		this.components.ctrls.scaleXM.addEventListener('click', () => { this.alert.display('scaleXM') })
+		this.components.ctrls.scaleYP.addEventListener('click', () => { this.alert.display('scaleYP') })
+		this.components.ctrls.scaleYM.addEventListener('click', () => { this.alert.display('scaleYM') })
+		this.components.ctrls.rotateAllL.addEventListener('click', () => { this.alert.display('rotateAllL') })
+		this.components.ctrls.rotateAllR.addEventListener('click', () => { this.alert.display('rotateAllR') })
+		this.components.ctrls.scaleAllP.addEventListener('click', () => { this.alert.display('scaleAllP') })
+		this.components.ctrls.scaleAllM.addEventListener('click', () => { this.alert.display('scaleAllM') })
+		this.components.ctrls.remove.addEventListener('click', () => { this.alert.display('remove') })
 	}
 
-	getCloneMaterials()
+	materialsRefItemEvent(items)
 	{
-		const cl = this.cloneMaterials
+		items.forEach(item => item.addEventListener('click', () => {			
+			const img = document.createElement('img')
+			img.src = item.dataset.materialRefSrc, img.dataset.viewItem = '', this.viewItemEvents(img),
+			this.components.view.append(img),	this.alert.display('add material')
+		}))
+	}
 
-		let 
-		attrClass = cl.classList.value || '',
-		attrStyle = cl.getAttribute('style').replace('display: none', 'display: block') || ''
+	backgroundsRefItemEvent(items)
+	{
+		items.forEach(item => item.addEventListener('click', () => {
+			this.components.view.style.backgroundImage = 'url("' + item.dataset.backgroundRefSrc + '")'
+			this.alert.display('add background')
+		}))
+	}
 
-		return  `<div class="` + attrClass + `" style="` + attrStyle + `">` + cl.innerHTML + `</div>`
+	viewItemEvents(item)
+	{
+		item.addEventListener('click', (e) => { 			
+			e.stopPropagation(), this.removeDataSetItemSelected(),	item.dataset.itemSelected = ''
+		})
+	}
+
+	removeDataSetItemSelected()
+	{
+		null !== this.components.view.querySelector('[data-item-selected]') &&
+		this.components.view.querySelector('[data-item-selected]').removeAttribute('data-item-selected')
 	}
 }

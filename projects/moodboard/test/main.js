@@ -1,13 +1,13 @@
 'use strict'
 
 // Import dependencies
-import {Alert} from './Models/Alert.min.js'
-import {Modal} from './Models/Modal.min.js'
+import {Alert} from 'https://cdn.jsdelivr.net/gh/carlosfborges/public/js/Classes/Alert.min.js'
+import {Modal} from 'https://cdn.jsdelivr.net/gh/carlosfborges/public/js/Classes/Modal.min.js'
 
 // Import project classes
 import {Moodboard} from './Models/Moodboard.js'
-import {View} from './Models/View.js'
-import {Control} from './Models/Control.js'
+// import {View} from './Models/View.js'
+// import {Control} from './Models/Control.js'
 
 (() => {
 
@@ -23,9 +23,9 @@ link = document.createElement('link')
 // Setup objects: alert, modal and view
 
 const
-a = new Alert('moodboard-alert'),
-m = new Modal('moodboard-modal'),
-mb = new Moodboard(m)//,
+a = new Alert(),
+m = new Modal(),
+mb = new Moodboard(a, m)//,
 //v = new View(a, m)//,
 //ca = new Control(mb.ctrls.all, v, a),
 //cr = new Control(mb.ctrls.right, v, a),

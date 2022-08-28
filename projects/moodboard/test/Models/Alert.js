@@ -2,63 +2,55 @@
 
 export class Alert 
 {
-	constructor(id, css = !0)
+	constructor(css = '')
 	{
-		try {
+		this.defaultStyle = 'css/alert.css'
 
-			if (void 0 === id) throw 'The id is undefined.'
+		this.createStyle(css)
 
-			if ('string' !== typeof id) throw 'The id must be type of string'
-
-			this.arrStatus = ['open', 'close'];	this.arrType = ['success', 'error']
+		setTimeout(() => {
 
 			this.createEl()
 
-			this.el.id = id;
+			this.arrStatus = ['init', 'open', 'close'] 
 
-			!0 === css && this.createStyle()
-
-			this.children = {
+			this.arrType = ['success', 'error']
+			
+			this.components = {
+				header: this.el.querySelector('[data-alert-header]'),
 				close: this.el.querySelector('[data-alert-close]'),
 				msg: this.el.querySelector('[data-alert-msg]')
-			}
-
+			} 
+			
 			this.addEvents()
-
-		} catch (msg) { console.log(msg) }
+		}, 500)
 	}
 
 	createEl()
 	{		
 		this.el = document.createElement('div')
 
-		this.el.innerHTML = `<div data-alert-close>Close</div><div data-alert-msg data-alert-type=""></div>`
+		this.el.dataset.alert = ''
+
+		this.el.dataset.alertStatus = 'init'
+
+		this.el.innerHTML = `<div data-alert-header><div data-alert-close>Close</div></div><div data-alert-msg data-alert-type=""></div>`
 
 		document.querySelector('body').append(this.el)
 	}
 
-	createStyle()
-	{
-		this.setStatus('close')
-		
-		const s = document.createElement('style')
+	createStyle(css)
+	{		
+		const l = document.createElement('link')
 
-		s.innerHTML = `	
-			#` + this.el.id + `	{	box-sizing: border-box;	background-color: whitesmoke;	padding: 10px; position: absolute;	top: 0;	left: 0; width: 100%;	}
-			#` + this.el.id + `[data-alert-status='close'] { display: none; }
-			#` + this.el.id + `[data-alert-status='open'] { display: flex; flex-direction: row-reverse; }
-			#` + this.el.id + ` > div[data-alert-close] { cursor: pointer; padding: 0 5px; border-left: 1px solid gray; }
-			#` + this.el.id + ` > div[data-alert-msg] { width: 100%; text-align: center; padding: 0 10px; }
-			#` + this.el.id + ` > div[data-alert-type="success"] { color: green; }
-			#` + this.el.id + ` > div[data-alert-type="error"] { color: red; }
-		`
+		l.rel = 'stylesheet',	l.type = 'text/css', l.href = ('' === css) ? this.defaultStyle : css
 
-		document.querySelector('head').append(s)
+		document.querySelector('head').append(l)
 	}
 
 	addEvents()
 	{
-		this.children.close.addEventListener('click', () => this.setStatus('close'))
+		this.components.close.addEventListener('click', () => this.setStatus('close'))
 	}
 
 	setStatus(status)
@@ -72,12 +64,12 @@ export class Alert
 	{
 		if (!this.arrType.includes(type)) return console.log('Type not valid.'), !1
 
-		this.children.msg.dataset.alertType = type
+		this.components.msg.dataset.alertType = type
 	}
 
 	display(msg, type = 'success') 
 	{
-		this.children.msg.innerHTML = msg
+		this.components.msg.innerHTML = msg
 
 		if (!1 === this.setType(type)) return !1
 
