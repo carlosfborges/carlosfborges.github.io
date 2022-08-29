@@ -46,10 +46,6 @@ export class Moodboard {
 				scaleXM: this.el.querySelector('[data-moodboard-ctrl-scalex-minus]'),
 				scaleYP: this.el.querySelector('[data-moodboard-ctrl-scaley-plus]'), 
 				scaleYM: this.el.querySelector('[data-moodboard-ctrl-scaley-minus]'),
-				rotateAllL: this.el.querySelector('[data-moodboard-ctrl-rotate-all-left]'), 
-				rotateAllR: this.el.querySelector('[data-moodboard-ctrl-rotate-all-right]'),
-				scaleAllP: this.el.querySelector('[data-moodboard-ctrl-scale-all-plus]'), 
-				scaleAllM: this.el.querySelector('[data-moodboard-ctrl-scale-all-minus]'),
 				remove:  this.el.querySelector('[data-moodboard-ctrl-remove]')
 			}
 		}
@@ -123,15 +119,7 @@ export class Moodboard {
 								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M384 32C419.3 32 448 60.65 448 96V416C448 451.3 419.3 480 384 480H64C28.65 480 0 451.3 0 416V96C0 60.65 28.65 32 64 32H384zM384 80H64C55.16 80 48 87.16 48 96V416C48 424.8 55.16 432 64 432H384C392.8 432 400 424.8 400 416V96C400 87.16 392.8 80 384 80z"/></svg>
 							</div>
 						</div>
-					</div>
-					<div data-moodboard-ctrl-remove>
-						<div>Remove</div>
-						<div>
-							<div>
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM31.1 128H416V448C416 483.3 387.3 512 352 512H95.1C60.65 512 31.1 483.3 31.1 448V128zM111.1 208V432C111.1 440.8 119.2 448 127.1 448C136.8 448 143.1 440.8 143.1 432V208C143.1 199.2 136.8 192 127.1 192C119.2 192 111.1 199.2 111.1 208zM207.1 208V432C207.1 440.8 215.2 448 223.1 448C232.8 448 240 440.8 240 432V208C240 199.2 232.8 192 223.1 192C215.2 192 207.1 199.2 207.1 208zM304 208V432C304 440.8 311.2 448 320 448C328.8 448 336 440.8 336 432V208C336 199.2 328.8 192 320 192C311.2 192 304 199.2 304 208z"/></svg>
-							</div>
-						</div>
-					</div>							
+					</div>												
 				</div>
 
 			  <div data-moodboard-view data-moodboard-group-column2></div>
@@ -189,26 +177,12 @@ export class Moodboard {
 		  <div data-moodboard-group-row3>
 		  	<div data-moodboard-group-column1></div>
 				<div data-moodboard-group-column2>		
-					<div>
-						<div>Rotate All</div>
+					<div data-moodboard-ctrl-remove>
+						<div>Remove</div>
 						<div>
-							<div data-moodboard-ctrl-rotate-all-left>
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M480 256c0 123.4-100.5 223.9-223.9 223.9c-48.86 0-95.19-15.58-134.2-44.86c-14.14-10.59-17-30.66-6.391-44.81c10.61-14.09 30.69-16.97 44.8-6.375c27.84 20.91 61 31.94 95.89 31.94C344.3 415.8 416 344.1 416 256s-71.67-159.8-159.8-159.8C205.9 96.22 158.6 120.3 128.6 160H192c17.67 0 32 14.31 32 32S209.7 224 192 224H48c-17.67 0-32-14.31-32-32V48c0-17.69 14.33-32 32-32s32 14.31 32 32v70.23C122.1 64.58 186.1 32.11 256.1 32.11C379.5 32.11 480 132.6 480 256z"/></svg>	
+							<div>
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M135.2 17.69C140.6 6.848 151.7 0 163.8 0H284.2C296.3 0 307.4 6.848 312.8 17.69L320 32H416C433.7 32 448 46.33 448 64C448 81.67 433.7 96 416 96H32C14.33 96 0 81.67 0 64C0 46.33 14.33 32 32 32H128L135.2 17.69zM31.1 128H416V448C416 483.3 387.3 512 352 512H95.1C60.65 512 31.1 483.3 31.1 448V128zM111.1 208V432C111.1 440.8 119.2 448 127.1 448C136.8 448 143.1 440.8 143.1 432V208C143.1 199.2 136.8 192 127.1 192C119.2 192 111.1 199.2 111.1 208zM207.1 208V432C207.1 440.8 215.2 448 223.1 448C232.8 448 240 440.8 240 432V208C240 199.2 232.8 192 223.1 192C215.2 192 207.1 199.2 207.1 208zM304 208V432C304 440.8 311.2 448 320 448C328.8 448 336 440.8 336 432V208C336 199.2 328.8 192 320 192C311.2 192 304 199.2 304 208z"/></svg>
 							</div>
-							<div data-moodboard-ctrl-rotate-all-right>
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M496 48V192c0 17.69-14.31 32-32 32H320c-17.69 0-32-14.31-32-32s14.31-32 32-32h63.39c-29.97-39.7-77.25-63.78-127.6-63.78C167.7 96.22 96 167.9 96 256s71.69 159.8 159.8 159.8c34.88 0 68.03-11.03 95.88-31.94c14.22-10.53 34.22-7.75 44.81 6.375c10.59 14.16 7.75 34.22-6.375 44.81c-39.03 29.28-85.36 44.86-134.2 44.86C132.5 479.9 32 379.4 32 256s100.5-223.9 223.9-223.9c69.15 0 134 32.47 176.1 86.12V48c0-17.69 14.31-32 32-32S496 30.31 496 48z"/></svg>
-							</div>
-						</div>
-					</div>
-					<div>
-						<div>Scale All</div>
-						<div>
-							<div data-moodboard-ctrl-scale-all-plus>
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M256 64C256 46.33 270.3 32 288 32H415.1C415.1 32 415.1 32 415.1 32C420.3 32 424.5 32.86 428.2 34.43C431.1 35.98 435.5 38.27 438.6 41.3C438.6 41.35 438.6 41.4 438.7 41.44C444.9 47.66 447.1 55.78 448 63.9C448 63.94 448 63.97 448 64V192C448 209.7 433.7 224 416 224C398.3 224 384 209.7 384 192V141.3L214.6 310.6C202.1 323.1 181.9 323.1 169.4 310.6C156.9 298.1 156.9 277.9 169.4 265.4L338.7 96H288C270.3 96 256 81.67 256 64V64zM0 128C0 92.65 28.65 64 64 64H160C177.7 64 192 78.33 192 96C192 113.7 177.7 128 160 128H64V416H352V320C352 302.3 366.3 288 384 288C401.7 288 416 302.3 416 320V416C416 451.3 387.3 480 352 480H64C28.65 480 0 451.3 0 416V128z"/></svg>
-							</div>
-							<div data-moodboard-ctrl-scale-all-minus>
-								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="transform: scale(-1, -1);"><!--! Font Awesome Free 6.1.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M256 64C256 46.33 270.3 32 288 32H415.1C415.1 32 415.1 32 415.1 32C420.3 32 424.5 32.86 428.2 34.43C431.1 35.98 435.5 38.27 438.6 41.3C438.6 41.35 438.6 41.4 438.7 41.44C444.9 47.66 447.1 55.78 448 63.9C448 63.94 448 63.97 448 64V192C448 209.7 433.7 224 416 224C398.3 224 384 209.7 384 192V141.3L214.6 310.6C202.1 323.1 181.9 323.1 169.4 310.6C156.9 298.1 156.9 277.9 169.4 265.4L338.7 96H288C270.3 96 256 81.67 256 64V64zM0 128C0 92.65 28.65 64 64 64H160C177.7 64 192 78.33 192 96C192 113.7 177.7 128 160 128H64V416H352V320C352 302.3 366.3 288 384 288C401.7 288 416 302.3 416 320V416C416 451.3 387.3 480 352 480H64C28.65 480 0 451.3 0 416V128z"/></svg>
-							</div>		
 						</div>
 					</div>					
 				</div>
@@ -251,7 +225,7 @@ export class Moodboard {
 
 	docEvents()
 	{
-		document.querySelector('body').addEventListener('click', () => this.removeDataSetItemSelected())
+		document.querySelector('body').addEventListener('click', () => this.removeDatasetItemSelected())
 	}
 
 	btnsEvents()
@@ -268,24 +242,244 @@ export class Moodboard {
 
 	ctrlEvents()
 	{
-		this.components.ctrls.clone.addEventListener('click', () => { this.alert.display('clone') })
-		this.components.ctrls.zIndexUp.addEventListener('click', () => { this.alert.display('zIndexUp') })
-		this.components.ctrls.zIndexDown.addEventListener('click', () => { this.alert.display('zIndexDown') })
-		this.components.ctrls.mirrorH.addEventListener('click', () => { this.alert.display('mirrorH') })
-		this.components.ctrls.mirrorV.addEventListener('click', () => { this.alert.display('mirrorV') })
-		this.components.ctrls.rotateL.addEventListener('click', () => { this.alert.display('rotateL') })
-		this.components.ctrls.rotateR.addEventListener('click', () => { this.alert.display('rotateR') })
-		this.components.ctrls.scaleP.addEventListener('click', () => { this.alert.display('scaleP') })
-		this.components.ctrls.scaleM.addEventListener('click', () => { this.alert.display('scaleM') })
-		this.components.ctrls.scaleXP.addEventListener('click', () => { this.alert.display('scaleXP') })
-		this.components.ctrls.scaleXM.addEventListener('click', () => { this.alert.display('scaleXM') })
-		this.components.ctrls.scaleYP.addEventListener('click', () => { this.alert.display('scaleYP') })
-		this.components.ctrls.scaleYM.addEventListener('click', () => { this.alert.display('scaleYM') })
-		this.components.ctrls.rotateAllL.addEventListener('click', () => { this.alert.display('rotateAllL') })
-		this.components.ctrls.rotateAllR.addEventListener('click', () => { this.alert.display('rotateAllR') })
-		this.components.ctrls.scaleAllP.addEventListener('click', () => { this.alert.display('scaleAllP') })
-		this.components.ctrls.scaleAllM.addEventListener('click', () => { this.alert.display('scaleAllM') })
-		this.components.ctrls.remove.addEventListener('click', () => { this.alert.display('remove') })
+		this.components.ctrls.clone.addEventListener('click', e => { 
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				const 
+				el =  this.components.view.querySelector('[data-item-selected]'),
+				c =  el.cloneNode()
+
+				this.removeDatasetItemSelected(), this.viewItemEvents(c),	el.after(c)
+				this.alert.display('clone') 
+			})()
+		})
+		this.components.ctrls.zIndexUp.addEventListener('click', e => {
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				const 
+				el =  this.components.view.querySelector('[data-item-selected]'),
+				next =  el.nextElementSibling
+
+				null !== next && next.after(el)
+				this.alert.display('zIndexUp') 
+			})()
+		})
+		this.components.ctrls.zIndexDown.addEventListener('click', e => {
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				const 
+				el =  this.components.view.querySelector('[data-item-selected]'),
+				previous =  el.previousElementSibling
+	
+				null !== previous && previous.before(el)				
+				this.alert.display('zIndexDown') 
+			})()
+		})
+		this.components.ctrls.mirrorH.addEventListener('click', e => { 
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				let 
+				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tArr = tStr.split(' '),
+				sx = 1, sy = 1, str = ''
+
+				tArr.forEach((item) => { 
+					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
+					(str += item) 
+				})
+
+				sx = -1 * sx
+
+				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
+				this.alert.display('mirrorH') 
+			})()
+		})
+		this.components.ctrls.mirrorV.addEventListener('click', e => {
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				let 
+				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tArr = tStr.split(' '),
+				sx = 1, sy = 1, str = ''
+
+				tArr.forEach((item) => { 
+					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
+					(str += item) 
+				})
+
+				sy = -1 * sy
+
+				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
+				this.alert.display('mirrorV') 
+			})()
+		})
+		this.components.ctrls.rotateL.addEventListener('click', e => { 
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				let 
+				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tArr = tStr.split(' '),
+				r = 0, str = ''
+
+				tArr.forEach((item) => { (-1 < item.indexOf('deg') && (r = item.replace('rotateZ(', '').replace('deg)', ''))) || (str += item) })
+
+				this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + (1 * r - 5) + 'deg) ' + str
+
+				this.alert.display('rotateL')
+			})()
+		})
+		this.components.ctrls.rotateR.addEventListener('click', e => { 
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				let 
+				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tArr = tStr.split(' '),
+				r = 0, str = ''
+
+				tArr.forEach((item) => { (-1 < item.indexOf('deg') && (r = item.replace('rotateZ(', '').replace('deg)', ''))) || (str += item) })
+
+				this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + (1 * r + 5) + 'deg) ' + str
+
+				this.alert.display('rotateR')
+			})()
+		})
+		this.components.ctrls.scaleP.addEventListener('click', e => { 
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				let 
+				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tArr = tStr.split(' '),
+				sx = 1, sy = 1, str = ''
+
+				tArr.forEach((item) => { 
+					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
+					(str += item) 
+				})
+
+				sx = 1 * sx, sx = sx >= 0 ? sx + 0.1 : sx - 0.1, 
+				sy = 1 * sy, sy = sy >= 0 ? sy + 0.1 : sy - 0.1				
+
+				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
+
+				this.alert.display('scaleP')
+			})()
+		})
+		this.components.ctrls.scaleM.addEventListener('click', e => { 
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				let 
+				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tArr = tStr.split(' '),
+				sx = 1, sy = 1, str = ''
+
+				tArr.forEach((item) => { 
+					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
+					(str += item) 
+				})
+
+				sx = 1 * sx, sx = sx >= 0 ? sx > 0.1 && (sx - 0.1) || sx : sx < -0.1 && (sx + 0.1) || sx, 
+				sy = 1 * sy, sy = sy >= 0 ? sy > 0.1 && (sy - 0.1) || sy : sy + 0.1	&& (sy + 0.1) || sy
+
+				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
+
+				this.alert.display('scaleM')
+			})()
+		})
+		this.components.ctrls.scaleXP.addEventListener('click', e => {
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				let 
+				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tArr = tStr.split(' '),
+				sx = 1, sy = 1, str = ''
+
+				tArr.forEach((item) => { 
+					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
+					(str += item) 
+				})
+
+				sx = 1 * sx, sx = sx >= 0 ? sx + 0.1 : sx - 0.1, 
+
+				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
+
+				this.alert.display('scaleXP')
+			})()
+		})
+		this.components.ctrls.scaleXM.addEventListener('click', e => {
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				let 
+				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tArr = tStr.split(' '),
+				sx = 1, sy = 1, str = ''
+
+				tArr.forEach((item) => { 
+					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) ||  
+					(str += item) 
+				})
+
+				sx = 1 * sx, sx = sx >= 0 ? sx > 0.1 && (sx - 0.1) || sx : sx < -0.1 && (sx + 0.1) || sx
+
+				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
+
+				this.alert.display('scaleXM')
+			})()
+		})
+		this.components.ctrls.scaleYP.addEventListener('click', e => {
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				let 
+				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tArr = tStr.split(' '),
+				sx = 1, sy = 1, str = ''
+
+				tArr.forEach((item) => { 
+					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) ||
+					(str += item) 
+				})
+
+				sy = 1 * sy, sy = sy >= 0 ? sy + 0.1 : sy - 0.1
+
+				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
+
+				this.alert.display('scaleYP')
+			})()
+		})
+		this.components.ctrls.scaleYM.addEventListener('click', e => {
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				let 
+				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tArr = tStr.split(' '),
+				sx = 1, sy = 1, str = ''
+
+				tArr.forEach((item) => { 
+					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
+					(str += item) 
+				})
+
+				sy = 1 * sy, sy = sy >= 0 ? sy > 0.1 && (sy - 0.1) || sy : sy + 0.1	&& (sy + 0.1) || sy
+
+				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
+
+				this.alert.display('scaleYM')
+			})()
+		})
+		this.components.ctrls.remove.addEventListener('click', e => { 
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				this.components.view.querySelector('[data-item-selected]').remove()
+				this.alert.display('remove') 
+			})()
+		})
 	}
 
 	materialsRefItemEvent(items)
@@ -308,13 +502,20 @@ export class Moodboard {
 	viewItemEvents(item)
 	{
 		item.addEventListener('click', (e) => { 			
-			e.stopPropagation(), this.removeDataSetItemSelected(),	item.dataset.itemSelected = ''
+			e.stopPropagation(), this.removeDatasetItemSelected(),	item.dataset.itemSelected = ''
 		})
 	}
 
-	removeDataSetItemSelected()
+	removeDatasetItemSelected()
 	{
 		null !== this.components.view.querySelector('[data-item-selected]') &&
 		this.components.view.querySelector('[data-item-selected]').removeAttribute('data-item-selected')
+	}
+
+	checkDatasetItemSelected()
+	{
+		let result = !1
+		null !== this.components.view.querySelector('[data-item-selected]') && (result = !0)
+		return !1 === result && this.alert.display('No material selected.'), result
 	}
 }
