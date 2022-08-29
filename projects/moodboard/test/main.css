@@ -70,6 +70,7 @@ html, body {
 	border: 1px solid lightgrey;
 	background-color: white;
 	overflow: hidden;
+	position: relative;
 }
 
 /* Moodboard group: BOTTOM */
@@ -174,4 +175,10 @@ html, body {
 #cfb-moodboard [data-item-selected] {
 	outline: 3px dashed black;
 	outline-offset: 5px;
+}
+
+#cfb-moodboard [data-moodboard-view] > img {
+	position: absolute;
+	left: 0;
+	top: 0;
 }

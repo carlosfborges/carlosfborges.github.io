@@ -57,10 +57,13 @@ export class Moodboard {
 			factor: null
 		}
 
+		this.viewItemIdCounter = 0
+
 		this.resize()
 
 		// ADD EVENTS
-		this.windowEvents(), this.docEvents(), this.btnsEvents(), this.ctrlEvents()
+		this.windowEvents(), this.docEvents(), this.viewEvents(), 
+		this.btnsEvents(), this.ctrlEvents()
 	}	
 
 	createEls()
@@ -226,6 +229,32 @@ export class Moodboard {
 	docEvents()
 	{
 		document.querySelector('body').addEventListener('click', () => this.removeDatasetItemSelected())
+	}
+
+	viewEvents()
+	{
+		this.components.view.addEventListener('dragenter', e => {
+			e.preventDefault(), this.alert.display('enter')
+		}),
+		this.components.view.addEventListener('dragover', e => {
+			e.preventDefault(), this.alert.display('over')
+		}),
+		this.components.view.addEventListener('dragleave', e => {
+			e.preventDefault(), this.alert.display('leave')
+		}),
+		this.components.view.addEventListener('drop', e => { 
+			const selected = this.components.view.querySelector('#' + e.dataTransfer.getData('id'))
+
+			let left = parseInt(selected.style.left) || 0, top = parseInt(selected.style.top)	|| 0
+			
+			this.checkDatasetItemSelected() && '' === selected.dataset.itemSelected &&
+			(() => {
+				left = 1 * left + e.pageX - e.dataTransfer.getData('px0'), 
+				top = 1 * top + e.pageY - e.dataTransfer.getData('py0'),
+				selected.style.left = left + 'px', selected.style.top = top + 'px',			
+				this.alert.display('drop') 
+			})()			
+		})
 	}
 
 	btnsEvents()
@@ -486,8 +515,10 @@ export class Moodboard {
 	{
 		items.forEach(item => item.addEventListener('click', () => {			
 			const img = document.createElement('img')
-			img.src = item.dataset.materialRefSrc, img.dataset.viewItem = '', this.viewItemEvents(img),
-			this.components.view.append(img),	this.alert.display('add material')
+			
+			img.id = this.getViewItemId(),
+			img.draggable = !0, img.src = item.dataset.materialRefSrc, img.dataset.viewItem = '', 
+			this.viewItemEvents(img),	this.components.view.append(img),	this.alert.display('add material')
 		}))
 	}
 
@@ -502,7 +533,24 @@ export class Moodboard {
 	viewItemEvents(item)
 	{
 		item.addEventListener('click', (e) => { 			
-			e.stopPropagation(), this.removeDatasetItemSelected(),	item.dataset.itemSelected = ''
+			e.stopPropagation()
+			this.removeDatasetItemSelected(),	item.dataset.itemSelected = ''
+		}),
+		item.addEventListener('dragstart', e => {
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {
+				e.dataTransfer.setData('id', item.id),
+				e.dataTransfer.setData('px0', e.pageX), e.dataTransfer.setData('py0', e.pageY),
+				setTimeout(() => item.style.opacity = 0, 0),
+				this.alert.display(e.type)
+			})()
+		}),	
+		item.addEventListener('dragend', e => {
+			e.stopPropagation()
+			this.checkDatasetItemSelected() && (() => {					
+				setTimeout(() => item.style.opacity = 1, 0)
+				this.alert.display(e.type)
+			})()
 		})
 	}
 
@@ -517,5 +565,10 @@ export class Moodboard {
 		let result = !1
 		null !== this.components.view.querySelector('[data-item-selected]') && (result = !0)
 		return !1 === result && this.alert.display('No material selected.'), result
+	}
+
+	getViewItemId()
+	{
+		return (this.viewItemIdCounter++, "item" + this.viewItemIdCounter)
 	}
 }
