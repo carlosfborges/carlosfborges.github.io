@@ -172,33 +172,14 @@ html, body {
 	opacity: 0;
 }
 
-/*#cfb-moodboard [data-item-selected] {
-	outline: 3px dashed black;
-	outline-offset: 5px;
-}*/
-
 #cfb-moodboard [data-item-selected] {
 	outline: 1px dashed black;
 	outline-offset: 1px;
 }
 
-/*#cfb-moodboard [data-moodboard-view] > img {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 30%;	
-}*/
-
-#cfb-moodboard [data-moodboard-view] > div {
+#cfb-moodboard [data-view-item] {
 	position: absolute;
 	left: 0;
 	top: 0;;
 	width: 30%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	z-index: 1;
-}
-#cfb-moodboard [data-moodboard-view] > div > img {
-	width: 100%;
 }
