@@ -47,7 +47,8 @@ export class Moodboard {
 				scaleYP: this.el.querySelector('[data-moodboard-ctrl-scaley-plus]'), 
 				scaleYM: this.el.querySelector('[data-moodboard-ctrl-scaley-minus]'),
 				remove:  this.el.querySelector('[data-moodboard-ctrl-remove]')
-			}
+			},
+			shadow: this.el.querySelector('[data-moodboard-shadow]')
 		}
 
 		this.idTimeout = null	
@@ -191,34 +192,45 @@ export class Moodboard {
 				</div>
 				<div data-moodboard-group-column3></div>
 			</div>
+
+			<!-- Shadow -->
+
+			<div data-moodboard-shadow><div class="mask"></div></div>
 		`
 
 		this.el.innerHTML = html
 	}
 
 	resize()
-	{			
-		this.el.dataset.moodboardHide = ''
-
-		clearTimeout(this.idTimeout)
-
-		this.el.style.width = '100%', this.el.style.height = '100%'
+	{	
+		this.el.dataset.moodboardHide = '', clearTimeout(this.idTimeout),
+	
+		this.el.style.width = '100%', this.el.style.height = '100%',
 
 		this.idTimeout = setTimeout(() => {
+			this.el.clientWidth >= this.el.clientHeight && 			
+			(this.el.style.width = this.el.clientHeight + 'px', this.el.style.height = this.el.clientHeight + 'px')
 
-			this.el.clientWidth >= this.el.clientHeight && (this.el.style.width = this.el.clientHeight + 'px')
+			this.el.clientWidth <= this.el.clientHeight && 
+			(this.el.style.height = this.el.clientWidth + 'px', this.el.style.width = this.el.clientWidth + 'px') &&
+			(this.components.view.style.height = this.el.clientWidth - 130 + 'px'),
+			
+			void(0) === this.components.view.dataset.size && 
+			(this.components.view.dataset.size = this.components.view.offsetWidth), 
 
-			this.el.clientWidth <= this.el.clientHeight && (this.el.style.height = this.el.clientWidth + 'px') &&
-			(this.components.view.style.height = this.el.clientWidth - 130 + 'px')
-
-			null === this.objResize.viewWidth && (this.objResize.viewWidth = this.components.view.clientWidth)
-
-			this.objResize.factor = this.components.view.clientWidth / this.objResize.viewWidth
-
-			this.objResize.viewWidth = this.components.view.clientWidth
-
-			this.el.removeAttribute('data-moodboard-hide')
+			this.resizeViewItems(),	this.el.removeAttribute('data-moodboard-hide')
 		}, 200)
+	}
+
+	resizeViewItems()
+	{		
+		let factor = this.components.view.clientWidth / this.components.view.dataset.size;		
+		1 !== factor &&
+		this.components.view.querySelectorAll('[data-view-item]').forEach(item => {
+			item.style.left = parseInt(factor * parseInt(item.style.left)) + 'px',
+			item.style.top = parseInt(factor * parseInt(item.style.top)) + 'px'
+		}),
+		this.components.view.dataset.size = this.components.view.clientWidth
 	}
 
 	windowEvents()
@@ -247,13 +259,10 @@ export class Moodboard {
 
 			let left = parseInt(selected.style.left) || 0, top = parseInt(selected.style.top)	|| 0
 			
-			this.checkDatasetItemSelected() && '' === selected.dataset.itemSelected &&
-			(() => {
-				left = 1 * left + e.pageX - e.dataTransfer.getData('px0'), 
-				top = 1 * top + e.pageY - e.dataTransfer.getData('py0'),
-				selected.style.left = left + 'px', selected.style.top = top + 'px',			
-				this.alert.display('drop') 
-			})()			
+			left = 1 * left + e.pageX - e.dataTransfer.getData('px0'), 
+			top = 1 * top + e.pageY - e.dataTransfer.getData('py0'),
+			selected.style.left = left + 'px', selected.style.top = top + 'px',			
+			this.alert.display('drop') 
 		})
 	}
 
@@ -276,10 +285,10 @@ export class Moodboard {
 			this.checkDatasetItemSelected() && (() => {
 				const 
 				el =  this.components.view.querySelector('[data-item-selected]'),
-				c =  el.cloneNode()
+				c =  el.cloneNode(true)
 
-				this.removeDatasetItemSelected(), this.viewItemEvents(c),	el.after(c)
-				this.alert.display('clone') 
+				c.id = this.getViewItemId(), this.removeDatasetItemSelected(), 
+				this.viewItemEvents(c),	el.after(c), this.alert.display('clone') 
 			})()
 		})
 		this.components.ctrls.zIndexUp.addEventListener('click', e => {
@@ -308,19 +317,20 @@ export class Moodboard {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tStr = this.components.view.querySelector('[data-item-selected] img').style.transform,
 				tArr = tStr.split(' '),
-				sx = 1, sy = 1, str = ''
+				r = 0, sx = 1, sy = 1, str = ''
 
 				tArr.forEach((item) => { 
+					-1 < item.indexOf('deg') && (r = item.replace('rotateZ(', '').replace('deg)', '')) ||
 					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
 					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
 					(str += item) 
 				})
 
-				sx = -1 * sx
+				r = -1 * r, sx = -1 * sx
 
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
+				this.components.view.querySelector('[data-item-selected] img').style.transform = 'rotateZ(' + r + 'deg) scaleX(' + sx + ') scaleY(' + sy + ')'
 				this.alert.display('mirrorH') 
 			})()
 		})
@@ -328,19 +338,20 @@ export class Moodboard {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tStr = this.components.view.querySelector('[data-item-selected] img').style.transform,
 				tArr = tStr.split(' '),
-				sx = 1, sy = 1, str = ''
+				r = 0, sx = 1, sy = 1, str = ''
 
 				tArr.forEach((item) => { 
+					-1 < item.indexOf('deg') && (r = item.replace('rotateZ(', '').replace('deg)', '')) ||
 					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
 					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
 					(str += item) 
 				})
 
-				sy = -1 * sy
+				r = -1 * r, sy = -1 * sy
 
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
+				this.components.view.querySelector('[data-item-selected] img').style.transform = 'rotateZ(' + r + 'deg) scaleX(' + sx + ') scaleY(' + sy + ')'
 				this.alert.display('mirrorV') 
 			})()
 		})
@@ -348,14 +359,15 @@ export class Moodboard {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tStr = this.components.view.querySelector('[data-item-selected] img').style.transform,
 				tArr = tStr.split(' '),
 				r = 0, str = ''
 
 				tArr.forEach((item) => { (-1 < item.indexOf('deg') && (r = item.replace('rotateZ(', '').replace('deg)', ''))) || (str += item) })
 
-				this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + (1 * r - 5) + 'deg) ' + str
-
+				this.components.view.querySelector('[data-item-selected] img').style.transform = 'rotateZ(' + (1 * r - 5) + 'deg) ' + str,
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.width = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().width + 'px',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.height = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().height + 'px',
 				this.alert.display('rotateL')
 			})()
 		})
@@ -363,14 +375,15 @@ export class Moodboard {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tStr = this.components.view.querySelector('[data-item-selected] img').style.transform,
 				tArr = tStr.split(' '),
 				r = 0, str = ''
 
 				tArr.forEach((item) => { (-1 < item.indexOf('deg') && (r = item.replace('rotateZ(', '').replace('deg)', ''))) || (str += item) })
 
-				this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + (1 * r + 5) + 'deg) ' + str
-
+				this.components.view.querySelector('[data-item-selected] img').style.transform = 'rotateZ(' + (1 * r + 5) + 'deg) ' + str,
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.width = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().width + 'px',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.height = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().height + 'px',
 				this.alert.display('rotateR')
 			})()
 		})
@@ -378,7 +391,7 @@ export class Moodboard {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tStr = this.components.view.querySelector('[data-item-selected] img').style.transform,
 				tArr = tStr.split(' '),
 				sx = 1, sy = 1, str = ''
 
@@ -391,8 +404,9 @@ export class Moodboard {
 				sx = 1 * sx, sx = sx >= 0 ? sx + 0.1 : sx - 0.1, 
 				sy = 1 * sy, sy = sy >= 0 ? sy + 0.1 : sy - 0.1				
 
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
-
+				this.components.view.querySelector('[data-item-selected] img').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.width = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().width + 'px',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.height = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().height + 'px',
 				this.alert.display('scaleP')
 			})()
 		})
@@ -400,7 +414,7 @@ export class Moodboard {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tStr = this.components.view.querySelector('[data-item-selected] img').style.transform,
 				tArr = tStr.split(' '),
 				sx = 1, sy = 1, str = ''
 
@@ -413,8 +427,9 @@ export class Moodboard {
 				sx = 1 * sx, sx = sx >= 0 ? sx > 0.1 && (sx - 0.1) || sx : sx < -0.1 && (sx + 0.1) || sx, 
 				sy = 1 * sy, sy = sy >= 0 ? sy > 0.1 && (sy - 0.1) || sy : sy + 0.1	&& (sy + 0.1) || sy
 
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
-
+				this.components.view.querySelector('[data-item-selected] img').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.width = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().width + 'px',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.height = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().height + 'px',
 				this.alert.display('scaleM')
 			})()
 		})
@@ -422,7 +437,7 @@ export class Moodboard {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tStr = this.components.view.querySelector('[data-item-selected] img').style.transform,
 				tArr = tStr.split(' '),
 				sx = 1, sy = 1, str = ''
 
@@ -434,8 +449,9 @@ export class Moodboard {
 
 				sx = 1 * sx, sx = sx >= 0 ? sx + 0.1 : sx - 0.1, 
 
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
-
+				this.components.view.querySelector('[data-item-selected] img').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.width = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().width + 'px',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.height = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().height + 'px',
 				this.alert.display('scaleXP')
 			})()
 		})
@@ -443,7 +459,7 @@ export class Moodboard {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tStr = this.components.view.querySelector('[data-item-selected] img').style.transform,
 				tArr = tStr.split(' '),
 				sx = 1, sy = 1, str = ''
 
@@ -455,8 +471,9 @@ export class Moodboard {
 
 				sx = 1 * sx, sx = sx >= 0 ? sx > 0.1 && (sx - 0.1) || sx : sx < -0.1 && (sx + 0.1) || sx
 
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
-
+				this.components.view.querySelector('[data-item-selected] img').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.width = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().width + 'px',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.height = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().height + 'px',
 				this.alert.display('scaleXM')
 			})()
 		})
@@ -464,7 +481,7 @@ export class Moodboard {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tStr = this.components.view.querySelector('[data-item-selected] img').style.transform,
 				tArr = tStr.split(' '),
 				sx = 1, sy = 1, str = ''
 
@@ -476,8 +493,9 @@ export class Moodboard {
 
 				sy = 1 * sy, sy = sy >= 0 ? sy + 0.1 : sy - 0.1
 
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
-
+				this.components.view.querySelector('[data-item-selected] img').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.width = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().width + 'px',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.height = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().height + 'px',
 				this.alert.display('scaleYP')
 			})()
 		})
@@ -485,7 +503,7 @@ export class Moodboard {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+				tStr = this.components.view.querySelector('[data-item-selected] img').style.transform,
 				tArr = tStr.split(' '),
 				sx = 1, sy = 1, str = ''
 
@@ -497,8 +515,9 @@ export class Moodboard {
 
 				sy = 1 * sy, sy = sy >= 0 ? sy > 0.1 && (sy - 0.1) || sy : sy + 0.1	&& (sy + 0.1) || sy
 
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')'
-
+				this.components.view.querySelector('[data-item-selected] img').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.width = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().width + 'px',
+				this.components.view.querySelector('[data-item-selected] img').parentElement.style.height = this.components.view.querySelector('[data-item-selected] img').getBoundingClientRect().height + 'px',
 				this.alert.display('scaleYM')
 			})()
 		})
@@ -514,11 +533,18 @@ export class Moodboard {
 	materialsRefItemEvent(items)
 	{
 		items.forEach(item => item.addEventListener('click', () => {			
-			const img = document.createElement('img')
+			// const img = document.createElement('img')
 			
-			img.id = this.getViewItemId(),
-			img.draggable = !0, img.src = item.dataset.materialRefSrc, img.dataset.viewItem = '', 
-			this.viewItemEvents(img),	this.components.view.append(img),	this.alert.display('add material')
+			// img.id = this.getViewItemId(),
+			// img.draggable = !0, img.src = item.dataset.materialRefSrc, img.dataset.viewItem = '', 
+			// this.viewItemEvents(img),	this.components.view.append(img),	this.alert.display('add material')
+
+			const div = document.createElement('div'), img = document.createElement('img');
+			img.src = item.dataset.materialRefSrc, img.style.width = 3 / 10 * this.components.view.offsetWidth + 'px',
+			div.append(img),
+			
+			div.id = this.getViewItemId(), div.draggable = !0, div.dataset.viewItem = '', 
+			this.viewItemEvents(div),	this.components.view.append(div),	this.alert.display('add material')
 		}))
 	}
 
@@ -533,24 +559,22 @@ export class Moodboard {
 	viewItemEvents(item)
 	{
 		item.addEventListener('click', (e) => { 			
-			e.stopPropagation()
-			this.removeDatasetItemSelected(),	item.dataset.itemSelected = ''
+			e.stopPropagation(), this.removeDatasetItemSelected(),	item.dataset.itemSelected = ''
 		}),
-		item.addEventListener('dragstart', e => {
-			e.stopPropagation()
-			this.checkDatasetItemSelected() && (() => {
-				e.dataTransfer.setData('id', item.id),
-				e.dataTransfer.setData('px0', e.pageX), e.dataTransfer.setData('py0', e.pageY),
-				setTimeout(() => item.style.opacity = 0, 0),
-				this.alert.display(e.type)
-			})()
+		item.addEventListener('dragstart', e => { 
+			e.stopPropagation(), this.removeDatasetItemSelected(),
+			e.dataTransfer.setDragImage(
+				item,
+				1 * e.pageX - item.getBoundingClientRect().x, 
+				1 * e.pageY - item.getBoundingClientRect().y),
+			e.dataTransfer.setData('id', item.id),
+			e.dataTransfer.setData('px0', e.pageX), e.dataTransfer.setData('py0', e.pageY),
+			setTimeout(() => item.style.opacity = 0, 0),
+			this.alert.display(e.type)
 		}),	
 		item.addEventListener('dragend', e => {
-			e.stopPropagation()
-			this.checkDatasetItemSelected() && (() => {					
-				setTimeout(() => item.style.opacity = 1, 0)
-				this.alert.display(e.type)
-			})()
+			e.stopPropagation(), setTimeout(() => item.style.opacity = 1, 0), 
+			this.alert.display(e.type)
 		})
 	}
 
