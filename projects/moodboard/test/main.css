@@ -16,7 +16,7 @@ html, body {
 	display: grid;
 	grid-template-columns: 60px calc(100% - 120px - 2 * 5px) 60px;	
 	grid-gap: 5px;
-	background-color: whitesmoke;
+	background-color: white;
 	font-size: 10pt;
 	text-align: center;	
 }
@@ -182,4 +182,21 @@ html, body {
 	left: 0;
 	top: 0;;
 	width: 30%;
+}
+
+/* HIDE */
+/*#cfb-moodboard [data-moodboard-group-column2][data-hide], */
+/*#cfb-moodboard [data-moodboard-group-row2][data-hide], */
+#cfb-moodboard [data-moodboard-group-column1][data-hide], 
+#cfb-moodboard [data-moodboard-group-column3][data-hide], 
+#cfb-moodboard [data-moodboard-group-row1][data-hide],
+#cfb-moodboard [data-moodboard-group-row3][data-hide] {
+	pointer-events: none;
+	opacity: 0;
+	background-color: transparent;
+}
+
+/* INACTIVE */
+#cfb-moodboard [data-moodboard-view][data-inactive] {
+	pointer-events: none;
 }

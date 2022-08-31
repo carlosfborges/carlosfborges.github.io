@@ -3,45 +3,36 @@
 export class Moodboard {
 
 	constructor()
-	{
+	{ 
 		for (const arg of arguments) {
-
 			switch (arg.constructor.name) {
-
-				case 'Modal': this.modal = arg; break
-
-				case 'Alert': this.alert = arg; break
-				
-				case 'String': this.defaultStyle = arg; break
-
+				case 'Modal': this.modal = arg; break;
+				case 'Alert': this.alert = arg; break;				
+				case 'String': this.defaultStyle = arg; break;
 				default: console.log('Parameter not valid');					
 			}
 		}
-
+		// this.removeSessionStorage(),
 		this.defaultStyle = this.defaultStyle || 'main.css', this.createStyle(),
-
-		this.el = document.querySelector('#cfb-moodboard')
-
-		this.materialsRef = document.querySelector(this.el.dataset.materialsRef)
-
-		this.backgroundsRef = document.querySelector(this.el.dataset.backgroundsRef)
-
-		this.createEls()		
-
-		this.idTimeout = null	
-		
-		this.objResize = {
-			viewWidth: null,
-			factor: null
-		}
-
-		this.viewItemIdCounter = 0		
+		this.el = document.querySelector('#cfb-moodboard'),
+		this.materialsRef = document.querySelector(this.el.dataset.materialsRef),
+		this.backgroundsRef = document.querySelector(this.el.dataset.backgroundsRef),
+		this.createEls(),
+		this.idTimeout = null,		
+		this.objResize = {viewWidth: null, factor: null},
+		this.viewItemIdCounter = this.viewItemIdCounter || 0,
+		this.removeDatasetItemSelected(), this.display('btns')
 	}	
 
 	addEvents()
 	{
 		this.windowEvents(), this.docEvents(), this.viewEvents(), 
-		this.btnsEvents(), this.ctrlEvents()
+		this.btnsEvents(), this.ctrlEvents(),
+		0 < this.components.view.querySelectorAll('[data-view-item]').length &&
+		this.components.view.querySelectorAll('[data-view-item]').forEach((item, index) => {
+			this.viewItemIdCounter = index + 1, (item.id = index + 1) && (item.id = 'item' + item.id), 
+			this.viewItemEvents(item)
+		})
 	}
 
 	createStyle()
@@ -53,18 +44,13 @@ export class Moodboard {
 
 	checkSessionStorage()
 	{
-		return void(0) !== sessionStorage.getItem('moodboard') && null !== sessionStorage.getItem('moodboard')
+		return void(0) !== sessionStorage.getItem('moodboard') && 
+		null !== sessionStorage.getItem('moodboard')
 	}
 
-	setSessionStorage()
-	{
-		sessionStorage.setItem('moodboard', this.el.outerHTML)
-	}
+	setSessionStorage()	{sessionStorage.setItem('moodboard', this.el.outerHTML)}
 
-	removeSessionStorage()
-	{
-		sessionStorage.removeItem('moodboard')
-	}
+	removeSessionStorage() {sessionStorage.removeItem('moodboard')}
 
 	load()
 	{
@@ -229,8 +215,7 @@ export class Moodboard {
 					<div data-moodboard-group-column3></div>
 				</div>
 			`
-			this.el.innerHTML = html,
-			this.setComponents(),	this.setSessionStorage()
+			this.el.innerHTML = html,	this.setComponents(),	this.setSessionStorage()
 		})()
 	}	
 
@@ -295,7 +280,7 @@ export class Moodboard {
 			left = 1 * left + e.pageX - e.dataTransfer.getData('px0'), 
 			top = 1 * top + e.pageY - e.dataTransfer.getData('py0'),
 			selected.style.left = left + 'px', selected.style.top = top + 'px',
-			selected.dataset.itemSelected = '',	
+			this.addDatasetItemSelected(selected),
 			this.alert.display('drop') 
 		})
 	}
@@ -322,7 +307,8 @@ export class Moodboard {
 				c =  el.cloneNode(true)
 
 				c.id = this.getViewItemId(), this.removeDatasetItemSelected(), 
-				this.viewItemEvents(c),	el.after(c), this.alert.display('clone') 
+				this.viewItemEvents(c),	el.after(c), this.setSessionStorage(),
+				this.alert.display('clone') 
 			})()
 		})
 		this.components.ctrls.zIndexUp.addEventListener('click', e => {
@@ -332,7 +318,7 @@ export class Moodboard {
 				el =  this.components.view.querySelector('[data-item-selected]'),
 				next =  el.nextElementSibling
 
-				null !== next && next.after(el)
+				null !== next && next.after(el), this.setSessionStorage(),
 				this.alert.display('zIndexUp') 
 			})()
 		})
@@ -343,7 +329,7 @@ export class Moodboard {
 				el =  this.components.view.querySelector('[data-item-selected]'),
 				previous =  el.previousElementSibling
 	
-				null !== previous && previous.before(el)				
+				null !== previous && previous.before(el), this.setSessionStorage(),
 				this.alert.display('zIndexDown') 
 			})()
 		})
@@ -365,7 +351,7 @@ export class Moodboard {
 				r = -1 * r, sx = -1 * sx
 
 				this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + r + 'deg) scaleX(' + sx + ') scaleY(' + sy + ')'
-				this.alert.display('mirrorH') 
+				this.setSessionStorage(), this.alert.display('mirrorH') 
 			})()
 		})
 		this.components.ctrls.mirrorV.addEventListener('click', e => {
@@ -386,7 +372,7 @@ export class Moodboard {
 				r = -1 * r, sy = -1 * sy
 
 				this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + r + 'deg) scaleX(' + sx + ') scaleY(' + sy + ')'
-				this.alert.display('mirrorV') 
+				this.setSessionStorage(), this.alert.display('mirrorV') 
 			})()
 		})
 		this.components.ctrls.rotateL.addEventListener('click', e => { 
@@ -401,7 +387,7 @@ export class Moodboard {
 
 				this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + (1 * r - 5) + 'deg) ' + str,
 				
-				this.alert.display('rotateL')
+				this.setSessionStorage(), this.alert.display('rotateL')
 			})()
 		})
 		this.components.ctrls.rotateR.addEventListener('click', e => { 
@@ -416,7 +402,7 @@ export class Moodboard {
 
 				this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + (1 * r + 5) + 'deg) ' + str,
 				
-				this.alert.display('rotateR')
+				this.setSessionStorage(), this.alert.display('rotateR')
 			})()
 		})
 		this.components.ctrls.scaleP.addEventListener('click', e => { 
@@ -437,8 +423,7 @@ export class Moodboard {
 				sy = 1 * sy, sy = sy >= 0 ? sy + 0.1 : sy - 0.1				
 
 				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				
-				this.alert.display('scaleP')
+				this.setSessionStorage(),	this.alert.display('scaleP')
 			})()
 		})
 		this.components.ctrls.scaleM.addEventListener('click', e => { 
@@ -459,8 +444,7 @@ export class Moodboard {
 				sy = 1 * sy, sy = sy >= 0 ? sy > 0.1 && (sy - 0.1) || sy : sy + 0.1	&& (sy + 0.1) || sy
 
 				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				
-				this.alert.display('scaleM')
+				this.setSessionStorage(),	this.alert.display('scaleM')
 			})()
 		})
 		this.components.ctrls.scaleXP.addEventListener('click', e => {
@@ -480,8 +464,7 @@ export class Moodboard {
 				sx = 1 * sx, sx = sx >= 0 ? sx + 0.1 : sx - 0.1, 
 
 				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				
-				this.alert.display('scaleXP')
+				this.setSessionStorage(),	this.alert.display('scaleXP')
 			})()
 		})
 		this.components.ctrls.scaleXM.addEventListener('click', e => {
@@ -501,8 +484,7 @@ export class Moodboard {
 				sx = 1 * sx, sx = sx >= 0 ? sx > 0.1 && (sx - 0.1) || sx : sx < -0.1 && (sx + 0.1) || sx
 
 				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				
-				this.alert.display('scaleXM')
+				this.setSessionStorage(),	this.alert.display('scaleXM')
 			})()
 		})
 		this.components.ctrls.scaleYP.addEventListener('click', e => {
@@ -522,8 +504,7 @@ export class Moodboard {
 				sy = 1 * sy, sy = sy >= 0 ? sy + 0.1 : sy - 0.1
 
 				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				
-				this.alert.display('scaleYP')
+				this.setSessionStorage(),	this.alert.display('scaleYP')
 			})()
 		})
 		this.components.ctrls.scaleYM.addEventListener('click', e => {
@@ -543,15 +524,14 @@ export class Moodboard {
 				sy = 1 * sy, sy = sy >= 0 ? sy > 0.1 && (sy - 0.1) || sy : sy + 0.1	&& (sy + 0.1) || sy
 
 				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				
-				this.alert.display('scaleYM')
+				this.setSessionStorage(),	this.alert.display('scaleYM')
 			})()
 		})
 		this.components.ctrls.remove.addEventListener('click', e => { 
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				this.components.view.querySelector('[data-item-selected]').remove()
-				this.alert.display('remove') 
+				this.setSessionStorage(), this.alert.display('remove') 
 			})()
 		})
 	}
@@ -563,7 +543,7 @@ export class Moodboard {
 			img.id = this.getViewItemId(),
 			img.draggable = !0, img.src = item.dataset.materialRefSrc, img.dataset.viewItem = '', 
 			this.viewItemEvents(img),	this.components.view.append(img),	
-			this.alert.display('add material')
+			this.setSessionStorage(), this.alert.display('add material')
 		}))
 	}
 
@@ -571,14 +551,15 @@ export class Moodboard {
 	{
 		items.forEach(item => item.addEventListener('click', () => {
 			this.components.view.style.backgroundImage = 'url("' + item.dataset.backgroundRefSrc + '")'
-			this.alert.display('add background')
+			this.setSessionStorage(), this.alert.display('add background')
 		}))
 	}
 
 	viewItemEvents(item)
 	{
 		item.addEventListener('click', (e) => { 			
-			e.stopPropagation(), this.removeDatasetItemSelected(),	item.dataset.itemSelected = ''
+			e.stopPropagation(), this.removeDatasetItemSelected(),	
+			this.addDatasetItemSelected(item)
 		}),
 		item.addEventListener('dragstart', e => {
 			e.stopPropagation(), this.removeDatasetItemSelected(),						
@@ -587,17 +568,22 @@ export class Moodboard {
 			setTimeout(() => item.style.opacity = 0, 0),
 			this.alert.display(e.type)
 		}),
-		item.addEventListener('drag', e => e.preventDefault()),
 		item.addEventListener('dragend', e => {	
-			e.stopPropagation(), setTimeout(() => item.style.opacity = 1, 0), 
+			e.stopPropagation(), setTimeout(() => {item.style.opacity = 1, this.setSessionStorage()}, 0), 
 			this.alert.display(e.type)
 		})
+	}
+
+	addDatasetItemSelected(item)
+	{
+		item.dataset.itemSelected = '', this.display()
 	}
 
 	removeDatasetItemSelected()
 	{
 		null !== this.components.view.querySelector('[data-item-selected]') &&
-		this.components.view.querySelector('[data-item-selected]').removeAttribute('data-item-selected')
+		this.components.view.querySelector('[data-item-selected]').removeAttribute('data-item-selected'),
+		this.display('btns')
 	}
 
 	checkDatasetItemSelected()
@@ -610,5 +596,38 @@ export class Moodboard {
 	getViewItemId()
 	{
 		return (this.viewItemIdCounter++, "item" + this.viewItemIdCounter)
+	}
+
+	hideBtns() {
+		this.el.querySelectorAll('[data-moodboard-group-row1]').forEach(item => item.dataset.hide = '')
+	}
+
+	hideCtrls() {
+		this.el.querySelectorAll('[data-moodboard-group-column1]').forEach(item => item.dataset.hide = ''),
+		this.el.querySelectorAll('[data-moodboard-group-column3]').forEach(item => item.dataset.hide = ''),
+		this.el.querySelectorAll('[data-moodboard-group-row3]').forEach(item => item.dataset.hide = '')
+	}
+
+	showBtns() {
+		this.el.querySelectorAll('[data-moodboard-group-row1]').forEach(item => item.removeAttribute('data-hide'))
+	}
+
+	showCtrls() {
+		this.el.querySelectorAll('[data-moodboard-group-column1]').forEach(item => item.removeAttribute('data-hide')),
+		this.el.querySelectorAll('[data-moodboard-group-column3]').forEach(item => item.removeAttribute('data-hide')),
+		this.el.querySelectorAll('[data-moodboard-group-row3]').forEach(item => item.removeAttribute('data-hide'))
+	}
+
+	viewStatus(status = 'active')	
+	{
+		'inactive' === status && (this.components.view.dataset.inactive = '') ||
+		'active' === status && this.components.view.removeAttribute('data-inactive')
+	}
+
+	display(type = 'all')
+	{
+		'all' === type && (this.showBtns(), this.showCtrls(), this.viewStatus()) ||
+		'view' === type && (this.hideBtns(), this.hideCtrls(), this.viewStatus('inactive')) ||
+		'btns' === type && (this.showBtns(), this.hideCtrls(), this.viewStatus())		
 	}
 }
