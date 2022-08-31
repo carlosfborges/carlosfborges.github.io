@@ -18,7 +18,7 @@ export class Moodboard {
 		this.materialsRef = document.querySelector(this.el.dataset.materialsRef),
 		this.backgroundsRef = document.querySelector(this.el.dataset.backgroundsRef),
 		this.createEls(),
-		this.idTimeout = null,		
+		this.idTimeout = null, this.idInterval = null,
 		this.objResize = {viewWidth: null, factor: null},
 		this.viewItemIdCounter = this.viewItemIdCounter || 0,
 		this.removeDatasetItemSelected(), this.display('btns')
@@ -258,7 +258,8 @@ export class Moodboard {
 
 	docEvents()
 	{
-		document.querySelector('body').addEventListener('click', () => this.removeDatasetItemSelected())
+		document.querySelector('body').addEventListener('mousedown', () => this.removeDatasetItemSelected()),
+		document.querySelector('body').addEventListener('mouseup', () => this.removeDatasetItemSelected())
 	}
 
 	viewEvents()
@@ -287,11 +288,11 @@ export class Moodboard {
 
 	btnsEvents()
 	{
-		this.components.btns.addMaterials.addEventListener('click', () => { 
+		this.components.btns.addMaterials.addEventListener('mouseup', () => { 
 			this.modal.display(this.materialsRef.outerHTML.replace('display: none', '')) 
 			this.materialsRefItemEvent(this.modal.el.querySelectorAll('[data-material-ref-value]'))
 		})
-		this.components.btns.background.addEventListener('click', () => { 
+		this.components.btns.background.addEventListener('mouseup', () => { 
 			this.modal.display(this.backgroundsRef.outerHTML.replace('display: none', '')) 
 			this.backgroundsRefItemEvent(this.modal.el.querySelectorAll('[data-background-ref-value]'))
 		})
@@ -299,7 +300,8 @@ export class Moodboard {
 
 	ctrlEvents()
 	{
-		this.components.ctrls.clone.addEventListener('click', e => { 
+		// LEFT SIDE CTRL
+		this.components.ctrls.clone.addEventListener('mouseup', e => { 
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				const 
@@ -307,11 +309,11 @@ export class Moodboard {
 				c =  el.cloneNode(true)
 
 				c.id = this.getViewItemId(), this.removeDatasetItemSelected(), 
-				this.viewItemEvents(c),	el.after(c), this.setSessionStorage(),
-				this.alert.display('clone') 
+				this.addDatasetItemSelected(c),	this.viewItemEvents(c),	
+				el.after(c), this.setSessionStorage(), this.alert.display('clone') 
 			})()
 		})
-		this.components.ctrls.zIndexUp.addEventListener('click', e => {
+		this.components.ctrls.zIndexUp.addEventListener('mouseup', e => {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				const 
@@ -322,7 +324,7 @@ export class Moodboard {
 				this.alert.display('zIndexUp') 
 			})()
 		})
-		this.components.ctrls.zIndexDown.addEventListener('click', e => {
+		this.components.ctrls.zIndexDown.addEventListener('mouseup', e => {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				const 
@@ -333,7 +335,7 @@ export class Moodboard {
 				this.alert.display('zIndexDown') 
 			})()
 		})
-		this.components.ctrls.mirrorH.addEventListener('click', e => { 
+		this.components.ctrls.mirrorH.addEventListener('mouseup', e => { 
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
@@ -354,7 +356,7 @@ export class Moodboard {
 				this.setSessionStorage(), this.alert.display('mirrorH') 
 			})()
 		})
-		this.components.ctrls.mirrorV.addEventListener('click', e => {
+		this.components.ctrls.mirrorV.addEventListener('mouseup', e => {
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				let 
@@ -375,159 +377,51 @@ export class Moodboard {
 				this.setSessionStorage(), this.alert.display('mirrorV') 
 			})()
 		})
-		this.components.ctrls.rotateL.addEventListener('click', e => { 
-			e.stopPropagation()
-			this.checkDatasetItemSelected() && (() => {
-				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
-				tArr = tStr.split(' '),
-				r = 0, str = ''
-
-				tArr.forEach((item) => { (-1 < item.indexOf('deg') && (r = item.replace('rotateZ(', '').replace('deg)', ''))) || (str += item) })
-
-				this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + (1 * r - 5) + 'deg) ' + str,
-				
-				this.setSessionStorage(), this.alert.display('rotateL')
-			})()
-		})
-		this.components.ctrls.rotateR.addEventListener('click', e => { 
-			e.stopPropagation()
-			this.checkDatasetItemSelected() && (() => {
-				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
-				tArr = tStr.split(' '),
-				r = 0, str = ''
-
-				tArr.forEach((item) => { (-1 < item.indexOf('deg') && (r = item.replace('rotateZ(', '').replace('deg)', ''))) || (str += item) })
-
-				this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + (1 * r + 5) + 'deg) ' + str,
-				
-				this.setSessionStorage(), this.alert.display('rotateR')
-			})()
-		})
-		this.components.ctrls.scaleP.addEventListener('click', e => { 
-			e.stopPropagation()
-			this.checkDatasetItemSelected() && (() => {
-				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
-				tArr = tStr.split(' '),
-				sx = 1, sy = 1, str = ''
-
-				tArr.forEach((item) => { 
-					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
-					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
-					(str += item) 
-				})
-
-				sx = 1 * sx, sx = sx >= 0 ? sx + 0.1 : sx - 0.1, 
-				sy = 1 * sy, sy = sy >= 0 ? sy + 0.1 : sy - 0.1				
-
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				this.setSessionStorage(),	this.alert.display('scaleP')
-			})()
-		})
-		this.components.ctrls.scaleM.addEventListener('click', e => { 
-			e.stopPropagation()
-			this.checkDatasetItemSelected() && (() => {
-				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
-				tArr = tStr.split(' '),
-				sx = 1, sy = 1, str = ''
-
-				tArr.forEach((item) => { 
-					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
-					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
-					(str += item) 
-				})
-
-				sx = 1 * sx, sx = sx >= 0 ? sx > 0.1 && (sx - 0.1) || sx : sx < -0.1 && (sx + 0.1) || sx, 
-				sy = 1 * sy, sy = sy >= 0 ? sy > 0.1 && (sy - 0.1) || sy : sy + 0.1	&& (sy + 0.1) || sy
-
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				this.setSessionStorage(),	this.alert.display('scaleM')
-			})()
-		})
-		this.components.ctrls.scaleXP.addEventListener('click', e => {
-			e.stopPropagation()
-			this.checkDatasetItemSelected() && (() => {
-				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
-				tArr = tStr.split(' '),
-				sx = 1, sy = 1, str = ''
-
-				tArr.forEach((item) => { 
-					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
-					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
-					(str += item) 
-				})
-
-				sx = 1 * sx, sx = sx >= 0 ? sx + 0.1 : sx - 0.1, 
-
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				this.setSessionStorage(),	this.alert.display('scaleXP')
-			})()
-		})
-		this.components.ctrls.scaleXM.addEventListener('click', e => {
-			e.stopPropagation()
-			this.checkDatasetItemSelected() && (() => {
-				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
-				tArr = tStr.split(' '),
-				sx = 1, sy = 1, str = ''
-
-				tArr.forEach((item) => { 
-					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
-					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) ||  
-					(str += item) 
-				})
-
-				sx = 1 * sx, sx = sx >= 0 ? sx > 0.1 && (sx - 0.1) || sx : sx < -0.1 && (sx + 0.1) || sx
-
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				this.setSessionStorage(),	this.alert.display('scaleXM')
-			})()
-		})
-		this.components.ctrls.scaleYP.addEventListener('click', e => {
-			e.stopPropagation()
-			this.checkDatasetItemSelected() && (() => {
-				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
-				tArr = tStr.split(' '),
-				sx = 1, sy = 1, str = ''
-
-				tArr.forEach((item) => { 
-					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
-					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) ||
-					(str += item) 
-				})
-
-				sy = 1 * sy, sy = sy >= 0 ? sy + 0.1 : sy - 0.1
-
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				this.setSessionStorage(),	this.alert.display('scaleYP')
-			})()
-		})
-		this.components.ctrls.scaleYM.addEventListener('click', e => {
-			e.stopPropagation()
-			this.checkDatasetItemSelected() && (() => {
-				let 
-				tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
-				tArr = tStr.split(' '),
-				sx = 1, sy = 1, str = ''
-
-				tArr.forEach((item) => { 
-					-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
-					-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
-					(str += item) 
-				})
-
-				sy = 1 * sy, sy = sy >= 0 ? sy > 0.1 && (sy - 0.1) || sy : sy + 0.1	&& (sy + 0.1) || sy
-
-				this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
-				this.setSessionStorage(),	this.alert.display('scaleYM')
-			})()
-		})
-		this.components.ctrls.remove.addEventListener('click', e => { 
+		// RIGHT SIDE CTRL
+		// mousedown
+		this.components.ctrls.rotateL.addEventListener('mousedown', e => {
+			this.handlerRotateL(e), 
+			setTimeout(() => this.idInterval = setInterval(() => this.handlerRotateL(e), 100), 500)
+		}),
+		this.components.ctrls.rotateR.addEventListener('mousedown', e => {
+			this.handlerRotateR(e), 
+			setTimeout(() => this.idInterval = setInterval(() => this.handlerRotateR(e), 100), 500)
+		}),
+		this.components.ctrls.scaleP.addEventListener('mousedown', e => {
+			this.handlerScaleP(e),
+			setTimeout(() => this.idInterval = setInterval(() => this.handlerScaleP(e), 100), 500)
+		}),
+		this.components.ctrls.scaleM.addEventListener('mousedown', e => {
+			this.handlerScaleM(e),
+			setTimeout(() => this.idInterval = setInterval(() => this.handlerScaleM(e), 100), 500)
+		}),
+		this.components.ctrls.scaleXP.addEventListener('mousedown', e => {
+			this.handlerScaleXP(e),
+			setTimeout(() => this.idInterval = setInterval(() => this.handlerScaleXP(e), 100), 500)
+		}),
+		this.components.ctrls.scaleXM.addEventListener('mousedown', e => {
+			this.handlerScaleXM(e),
+			setTimeout(() => this.idInterval = setInterval(() => this.handlerScaleXM(e), 100), 500)
+		}),
+		this.components.ctrls.scaleYP.addEventListener('mousedown', e => {
+			this.handlerScaleYP(e),
+			setTimeout(() => this.idInterval = setInterval(() => this.handlerScaleYP(e), 100), 500)
+		}),
+		this.components.ctrls.scaleYM.addEventListener('mousedown', e => {
+			this.handlerScaleYM(e),
+			setTimeout(() => this.idInterval = setInterval(() => this.handlerScaleYM(e), 100), 500)
+		}),
+		// mouseup
+		this.components.ctrls.rotateL.addEventListener('mouseup', e => {e.stopPropagation(), clearInterval(this.idInterval)}),
+		this.components.ctrls.rotateR.addEventListener('mouseup', e => {e.stopPropagation(), clearInterval(this.idInterval)}),
+		this.components.ctrls.scaleP.addEventListener('mouseup', e => {e.stopPropagation(), clearInterval(this.idInterval)}),
+		this.components.ctrls.scaleM.addEventListener('mouseup', e => {e.stopPropagation(), clearInterval(this.idInterval)}),
+		this.components.ctrls.scaleXP.addEventListener('mouseup', e => {e.stopPropagation(), clearInterval(this.idInterval)}),
+		this.components.ctrls.scaleXM.addEventListener('mouseup', e => {e.stopPropagation(), clearInterval(this.idInterval)}),
+		this.components.ctrls.scaleYP.addEventListener('mouseup', e => {e.stopPropagation(), clearInterval(this.idInterval)}),
+		this.components.ctrls.scaleYM.addEventListener('mouseup', e => {e.stopPropagation(), clearInterval(this.idInterval)}),
+		// BOTTOM ROW CTRL
+		this.components.ctrls.remove.addEventListener('mouseup', e => { 
 			e.stopPropagation()
 			this.checkDatasetItemSelected() && (() => {
 				this.components.view.querySelector('[data-item-selected]').remove()
@@ -535,10 +429,171 @@ export class Moodboard {
 			})()
 		})
 	}
+	/* HANDLERS */
+	handlerRotateL(e)
+	{
+		e.stopPropagation(),			
+		this.checkDatasetItemSelected() && (() => {
+			let 
+			tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+			tArr = tStr.split(' '),
+			r = 0, str = ''
+
+			tArr.forEach((item) => { (-1 < item.indexOf('deg') && (r = item.replace('rotateZ(', '').replace('deg)', ''))) || (str += item) })
+
+			this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + (1 * r - 5) + 'deg) ' + str,
+			
+			this.setSessionStorage(), this.alert.display('rotateL')
+		})()
+	}
+	handlerRotateR(e)
+	{
+		e.stopPropagation(),
+		this.checkDatasetItemSelected() && (() => {
+			let 
+			tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+			tArr = tStr.split(' '),
+			r = 0, str = ''
+
+			tArr.forEach((item) => { (-1 < item.indexOf('deg') && (r = item.replace('rotateZ(', '').replace('deg)', ''))) || (str += item) })
+
+			this.components.view.querySelector('[data-item-selected]').style.transform = 'rotateZ(' + (1 * r + 5) + 'deg) ' + str,
+			
+			this.setSessionStorage(), this.alert.display('rotateR')
+		})()
+	}
+	handlerScaleP(e)
+	{
+		e.stopPropagation()
+		this.checkDatasetItemSelected() && (() => {
+			let 
+			tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+			tArr = tStr.split(' '),
+			sx = 1, sy = 1, str = ''
+
+			tArr.forEach((item) => { 
+				-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+				-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
+				(str += item) 
+			})
+
+			sx = 1 * sx, sx = sx >= 0 ? sx + 0.1 : sx - 0.1, 
+			sy = 1 * sy, sy = sy >= 0 ? sy + 0.1 : sy - 0.1				
+
+			this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+			this.setSessionStorage(),	this.alert.display('scaleP')
+		})()
+	}
+	handlerScaleM(e)
+	{
+		e.stopPropagation(),
+		this.checkDatasetItemSelected() && (() => {
+			let 
+			tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+			tArr = tStr.split(' '),
+			sx = 1, sy = 1, str = ''
+
+			tArr.forEach((item) => { 
+				-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+				-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
+				(str += item) 
+			})
+
+			sx = 1 * sx, sx = sx >= 0 ? sx > 0.1 && (sx - 0.1) || sx : sx < -0.1 && (sx + 0.1) || sx, 
+			sy = 1 * sy, sy = sy >= 0 ? sy > 0.1 && (sy - 0.1) || sy : sy + 0.1	&& (sy + 0.1) || sy
+
+			this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+			this.setSessionStorage(),	this.alert.display('scaleM')
+		})()
+	}
+	handlerScaleXP(e)
+	{
+		e.stopPropagation(),
+		this.checkDatasetItemSelected() && (() => {
+			let 
+			tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+			tArr = tStr.split(' '),
+			sx = 1, sy = 1, str = ''
+
+			tArr.forEach((item) => { 
+				-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+				-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
+				(str += item) 
+			})
+
+			sx = 1 * sx, sx = sx >= 0 ? sx + 0.1 : sx - 0.1, 
+
+			this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+			this.setSessionStorage(),	this.alert.display('scaleXP')
+		})()
+	}
+	handlerScaleXM(e)
+	{
+		e.stopPropagation(),
+		this.checkDatasetItemSelected() && (() => {
+			let 
+			tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+			tArr = tStr.split(' '),
+			sx = 1, sy = 1, str = ''
+
+			tArr.forEach((item) => { 
+				-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+				-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) ||  
+				(str += item) 
+			})
+
+			sx = 1 * sx, sx = sx >= 0 ? sx > 0.1 && (sx - 0.1) || sx : sx < -0.1 && (sx + 0.1) || sx
+
+			this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+			this.setSessionStorage(),	this.alert.display('scaleXM')
+		})()
+	}
+	handlerScaleYP(e)
+	{
+		e.stopPropagation(),
+		this.checkDatasetItemSelected() && (() => {
+			let 
+			tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+			tArr = tStr.split(' '),
+			sx = 1, sy = 1, str = ''
+
+			tArr.forEach((item) => { 
+				-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+				-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) ||
+				(str += item) 
+			})
+
+			sy = 1 * sy, sy = sy >= 0 ? sy + 0.1 : sy - 0.1
+
+			this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+			this.setSessionStorage(),	this.alert.display('scaleYP')
+		})()
+	}
+	handlerScaleYM(e)
+	{
+		e.stopPropagation(),
+		this.checkDatasetItemSelected() && (() => {
+			let 
+			tStr = this.components.view.querySelector('[data-item-selected]').style.transform,
+			tArr = tStr.split(' '),
+			sx = 1, sy = 1, str = ''
+
+			tArr.forEach((item) => { 
+				-1 < item.indexOf('scaleX') && (sx = item.replace('scaleX(', '').replace(')', '')) ||
+				-1 < item.indexOf('scaleY') && (sy = item.replace('scaleY(', '').replace(')', '')) || 
+				(str += item) 
+			})
+
+			sy = 1 * sy, sy = sy >= 0 ? sy > 0.1 && (sy - 0.1) || sy : sy + 0.1	&& (sy + 0.1) || sy
+
+			this.components.view.querySelector('[data-item-selected]').style.transform = str + ' scaleX(' + sx + ') scaleY(' + sy + ')',
+			this.setSessionStorage(),	this.alert.display('scaleYM')
+		})()
+	}
 
 	materialsRefItemEvent(items)
 	{
-		items.forEach(item => item.addEventListener('click', () => {			
+		items.forEach(item => item.addEventListener('mouseup', () => {			
 			const img = document.createElement('img');			
 			img.id = this.getViewItemId(),
 			img.draggable = !0, img.src = item.dataset.materialRefSrc, img.dataset.viewItem = '', 
@@ -549,7 +604,7 @@ export class Moodboard {
 
 	backgroundsRefItemEvent(items)
 	{
-		items.forEach(item => item.addEventListener('click', () => {
+		items.forEach(item => item.addEventListener('mouseup', () => {
 			this.components.view.style.backgroundImage = 'url("' + item.dataset.backgroundRefSrc + '")'
 			this.setSessionStorage(), this.alert.display('add background')
 		}))
@@ -557,7 +612,7 @@ export class Moodboard {
 
 	viewItemEvents(item)
 	{
-		item.addEventListener('click', (e) => { 			
+		item.addEventListener('mouseup', (e) => { 			
 			e.stopPropagation(), this.removeDatasetItemSelected(),	
 			this.addDatasetItemSelected(item)
 		}),
