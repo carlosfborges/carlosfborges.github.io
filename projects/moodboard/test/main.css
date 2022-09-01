@@ -1,9 +1,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html, body {
 	width: 100vw; height: 100vh;
 }
-
 #cfb-moodboard { 
 	margin: auto; 
 	display: grid;
@@ -11,7 +9,6 @@ html, body {
 	min-height: 500px;
 	min-width: 300px;
 }
-
 #cfb-moodboard > div {
 	display: grid;
 	grid-template-columns: 60px calc(100% - 120px - 2 * 5px) 60px;	
@@ -20,26 +17,22 @@ html, body {
 	font-size: 10pt;
 	text-align: center;	
 }
-
 #cfb-moodboard svg { 
 	width: 24px; 
 	height: 24px;
 	cursor: pointer;
 }
-
 #cfb-moodboard [data-moodboard-group-column1='inactive'],
 #cfb-moodboard [data-moodboard-group-column2='inactive'],
 #cfb-moodboard [data-moodboard-group-column3='inactive'] { 
 	pointer-events: none;
 	color: lightgrey; 
 }
-
 #cfb-moodboard [data-moodboard-group-column1='inactive'] svg > path,
 #cfb-moodboard [data-moodboard-group-column2='inactive'] svg > path,
 #cfb-moodboard [data-moodboard-group-column3='inactive'] svg > path { 
 	fill: lightgrey; 
 }
-
 /* Moodboard group: TOP */
 #cfb-moodboard [data-moodboard-group-row1] > [data-moodboard-group-column2] {
 	display: flex;
@@ -53,7 +46,6 @@ html, body {
 	display: flex;
 	align-items: center;
 }
-
 /* Moodboard group: MIDDLE */
 #cfb-moodboard [data-moodboard-group-row2] svg {	
 	margin-top: 3px;
@@ -62,7 +54,6 @@ html, body {
 #cfb-moodboard [data-moodboard-group-row2] > [data-moodboard-group-column3] > div {	
 	padding: 5px;	
 }
-
 /* VIEW */
 #cfb-moodboard [data-moodboard-group-row2] > [data-moodboard-group-column2] {	
 	width: inherit;
@@ -72,7 +63,6 @@ html, body {
 	overflow: hidden;
 	position: relative;
 }
-
 /* Moodboard group: BOTTOM */
 #cfb-moodboard [data-moodboard-group-row3] > [data-moodboard-group-column2] {	
 	display: flex;
@@ -90,9 +80,7 @@ html, body {
 	justify-content: center;
 	align-items: center;
 }
-
 /* Specific style for BTNS-CTRLS */
-
 /* MIRRO-H */
 #cfb-moodboard [data-moodboard-ctrl-mirror-h] {
 	display: flex; 
@@ -112,7 +100,6 @@ html, body {
 #cfb-moodboard [data-moodboard-group-row2] [data-moodboard-group-column1='inactive'] [data-moodboard-ctrl-mirror-h] > :nth-child(1) {
 	border-right-color: lightgrey;
 }
-
 /* MIRRO-V */
 #cfb-moodboard [data-moodboard-ctrl-mirror-v] {
 	display: flex; 
@@ -133,7 +120,6 @@ html, body {
 #cfb-moodboard [data-moodboard-group-row2] [data-moodboard-group-column1='inactive'] [data-moodboard-ctrl-mirror-v] > :nth-child(2) {
 	border-top-color: lightgrey;
 }
-
 /* SCALE-X-P */
 #cfb-moodboard [data-moodboard-ctrl-scalex-plus] > *,
 #cfb-moodboard [data-moodboard-ctrl-scalex-minus] > * {
@@ -147,7 +133,6 @@ html, body {
 #cfb-moodboard [data-moodboard-group-row2] [data-moodboard-group-column3='inactive'] [data-moodboard-ctrl-scalex-minus] > * {
 	border-color: lightgrey;
 }
-
 /* SCALE-Y */
 #cfb-moodboard [data-moodboard-ctrl-scaley-plus] > *,
 #cfb-moodboard [data-moodboard-ctrl-scaley-minus] > * {
@@ -161,29 +146,24 @@ html, body {
 #cfb-moodboard [data-moodboard-group-row2] [data-moodboard-group-column3='inactive'] [data-moodboard-ctrl-scaley-minus] > * {
 	border-color: lightgrey;
 }
-
 /* REMOVE */
 #cfb-moodboard [data-moodboard-ctrl-remove] {
 	margin-top: 20px;
 }
-
 /* AUXILIAR styles */
 #cfb-moodboard[data-moodboard-hide] {
 	opacity: 0;
 }
-
 #cfb-moodboard [data-item-selected] {
 	outline: 1px dashed black;
 	outline-offset: 1px;
 }
-
 #cfb-moodboard [data-view-item] {
 	position: absolute;
 	left: 0;
 	top: 0;;
 	width: 30%;
 }
-
 /* HIDE */
 /*#cfb-moodboard [data-moodboard-group-column2][data-hide], */
 /*#cfb-moodboard [data-moodboard-group-row2][data-hide], */
@@ -195,7 +175,6 @@ html, body {
 	opacity: 0;
 	background-color: transparent;
 }
-
 /* INACTIVE */
 #cfb-moodboard [data-moodboard-view][data-inactive] {
 	pointer-events: none;
