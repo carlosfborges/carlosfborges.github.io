@@ -96,7 +96,7 @@
         touch = { 
             start:0,
             end:0,
-            get res() { return this.start - this.end; }, 
+            get res() { return Math.trunc(this.start - this.end); }, 
             init: function() { this.start = 0; this.end = 0; }
         };
         let navStatus = "close";
@@ -136,13 +136,18 @@
         });
         moodboard.addEventListener("touchend", () => {
             if (Math.sign(touch.res) === -1) { moodboard.style.right = 0; return false; }
-            if (touch.res >= 30) { 
+            if (touch.res >= window.screen.availWidth * 30 / 100) {
+                touch.init(); 
                 moodboard.setAttribute("data-outline","close");
                 setTimeout(() => moodboard.style.right = 0, 1000);
             } else {
-                moodboard.style.right = 0;
+                // moodboard.style.right = 0;
+                const id = setInterval(() => {
+                    if (touch.res === 0) { touch.init(); clearInterval(id); return true; }
+                    touch.end++;
+                    moodboard.style.right = touch.res + "px";
+                }, 200 / touch.res);
             }
-            touch.init();
         });
     </script>
 </body>
