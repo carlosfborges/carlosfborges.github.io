@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moodboard</title>
+</head>
+<body>
+    <script>
+        function next() { location.href = this; location.reload(); }
+        
+        let hash = location.hash.slice(1) !== "" ? location.hash.slice(1) : (location.href = "#1").slice(1);
+        fetch(`slides/img${hash}.png`).then(res => {
+            if (res.status === 404) { next.call("#1"); return true; }
+            document.body.style.cssText = `
+                width: 95vw;
+                height: 100vh;
+                background-image: url("slides/img${hash}.png");
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: contain;
+            `;
+            document.body.addEventListener("click", () => next.call(`#${Number(hash) + 1}`)); 
+        });
+        document.body.addEventListener("keydown", () => {
+            event.key === "ArrowRight" && next.call(`#${Number(hash) + 1}`);
+            event.key === "ArrowLeft" && hash !== "1" && next.call(`#${Number(hash) - 1}`);
+        });
+    </script>
+</body>
+</html>
