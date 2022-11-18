@@ -33,7 +33,10 @@
             cursor:pointer;
         }
         #mTabs { position:absolute;width:100%;bottom:65px;text-align:center;white-space:nowrap; }
-        #mTabs button { color:rgba(0,0,0,.3);width:45%;background-color:rgba(255,255,255,.15); }
+        #mTabs button { 
+            color:rgba(0,0,0,.3);width:45%;background-color:rgba(255,255,255,.15); 
+            font-size:large;
+        }
         #mTabs button:hover { color:#803c3c;text-decoration:underline double .1px;text-shadow:0 0 .5px; }
         #mBoard, #mItems { width:100%;height:100%; }
         #mBoard { background:white url("bg/bg1.png") no-repeat center;background-size: contain; }
@@ -88,7 +91,14 @@
         </nav>
     </section>
     <script>
-        const moodboard = document.getElementById("moodboard");
+        const 
+        moodboard = document.getElementById("moodboard"), 
+        touch = { 
+            start:0,
+            end:0,
+            get res() { return this.start - this.end; }, 
+            init: function() { this.start = 0; this.end = 0; }
+        };
         let navStatus = "close";
 
         moodboard.querySelector("header").addEventListener("click", function() {
@@ -114,6 +124,26 @@
                 this.classList.add("tabSel");
             });
         }
+
+        moodboard.addEventListener("touchstart", () => {
+            touch.start = event.touches[event.touches.length - 1].pageX;
+            touch.end = window.screen.availWidth;
+        });
+        moodboard.addEventListener("touchmove", () => {
+            touch.end = event.touches[event.touches.length - 1].pageX;
+            if (Math.sign(touch.res) === -1) { return false; }
+            moodboard.style.right = touch.res + "px";
+        });
+        moodboard.addEventListener("touchend", () => {
+            if (Math.sign(touch.res) === -1) { moodboard.style.right = 0; return false; }
+            if (touch.res >= 30) { 
+                moodboard.setAttribute("data-outline","close");
+                setTimeout(() => moodboard.style.right = 0, 1000);
+            } else {
+                moodboard.style.right = 0;
+            }
+            touch.init();
+        });
     </script>
 </body>
 </html>
