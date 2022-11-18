@@ -23,9 +23,7 @@
             box-shadow:0 0 8px;transform:translateY(calc(100% - 60px));transition:all .5s;color:white;
         }
         #board nav p { margin-bottom: 16px; }
-        #board nav:hover { 
-            transform:translateY(0);
-        }
+        #board nav:hover { transform:translateY(0); }
         #board button { 
             padding: 32px 16px;text-transform:uppercase;color:white;
             background-color:transparent;border:none;cursor:pointer; 
@@ -53,6 +51,8 @@
             animation-name:closePos;animation-duration:1s;
             animation-timing-function:ease-in-out;animation-fill-mode:forwards; 
         }
+        [data-nav="open"] { transform:translateY(0) !important; }
+        [data-nav="close"] { transform:translateY(calc(100% - 60px)) !important; }
         @keyframes openOutline { from {width:0;} to {width:100%;} }
         @keyframes closeOutline { from { width:100%; } to { width:0; } }
         @keyframes openPos { from {left:0;} to {left:100%;} }
@@ -76,12 +76,19 @@
     </section>
     <script>
         const board = document.getElementById("board");
+        let navStatus = "close";
 
         board.querySelector("header").addEventListener("click", function() {
             board.setAttribute("data-outline","close");
         });
         board.querySelector("#openBoard").addEventListener("click", function() {
             board.setAttribute("data-outline","open");
+        });
+
+        document.body.clientWidth <= 600 &&
+        board.querySelector("nav p").addEventListener("click", function() {
+            this.parentElement.setAttribute("data-nav", 
+            this.parentElement.dataset.nav === "open" ? "close" : "open");
         });
     </script>
 </body>
