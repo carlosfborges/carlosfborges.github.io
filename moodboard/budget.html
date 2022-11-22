@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        html, body { line-height: 2; }
+        p { line-height: 1.5; }
+        input { width: 24px !important; }
+        label { width: calc(100% - 24px - 16px) !important; }
+        footer { height: 15vh; }
+        #budget { 
+            padding-top: 96px !important;
+            width: 100%; max-width: 600px; overflow: hidden;
+        }
+        #about { border-bottom: 1px dotted; border-top: 1px dotted; }
+        #budget header { z-index: 2; text-shadow: 1px 1px 0 #444; max-width: 600px; margin-left: -16px;}
+        .divOpts { position: relative; }
+        .mask { 
+            position: absolute; width: 100%; height: 100%; background-color: rgba(0,0,0,.1); 
+            top: 0; left: 0; z-index: 1; display: none;
+        }
+        .divOpts[disabled] { color: lightgray; }
+        .divOpts[disabled] .mask { display: block; }
+    </style>
+</head>
+<body>
+    <section id="budget" class="w3-container w3-auto w3-padding-64 w3-light-gray">
+        <header class="w3-container w3-top w3-right-align w3-blue w3-card w3-auto">
+            <span id="shop" class="w3-xlarge w3-text-orange">R$ 0</span><br /><span id="time"></span>
+        </header>
+        <h1>Orçamento Moodboard</h1>
+        <div id="about" class="w3-pale-yellow w3-panel">
+            <p>Itens pre selecionados sugeridos pelo desenvolvedor.</p>
+            <p>Você pode alterar como desejar.</p>
+            <p>No final na descrição, envie-nos seu pedido por e-mail clicando no botão correspondente.</p>
+        </div>
+        <h2 class="w3-large w3-center" style="margin-top: 32px;">DESCRIÇÃO DO ORÇAMENTO</h2>
+        <div class="w3-panel w3-leftbar w3-border-blue">
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="layout" class="w3-check w3-col" onclick="changeStatus.call(this, '#radioOpts')" checked>
+                <label for="layout" class="w3-col w3-margin-left">
+                    Criar uma página com design responsivo no Shopify (Liquid) para o Moodboard:
+                </label>
+            </div>
+            <div id="radioOpts" class="w3-container w3-padding-16 w3-border-left w3-margin-top divOpts">
+                <div class="mask"></div>
+                <div class="w3-row w3-margin-top">
+                    <input type="radio" id="layout1" name="layout" class="w3-radio w3-col" checked>
+                    <label for="layout1" class="w3-col w3-margin-left">Layout definido por terceiros <span>R$ 300</span></label>
+                </div>
+                <div class="w3-row w3-margin-top">
+                    <input type="radio" id="layout2" name="layout" class="w3-radio w3-col">
+                    <label for="layout2" class="w3-col w3-margin-left">Layout criado do zero <span>R$ 900</span></label>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="w3-panel w3-leftbar w3-border-amber">
+            <h2 class="w3-medium">Criar seções:</h2>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="section1" name="section1" class="w3-check w3-col" checked>
+                <label for="section1" class="w3-col w3-margin-left">
+                    Seção 1: Add imagens de background <span>R$ 300</span>
+                </label>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="sec2" class="w3-check w3-col" onclick="changeStatus.call(this, '#sec2Opts')" checked>
+                <label for="sec2" class="w3-col w3-margin-left">
+                    Seção 2: Editar/criar seção de acabamentos
+                </label>
+            </div>
+            <div id="sec2Opts" class="w3-container w3-padding-16 w3-border-left w3-margin-top divOpts">
+                <div class="mask"></div>
+                <div class="w3-row w3-margin-top">
+                    <input type="radio" id="section2.1" name="section2" class="w3-radio w3-col" checked>
+                    <label for="section2.1" class="w3-col w3-margin-left">
+                        Poderá ser aproveitado a seção de acabamentos/matéria prima já criada. Para isto, deverá ser add um campo/atributo, que fará referência a imagem a ser usada no Moodboard.
+                        Como recomendação, é interessante add um campo/atributo para saber se o acabamento deverá ou não ser exibido na seção do Moodboard. <span>R$ 600</span>
+                    </label>
+                </div>
+                <div class="w3-row w3-margin-top">
+                    <input type="radio" id="section2.2" name="section2" class="w3-radio w3-col">
+                    <label for="section2.2" class="w3-col w3-margin-left">
+                        Caso se prefira criar uma nova seção para os acabamentos exclusiva do Moodboard, também é possível. 
+                        Mas vale lembrar que toda atualização que ocorrer na seção já criada, também deverá ser feita nesta nova seção. Se isso não for feito, corre-se o risco de se ter acabamentos desatualizados. <span>R$ 600</span>
+                    </label>
+                </div>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="section3" name="section3" class="w3-check w3-col">
+                <label for="section3" class="w3-col w3-margin-left">
+                    Seção 3: <span>R$ 900</span><br />
+                    É possível add no Moodboard as imagens geradas dos produtos customizados.
+                    Para que o usuário tenha uma melhor experiência será verificado a possibilidade das funções de busca e customização serem feitas na própria página do Moodboard.
+                </label>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="section4" name="section4" class="w3-check w3-col" checked>
+                <label for="section4" class="w3-col w3-margin-left">
+                    Seção 4: Add exemplos de Moodboard. <span>R$ 450</span><br />
+                    Esta seção teremos código e imagem da composição.
+                    Para criar um exemplo o usuário admin deverá usar a página do Moodboard e após o término da criação, copiar e colar os códigos gerados pelo sistema na seção correspondente.
+                </label>
+            </div>
+        </div>
+        <hr />
+        <div class="w3-panel w3-leftbar w3-border-blue">
+            <h2 class="w3-medium">Funcionalidades:</h2>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="f1" name="f1" class="w3-check w3-col" checked>
+                <label for="f1" class="w3-col w3-margin-left">Mover: drag and drop <span>R$ 100</span></label>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="f2" name="f2" class="w3-check w3-col" checked>
+                <label for="f2" class="w3-col w3-margin-left">Redimensionar: vertical, horizontal e ambos (mantendo a proporção) <span>R$ 100</span></label>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="f3" name="f3" class="w3-check w3-col" checked>
+                <label for="f3" class="w3-col w3-margin-left">Rebater/Mirror: vertical e horizontal <span>R$ 100</span></label>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="f4" name="f4" class="w3-check w3-col" checked>
+                <label for="f4" class="w3-col w3-margin-left">Rotação: sentidos horário e anti horário <span>R$ 100</span></label>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="f5" name="f5" class="w3-check w3-col" checked>
+                <label for="f5" class="w3-col w3-margin-left">Ordenação no eixo Z. Sobreposição dos elementos <span>R$ 100</span></label>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="f6" name="f6" class="w3-check w3-col" checked>
+                <label for="f6" class="w3-col w3-margin-left">Redimensionar toda a composição mantendo-se a proporção e posição dos itens inseridos <span>R$ 100</span></label>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="f6" name="f6" class="w3-check w3-col" checked>
+                <label for="f6" class="w3-col w3-margin-left">Remover item | Limpar composição <span>R$ 100</span></label>
+            </div>
+        </div>
+        <hr />
+        <div class="w3-panel w3-leftbar w3-border-amber">
+            <h2 class="w3-medium">Entregas:</h2>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="d1" name="d1" class="w3-check w3-col" checked>
+                <label for="d1" class="w3-col w3-margin-left">Arquivo pdf com a composição das imagens e lista com os itens inseridos <span>R$ 150</span></label>
+            </div>
+        </div>
+        <div class="w3-center">
+            <a id="email" href="mailto:cfb.1dev@gmail.com?subject=Orçamento Moodboard&body=" class="w3-button w3-black w3-hover-blue w3-margin-top" onclick="setBody.call(this)">Enviar E-mail</a>
+        </div>
+    </section>
+    <footer></footer>
+    <script>
+        function calc() {
+            let sum = 0;
+            for (const input of this) {
+                const next = input.nextElementSibling.children[0];
+                input.checked && next && (sum += 1 * next.innerHTML.slice(3));
+            }
+            shop.innerHTML = "R$ " + sum;
+            return sum;
+        }
+        function changeStatus(ref) {
+            ref = document.querySelector(ref);
+            if (this.checked) { 
+                ref.removeAttribute("disabled");
+            } else {
+                const inputs = ref.getElementsByTagName("input");
+                for (const input of inputs) { input.checked = false; }
+                ref.setAttribute("disabled", true);
+            }
+        }
+        function calcTime(sum) {
+            let days = Math.ceil(sum / 300 );
+            this.innerHTML = "Previsto: " + days + (days > 1 ? " dias " : " dia ") + "de trabalho";
+            return days;
+        }
+        function setBody() {
+            let sum = calc.call(inputs);
+            let txt = `
+                <div class="w3-container w3-light-gray w3-auto w3-margin-top w3-margin-bottom" style="max-width:600px;">
+                <h1 class="w3-center">Orçamento Moodboard</h1>
+                <p>Valor: R$ ${sum}</p>
+                <p>Previsão: ${calcTime.call(time, sum) + (sum > 1 ? " dias" : " dia")}</p>
+                <p>Data: ${new Date()}</p>
+                <ol>
+            `;
+            for (const input of inputs) {
+                const next = input.nextElementSibling.children[0];
+                input.checked && next && (txt += `<li style="line-height:2;margin-top:8px;">${next.parentElement.textContent}</li>`);
+            }
+            txt += "</ol></div>";
+            this.setAttribute("href", this.href + `LINK ORÇAMENTO: ${window.location.origin}/moodboard/getbudget.html?data=${btoa(txt)}`);
+        }
+        
+        const 
+        shop = document.getElementById("shop"),
+        time = document.getElementById("time"),
+        email = document.getElementById("email"),
+        inputs = document.getElementsByTagName("input");
+
+        let sum = calc.call(inputs);
+
+        for (const input of inputs) { 
+            input.addEventListener("change", () => {
+                let sum = calc.call(inputs);
+                calcTime.call(time, sum);
+            }) 
+        }
+
+        calcTime.call(time, sum);
+    </script>
+</body>
+</html>
