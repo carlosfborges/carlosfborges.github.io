@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <section id="budget" class="w3-container w3-auto w3-padding-64 w3-light-gray">
+        <header class="w3-container w3-top w3-right-align w3-blue w3-card w3-auto">
+            <span id="shop" class="w3-xlarge w3-text-orange">R$ 0</span><br /><span id="time"></span>
+        </header>
+        <h1>Orçamento Header Template Chicago</h1>
+        <div id="about" class="w3-pale-yellow w3-panel">
+            <p>Itens pre selecionados sugeridos pelo desenvolvedor.</p>
+            <p>Você pode alterar como desejar.</p>
+            <p>No final na descrição, envie-nos seu pedido por e-mail clicando no botão correspondente.</p>
+        </div>
+        <h2 class="w3-large w3-center" style="margin-top: 32px;">DESCRIÇÃO DO ORÇAMENTO</h2>
+        <div class="w3-panel w3-leftbar w3-border-blue">
+            <h2 class="w3-medium">Header</h2>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="header" class="w3-check w3-col" onclick="changeStatus.call(this, '#radioOpts')" checked>
+                <label for="header" class="w3-col w3-margin-left">
+                    Editar a seção Header do template Chicago:
+                </label>
+            </div>
+            <div id="radioOpts" class="w3-container w3-padding-16 w3-border-left w3-margin-top divOpts">
+                <div class="mask"></div>
+                <div class="w3-row w3-margin-top">
+                    <input type="radio" id="header1" name="header" class="w3-radio w3-col" checked>
+                    <label for="header1" class="w3-col w3-margin-left">Copiar a seção do template atual (ao vivo) e ver se funciona. <span>R$ 100</span></label>
+                </div>
+                <div class="w3-row w3-margin-top">
+                    <input type="radio" id="header2" name="header" class="w3-radio w3-col">
+                    <label for="header2" class="w3-col w3-margin-left">Editar o código da seção do Header do template Chicago, ajustando o posicionamento dos elementos. <span>R$ 200</span></label>
+                </div>
+            </div>
+            <div class="w3-row w3-margin-top">
+                <input type="checkbox" id="css" name="css" class="w3-check w3-col">
+                <label for="css" class="w3-col w3-margin-left">Estilizar (CSS) o Header <span>R$ 150</span></label>
+            </div>
+        </div>
+        <div class="w3-center">
+            <a id="email" href="mailto:cfb.1dev@gmail.com?subject=Orçamento Moodboard&body=" class="w3-button w3-black w3-hover-blue w3-margin-top" onclick="setBody.call(this)">Enviar E-mail</a>
+        </div>
+    </section>
+    <footer></footer>
+    <script src="main.js"></script>
+</body>
+</html>
