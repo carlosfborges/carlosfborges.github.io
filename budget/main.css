@@ -1,0 +1,18 @@
+html, body { line-height: 2; }
+p { line-height: 1.5; }
+input { width: 24px !important; }
+label { width: calc(100% - 24px - 16px) !important; }
+footer { height: 15vh; }
+#budget { 
+    padding-top: 96px !important;
+    width: 100%; max-width: 600px; overflow: hidden;
+}
+#about { border-bottom: 1px dotted; border-top: 1px dotted; }
+#budget header { z-index: 2; text-shadow: 1px 1px 0 #444; max-width: 600px; margin-left: -16px;}
+.divOpts { position: relative; }
+.mask { 
+    position: absolute; width: 100%; height: 100%; background-color: rgba(0,0,0,.1); 
+    top: 0; left: 0; z-index: 1; display: none;
+}
+.divOpts[disabled] { color: lightgray; }
+.divOpts[disabled] .mask { display: block; }
