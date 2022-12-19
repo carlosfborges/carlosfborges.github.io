@@ -8,7 +8,7 @@ function Save({id,css,board,local}) {
   this.html = function() {
     if (this.css) this.link();
     return (`
-      <div id="${this.id}">
+      <div id="${this.id}" class="hide">
         <button id="discard">Discard</button> 
         <button id="save">Save</button> 
       </div>
