@@ -1,0 +1,36 @@
+#save_container {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  bottom: 0;
+  left: 0;
+  text-align: right;
+  background-color: #222;
+  padding: 1em 2em;
+  width: 100%;
+  height: 82px;
+}
+#save_container.hide {
+  display: none;
+}
+#save_container button {
+  border: none;
+  padding: .5em 1em;
+  color: #fff;
+  transition: all .5s linear;
+  min-width: 130px;
+  min-height: 50px;
+}
+#save_container button#discard {
+  background-color: transparent;
+  border: 1px solid #a3a3a3
+}
+#save_container button#discard:hover {
+  background-color: #a3a3a3;
+}
+#save_container button#save {
+  background-color: #00C851;
+}
+#save_container button#save:hover {
+  background-color: #007E33;
+}
