@@ -1,0 +1,209 @@
+:root {
+  --black: #222;
+  --white: #fff;
+  --alpha-black: rgba(0, 0, 0, .5);
+  --alpha-white: rgba(255, 255, 255, .5);
+  --yellow: #fb3;
+  --hover-transition: all .5s ease;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+html {
+  background-color: var(--black);
+  background-image: 
+    url('img/profile.png'), 
+    conic-gradient(at 50% 60%, transparent 0 45deg, var(--alpha-white), transparent, var(--alpha-white), transparent),
+    conic-gradient(at 50% 60%, rgba(128, 0, 128, .05), transparent);
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain;
+}
+ul {
+  list-style: none;
+}
+
+#header_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(45% - 130px);
+  padding: 2em;
+}
+#header_container h1 {
+  color: var(--white);
+  text-align: center;
+  letter-spacing: .1em;
+}
+#header_container h1:first-child {
+  margin-bottom: .5em;
+}
+#header_container h1 span {
+  font-size: .5em;
+}
+#header_container h1 span:before {
+  content: '< ';
+  color: var(--alpha-white);
+}
+#header_container h1 span:after {
+  content: ' >';
+  color: var(--alpha-white);
+}
+
+#home_container {
+  display: flex;
+  padding: .5em;
+  height: 130px;
+  overflow-x: auto;
+}
+#home_container ul {
+  display: flex;
+}
+#home_container li {
+  margin: 0 1em;
+}
+#home_container img {
+  width: auto;
+  height: 60px;
+  -webkit-box-reflect: below .2em linear-gradient(transparent,rgba(0, 0, 0, .3), var(--black));
+}
+
+#nav_container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 20%;
+  padding: .5em;
+  background-image: linear-gradient(transparent, var(--black));
+}
+#nav_container ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 100%;
+  width: 100%;
+  max-width: 600px;
+  padding-bottom: 1.5em;
+}
+#nav_container li {
+  color: var(--white);
+  padding: .5em 0;
+  text-shadow: 0 0 30px var(--black);
+  transition: var(--hover-transition);
+  cursor: pointer;
+  max-width: 25%;
+  font-size: .9em;
+}
+#nav_container li:hover {
+  color: var(--yellow);
+}
+#nav_container li::before {
+  content: '< ';
+  color: var(--alpha-white);
+}
+#nav_container li::after {
+  content: ' >';
+  color: var(--alpha-white);
+}
+
+#modal_container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  padding: 0;
+  background-color: var(--white);
+  background-image: conic-gradient(at 50% -10%, var(--alpha-black) 45deg, var(--alpha-white), var(--alpha-black));
+}
+#modal_container.open {
+  padding: 1em;
+  animation-name: modal_open;
+  animation-duration: .5s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+#modal_container.close {
+  padding: 1em;
+  animation-name: modal_close;
+  animation-duration: .8s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+#modal_container button {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+
+.small {
+  font-size: .9em;
+  font-weight: normal;
+}
+.hide {
+  display: none;
+}
+
+@media only screen and (orientation: landscape) {
+  html, body {
+    position: relative;
+  }
+
+  #header_container {
+    height: fit-content;
+  }
+  
+  #home_container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    justify-content: flex-end;
+  }
+  #home_container ul {
+    flex-direction: column;
+    align-items: flex-end;
+    padding-bottom: 60px;
+  }
+  #home_container ul li:last-child {
+    padding-bottom: 60px;
+  }
+  #home_container li {
+    margin: 1em;
+  }
+  #home_container img {
+    -webkit-box-reflect: left .2em linear-gradient(to left, transparent,rgba(0, 0, 0, .3), var(--black));
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  #nav_container li {
+    transition: var(--hover-transition);
+  }
+  #nav_container li:hover {
+    font-size: 1.1em;
+  }
+}
+
+@keyframes modal_open {
+  from { opacity: 0; height: 0; }
+  to { opacity: 1; height: calc(55% + 130px); }
+}
+@keyframes modal_close {
+  0% { opacity: 1; height: calc(55% + 130px); }
+  30% { opacity: 1; height: calc(65% + 130px); }
+  100% { opacity: 0; height: 0; }
+}
