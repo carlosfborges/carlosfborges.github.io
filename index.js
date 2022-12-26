@@ -22,7 +22,7 @@ root.innerHTML = `
 
 document.getElementById('nav_container')
   .addEventListener('click', (e) => {
-    nav.onClick(e) && modal.openModal(e.target.innerText);
+    nav.onClick(e) && modal.openModal(e.target.id);
   });
 document.getElementById('home_container')
   .addEventListener('scroll', () => home.onScroll());

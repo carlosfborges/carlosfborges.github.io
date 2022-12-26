@@ -9,6 +9,7 @@ function Home({id}) {
       ['javascript' , 'https://logodownload.org/wp-content/uploads/2022/04/javascript-logo-1.png'],
       ['php'        , 'https://logospng.org/download/php/logo-php-512.png'],
       ['mysql'      , 'https://seeklogo.com/images/M/MySQL-logo-F6FF285A58-seeklogo.com.png'],
+      ['liquid'     , 'https://parse.programmieren-muenchen.de/parse/files/unilearn/liquid-logo-text.png'],
       ['mongodb'    , 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png'],
       ['git'        , 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Git-logo.svg/1024px-Git-logo.svg.png'],
       ['react'      , 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png'],
@@ -19,7 +20,7 @@ function Home({id}) {
   let langsHtml = '';
   langs.forEach((value, key) => langsHtml += `<li><img src="${value}" alt="${key}" /></li>`);
 
-  this.screenType = 'portrait-primary';
+  this.screenType = undefined;
   this.html = `<section id="${id}"><ul>${langsHtml}</ul></section>`;
 
   this.render = function() { return this.html }
@@ -43,6 +44,8 @@ function Home({id}) {
     const s = window.screen;
     return s.availWidth > s.availHeight ? 'landscape-primary' : 'portrait-primary';
   }
+
+  this.screenType = this.getScreenType();
 
 }
 
