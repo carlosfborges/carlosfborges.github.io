@@ -19,7 +19,7 @@ function Home({id}) {
   let langsHtml = '';
   langs.forEach((value, key) => langsHtml += `<li><img src="${value}" alt="${key}" /></li>`);
 
-  this.screenType = window.screen.orientation.type;
+  this.screenType = 'portrait-primary';
   this.html = `<section id="${id}"><ul>${langsHtml}</ul></section>`;
 
   this.render = function() { return this.html }
@@ -37,6 +37,11 @@ function Home({id}) {
     const el = document.getElementById(id);
     this.screenType === 'portrait-primary' ? (el.scrollLeft += step) : (el.scrollTop += step);
     this.createEffect();
+  }
+
+  this.getScreenType = function() {
+    const s = window.screen;
+    return s.availWidth > s.availHeight ? 'landscape-primary' : 'portrait-primary';
   }
 
 }

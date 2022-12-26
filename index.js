@@ -29,7 +29,9 @@ document.getElementById('home_container')
 document.getElementById('modal_container')
   .addEventListener('click', (e) => modal.onClick(e));
 
-window.addEventListener('resize', () => { home.screenType = window.screen.orientation.type });
+window.addEventListener('resize', () => { 
+  home.screenType = window.screen.orientation ? window.screen.orientation.type : home.getScreenType()
+});
 
 init();
 

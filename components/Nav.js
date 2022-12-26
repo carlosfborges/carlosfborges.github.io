@@ -2,8 +2,8 @@ function Nav({id}) {
 
   const items = new Map([
     ['about'   , 'Sobre'],
-    ['clients' , 'Clientes'],
     ['samples' , 'Amostras'],
+    ['clients' , 'Clientes'],
     ['contact' , 'Contato']
   ]);
 
