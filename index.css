@@ -26,6 +26,9 @@ html {
   background-position: center bottom;
   background-size: contain;
 }
+article {
+  padding-top: 1.5em;
+}
 ul {
   list-style: none;
 }
