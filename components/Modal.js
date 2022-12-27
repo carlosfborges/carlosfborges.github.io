@@ -20,11 +20,12 @@ function Modal({id, nav}) {
   }
 
   this.getPage = async function() {
+    if (!this.page) return '';
     let html = await fetch(`./pages/${this.page}.html`)
       .then(resp => resp.text())
       .then(text => text)
       .catch(error => console.log(error));
-    return html || '';
+    return html;
   }
 
   this.toogleModal = function(page) {
@@ -46,6 +47,7 @@ function Modal({id, nav}) {
     this.status = 'close';
     document.getElementById(id).classList.add(this.status);
     this.page = '';
+    setTimeout(() => this.update(), 500);
   }
 }
 
