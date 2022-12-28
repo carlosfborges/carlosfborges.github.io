@@ -32,7 +32,7 @@ article {
 ul {
   list-style: none;
 }
-h1 {
+h1, h2 {
   margin-bottom: 1em;
 }
 p {
@@ -267,6 +267,38 @@ p {
 }
 .card_container p q {
   font-size: 1.2em;
+}
+
+.sample_container {
+  padding: 1em;
+  border: 1px solid;
+  box-shadow: 0 0 5px;
+  margin-bottom: 3em;
+}
+.sample_container header {
+  text-align: center;
+}
+.sample_container h2 {
+  margin-top: 1.5em;
+}
+.sample_container header ul {
+  display: flex;
+  justify-content: center;
+}
+.sample_container header ul li {
+  margin-left: .5em;
+}
+.sample_container header ul li:first-child {
+  margin-left: 0;
+}
+.sample_container img {
+  height: 1em;
+}
+.sample_container main {
+  margin-bottom: 1em;
+}
+.sample_container footer {
+  text-align: right;
 }
 
 .small {
