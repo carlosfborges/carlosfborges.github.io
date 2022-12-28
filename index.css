@@ -3,7 +3,7 @@
   --white: #fff;
   --alpha-black: rgba(0, 0, 0, .5);
   --alpha-white: rgba(255, 255, 255, .5);
-  --yellow: #fb3;
+  --yellow: #f0ad4e;
   --hover-transition: all .5s ease;
 }
 * {
@@ -348,7 +348,7 @@ p {
 }
 @keyframes anima_coin {
   from { transform: rotateY(0) scaleX(1); }
-  to { transform: rotateY(180deg) scaleX(1.4); outline-width: 1.5px; }
+  to { transform: rotateY(180deg) scaleX(1.4); outline-width: 1.5px; outline-color: var(--yellow); }
 }
 @keyframes anima_contact {
   from { margin-bottom: 100%; }
