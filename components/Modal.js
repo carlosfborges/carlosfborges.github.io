@@ -1,4 +1,14 @@
-function Modal({id, nav}) {
+import samples from "../pages/samples.js";
+
+async function getJson() {
+  return await fetch('./json/pages.json')
+    .then(resp => resp.json())
+    .catch(err => console.log(err));
+}
+
+const data = await getJson();
+
+function Modal({id}) {
 
   this.page  = '';
   this.status   = 'close';
@@ -21,6 +31,9 @@ function Modal({id, nav}) {
 
   this.getPage = async function() {
     if (!this.page) return '';
+
+    if (this.page === 'samples') return samples(data.samples);
+
     let html = await fetch(`./pages/${this.page}.html`)
       .then(resp => resp.text())
       .then(text => text)

@@ -1,0 +1,28 @@
+{
+  "samples": [
+    {
+      "title": "The Moodboard",
+      "langs": [
+        { "title": "html"       , "src": "https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_1280.png" },
+        { "title": "css"        , "src": "https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582747_1280.png" },
+        { "title": "javascript" , "src": "https://logodownload.org/wp-content/uploads/2022/04/javascript-logo-1.png" }
+      ],
+      "about": {
+        "title": "Sobre",
+        "html": "<p>Usado no processo criativo, a aplicação The Moodboard é uma ótima ferramenta para combinar texturas, acabamentos, cores, produtos e muito mais.</p>"
+      },
+      "applications": {
+        "title": "Aplicações",
+        "html": "<p>The Moodboard tem diversas aplicações, como fazer combinações de produtos e/ou acabamentos.</p><p>Por exemplo, no mundo da moda, The Moodboard pode ser usado para auxiliar na escolha de trajes que combinem aos olhos do usuário.</p>"
+      },
+      "how": {
+        "title": "Como Funciona",
+        "html": "<p>O usuário pode adicionar qualque imagem da internet, desde que saiba seu endereço. A partir dai, poderá manipular o elemento criado assim como posiciona-lo da maneira que desejar.</p><p>Vale lembrar que imagens da internet podem ter direitos autorais, logo a responsabilidade de seu uso fica por conta do usuário.</p>"
+      },
+      "link": {
+        "title": "Ver Amostra",
+        "href": "./samples/moodboard/"
+      }
+    }
+  ]
+}
